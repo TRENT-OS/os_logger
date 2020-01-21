@@ -17,15 +17,15 @@
 
 // include parameter for configuration file
 #if !defined(LOGGER_CONFIG_H_FILE)
-    #error "a configuration file must be provided! See seos_log_server_config.h.example"
+#error "a configuration file must be provided! See seos_log_server_config.h.example"
 #else
-    #include STR(LOGGER_CONFIG_H_FILE)
+#include STR(LOGGER_CONFIG_H_FILE)
 #endif
 
 
 // configuration of log server
 #if !defined (DATABUFFER_SIZE)
-    #define DATABUFFER_SIZE             4096
+#define DATABUFFER_SIZE             4096
 #endif
 
 #define LOG_LEVEL_SERVER_OFFSET         0
@@ -52,26 +52,7 @@
                                          FORMAT_LOG_MESSAGE_LENGTH)
 
 
-// macros
-#define ASSERT_SELF__(self)             \
-    if(self == NULL)                    \
-        nullptr = true
+// includes
+#include <assert.h>
 
-#define ASSERT_VTABLE_PARENT__(self)    \
-    if(self->vtable == NULL)            \
-        nullptr = true
-
-#define ASSERT_VTABLE_CHILD__(self)     \
-    if(self->parent.vtable == NULL)     \
-        nullptr = true
-
-#define ASSERT_SELF_PARENT(self)        \
-    ASSERT_SELF__(self);                \
-                                        \
-    ASSERT_VTABLE_PARENT__(self)
-
-#define ASSERT_SELF(self)               \
-    ASSERT_SELF__(self);                \
-                                        \
-    if(nullptr == false)                \
-        ASSERT_VTABLE_CHILD__(self)
+#define CHECK_SELF(self)                assert(self)

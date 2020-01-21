@@ -47,13 +47,14 @@
 
 
 // foreward devlaration
-static bool _get_number(const char *string, uint8_t *val);
-static bool _fill_date(const char *string, Time_t *tm, const char *delimiter);
-static bool _fill_time(const char *string, Time_t *tm, const char *delimiter);
+static bool _get_number(const char* string, uint8_t* val);
+static bool _fill_date(const char* string, Time_t* tm, const char* delimiter);
+static bool _fill_time(const char* string, Time_t* tm, const char* delimiter);
 
 
 
-static const Timestamp_Vtable Timestamp_vtable = {
+static const Timestamp_Vtable Timestamp_vtable =
+{
     .create_timestamp = Timestamp_create_timestamp,
     .get_time         = Timestamp_get_time,
     .get_timestamp    = Timestamp_get_timestamp
@@ -73,14 +74,15 @@ static uint16_t month_table[2][13] =
 
 // Singleton
 static Timestamp_t _timestamp;
-static Timestamp_t *this = NULL;
+static Timestamp_t* this = NULL;
 
 
 
-Timestamp_t *
+Timestamp_t*
 get_instance_Timestamp(void)
 {
-    if(this == NULL){
+    if (this == NULL)
+    {
         memset(&_timestamp, 0, sizeof (Timestamp_t));
         this = &_timestamp;
 
@@ -102,13 +104,15 @@ Timestamp_dtor(void)
 
 
 bool
-Timestamp_get_time(Timestamp_t *t_stamp, uint8_t hours, Time_t *tm)
+Timestamp_get_time(Timestamp_t* t_stamp, uint8_t hours, Time_t* tm)
 {
-    if(t_stamp == NULL || hours > 24 || tm == NULL)
+    if (t_stamp == NULL || hours > 24 || tm == NULL)
+    {
         return false;
+    }
 
     int64_t day = 0, tmp = 0;
-    uint16_t *ip = NULL, year = 0;
+    uint16_t* ip = NULL, year = 0;
     uint32_t hours_off = hours * SEC_PER_HOUR;
     uint8_t month = 0;
     int64_t yy = 0;
@@ -118,12 +122,14 @@ Timestamp_get_time(Timestamp_t *t_stamp, uint8_t hours, Time_t *tm)
     tmp = t_stamp->timestamp % SEC_PER_DAY;
     tmp += hours_off;
 
-    while (tmp < 0){
+    while (tmp < 0)
+    {
         tmp += SEC_PER_DAY;
         --day;
     }
 
-    while (tmp >= SEC_PER_DAY){
+    while (tmp >= SEC_PER_DAY)
+    {
         tmp -= SEC_PER_DAY;
         ++day;
     }
@@ -139,13 +145,14 @@ Timestamp_get_time(Timestamp_t *t_stamp, uint8_t hours, Time_t *tm)
     year = (uint16_t)(START_YEAR + day / 365 - (day % 365 <= 0));
 
     yy = year;
-    while(day < 0 || day >= (IS_LEAP(year) ? 366 : 365)){
+    while (day < 0 || day >= (IS_LEAP(year) ? 366 : 365))
+    {
         int64_t yg = yy + day / 365 - (day % 365 < 0);
 
         /* Adjust DAYS and Y to match the guessed year.  */
         day -= ((yg - yy) * 365
-            + LEAPS_THRU_END_OF (yg - 1)
-            - LEAPS_THRU_END_OF (yy - 1));
+                + LEAPS_THRU_END_OF (yg - 1)
+                - LEAPS_THRU_END_OF (yy - 1));
         yy = yg;
     }
 
@@ -154,10 +161,14 @@ Timestamp_get_time(Timestamp_t *t_stamp, uint8_t hours, Time_t *tm)
     ip = month_table[IS_LEAP(year)];
 
     for (month = 11; day < (int64_t) ip[month]; --month)
+    {
         continue;
+    }
 
-    if(IS_LEAP(year) == 1){
-        if(day < ip[2]){
+    if (IS_LEAP(year) == 1)
+    {
+        if (day < ip[2])
+        {
             day++;
         }
     }
@@ -173,28 +184,33 @@ Timestamp_get_time(Timestamp_t *t_stamp, uint8_t hours, Time_t *tm)
 
 
 bool
-Timestamp_get_timestamp(Time_t *tm, Timestamp_t *t_stamp)
+Timestamp_get_timestamp(Time_t* tm, Timestamp_t* t_stamp)
 {
     bool nullptr = false;
 
     ASSERT_SELF(this);
 
-    if(nullptr){
+    if (nullptr)
+    {
         // Debug_printf
         return false;
     }
 
-    if(tm == NULL || t_stamp == NULL)
+    if (tm == NULL || t_stamp == NULL)
+    {
         return false;
+    }
 
     uint64_t tmp_timestamp = 0;
 
     tmp_timestamp += tm->sec;
     tmp_timestamp += (tm->min * SEC_PER_MIN);
     tmp_timestamp += (tm->hour * SEC_PER_HOUR);
-    tmp_timestamp += ((month_table[IS_LEAP(tm->year)][tm->month-1] + tm->day - 1) * SEC_PER_DAY);
+    tmp_timestamp += ((month_table[IS_LEAP(tm->year)][tm->month - 1] + tm->day - 1)
+                      * SEC_PER_DAY);
     tmp_timestamp += ((tm->year - START_YEAR) * SEC_PER_YEAR);
-    tmp_timestamp += ((LEAPS_THRU_END_OF(tm->year - 1) - LEAPS_THRU_END_OF(START_YEAR - 1)) * SEC_PER_DAY);
+    tmp_timestamp += ((LEAPS_THRU_END_OF(tm->year - 1) - LEAPS_THRU_END_OF(
+                           START_YEAR - 1)) * SEC_PER_DAY);
 
     t_stamp->timestamp = tmp_timestamp;
 
@@ -204,19 +220,22 @@ Timestamp_get_timestamp(Time_t *tm, Timestamp_t *t_stamp)
 
 
 bool
-Timestamp_create_timestamp(const char *date, const char *time)
+Timestamp_create_timestamp(const char* date, const char* time)
 {
     bool nullptr = false;
 
     ASSERT_SELF(this);
 
-    if(nullptr){
+    if (nullptr)
+    {
         // Debug_printf
         return false;
     }
 
-    if(date == NULL || time == NULL)
+    if (date == NULL || time == NULL)
+    {
         return false;
+    }
 
     Time_t t;
 
@@ -231,14 +250,17 @@ Timestamp_create_timestamp(const char *date, const char *time)
 
 
 static bool
-_get_number(const char *string, uint8_t *val)
+_get_number(const char* string, uint8_t* val)
 {
-    if(string == NULL || val == NULL)
+    if (string == NULL || val == NULL)
+    {
         return false;
+    }
 
     uint8_t tmp = 0;
 
-    if( (tmp = GET_MONTH(string)) != 0){
+    if ( (tmp = GET_MONTH(string)) != 0)
+    {
         *val = tmp;
         return true;
     }
@@ -251,12 +273,14 @@ _get_number(const char *string, uint8_t *val)
 
 
 static bool
-_fill_date(const char *string, Time_t *tm, const char *delimiter)
+_fill_date(const char* string, Time_t* tm, const char* delimiter)
 {
-    if(string == NULL || tm == NULL)
+    if (string == NULL || tm == NULL)
+    {
         return false;
+    }
 
-    char *ptr = NULL;
+    char* ptr = NULL;
     char tmp[BUFSIZ];
     memset(tmp, 0, BUFSIZ);
 
@@ -264,21 +288,31 @@ _fill_date(const char *string, Time_t *tm, const char *delimiter)
 
     ptr = strtok(tmp, delimiter);
 
-    for( int i= 0 ; ptr != NULL ; i++ ) {
-        if(i == 0)
+    for ( int i = 0 ; ptr != NULL ; i++ )
+    {
+        if (i == 0)
+        {
             _get_number(ptr, &tm->month);
-        if(i == 1)
+        }
+        if (i == 1)
+        {
             _get_number(ptr, &tm->day);
-        if(i == 2)
+        }
+        if (i == 2)
+        {
             tm->year = (uint16_t)atoi(ptr);
+        }
 
         ptr = strtok(NULL, delimiter);
 
-        if(i == 3)
+        if (i == 3)
+        {
             break;
+        }
     }
 
-    if(tm->year < START_YEAR){
+    if (tm->year < START_YEAR)
+    {
         tm->year += 2000;
     }
 
@@ -288,12 +322,14 @@ _fill_date(const char *string, Time_t *tm, const char *delimiter)
 
 
 static bool
-_fill_time(const char *string, Time_t *tm, const char *delimiter)
+_fill_time(const char* string, Time_t* tm, const char* delimiter)
 {
-    if(string == NULL || tm == NULL)
+    if (string == NULL || tm == NULL)
+    {
         return false;
+    }
 
-    char *ptr = NULL;
+    char* ptr = NULL;
     char tmp[BUFSIZ];
     memset(tmp, 0, BUFSIZ);
 
@@ -301,18 +337,27 @@ _fill_time(const char *string, Time_t *tm, const char *delimiter)
 
     ptr = strtok(tmp, delimiter);
 
-    for( int i= 0 ; ptr != NULL ; i++ ) {
-        if(i == 0)
+    for ( int i = 0 ; ptr != NULL ; i++ )
+    {
+        if (i == 0)
+        {
             _get_number(ptr, &tm->hour);
-        if(i == 1)
+        }
+        if (i == 1)
+        {
             _get_number(ptr, &tm->min);
-        if(i == 2)
+        }
+        if (i == 2)
+        {
             _get_number(ptr, &tm->sec);
+        }
 
         ptr = strtok(NULL, delimiter);
 
-        if(i == 3)
+        if (i == 3)
+        {
             break;
+        }
     }
 
     return true;

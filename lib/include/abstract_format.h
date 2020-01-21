@@ -11,15 +11,15 @@ typedef struct Format_t Format_t;
 
 
 typedef void
-(*FormatT_dtorT)(Format_t *self);
+(*FormatT_dtorT)(Format_t* self);
 
 
 typedef bool
-(*FormatT_convertT)(Format_t *self, Log_info_t *log_info);
+(*FormatT_convertT)(Format_t* self, Log_info_t* log_info);
 
 
 typedef void
-(*FormatT_printT)(Format_t *self);
+(*FormatT_printT)(Format_t* self);
 
 
 typedef struct
@@ -32,39 +32,26 @@ typedef struct
 
 struct Format_t
 {
-    const FormatT_Vtable *vtable;
+    const FormatT_Vtable* vtable;
 };
 
 
 inline void
-FormatT_dtor(Format_t *self)
+FormatT_dtor(Format_t* self)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return;
-    }
+    CHECK_SELF(self);
 
     memset(self, 0, sizeof (Format_t));
 }
 
 
 inline bool
-FormatT_convert(Format_t *self, Log_info_t *log_info)
+FormatT_convert(Format_t* self, Log_info_t* log_info)
 {
-    bool nullptr = false;
+    CHECK_SELF(self);
 
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return false;
-    }
-
-    if(log_info == NULL){
+    if (log_info == NULL)
+    {
         // Debug_printf
         return false;
     }
@@ -74,16 +61,9 @@ FormatT_convert(Format_t *self, Log_info_t *log_info)
 
 
 inline void
-FormatT_print(Format_t *self)
+FormatT_print(Format_t* self)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return;
-    }
+    CHECK_SELF(self);
 
     self->vtable->print(self);
 }

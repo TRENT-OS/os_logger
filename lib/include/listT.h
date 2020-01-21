@@ -10,43 +10,43 @@ typedef struct NodeT_t NodeT_t;
 
 
 typedef void
-(*ListT_dtorT)(ListT_t *self);
+(*ListT_dtorT)(ListT_t* self);
 
 
 typedef bool
-(*ListT_hasPrevT)(NodeT_t *current);
+(*ListT_hasPrevT)(NodeT_t* current);
 
 
 typedef bool
-(*ListT_hasNextT)(NodeT_t *current);
+(*ListT_hasNextT)(NodeT_t* current);
 
 
-typedef void *
-(*ListT_getPrevT)(NodeT_t *current);
+typedef void*
+(*ListT_getPrevT)(NodeT_t* current);
 
 
-typedef void *
-(*ListT_getNextT)(NodeT_t *current);
-
-
-typedef bool
-(*ListT_insertT)(NodeT_t *current, NodeT_t *new_Node);
+typedef void*
+(*ListT_getNextT)(NodeT_t* current);
 
 
 typedef bool
-(*ListT_deleteT)(NodeT_t *current);
-
-
-typedef void *
-(*ListT_getFirstT)(NodeT_t *current);
-
-
-typedef void *
-(*ListT_getLastT)(NodeT_t *current);
+(*ListT_insertT)(NodeT_t* current, NodeT_t* new_Node);
 
 
 typedef bool
-(*ListT_isInsideT)(NodeT_t *current);
+(*ListT_deleteT)(NodeT_t* current);
+
+
+typedef void*
+(*ListT_getFirstT)(NodeT_t* current);
+
+
+typedef void*
+(*ListT_getLastT)(NodeT_t* current);
+
+
+typedef bool
+(*ListT_isInsideT)(NodeT_t* current);
 
 
 typedef struct
@@ -67,20 +67,20 @@ ListT_Vtable;
 
 struct ListT_t
 {
-    const ListT_Vtable *vtable;
+    const ListT_Vtable* vtable;
 };
 
 
 struct NodeT_t
 {
-    void *prev;
-    void *next;
+    void* prev;
+    void* next;
 };
 
 
 bool
-ListT_ctor(ListT_t *self);
+ListT_ctor(ListT_t* self);
 
 
 void
-ListT_dtor(ListT_t *self);
+ListT_dtor(ListT_t* self);

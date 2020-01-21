@@ -23,32 +23,34 @@ typedef struct
 
 
 int
-Log_databuffer_set_log_level_server(void *buf, uint8_t log_level_server);
+Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server);
 
 
 int
-Log_databuffer_set_log_level_client(void *buf, uint8_t log_level_client);
+Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client);
 
 
 int
-Log_databuffer_set_log_message(void *buf, const char *msg);
+Log_databuffer_set_log_message(void* buf, const char* msg);
 
 
 bool
-Log_databuffer_get_log_level_server(void *buf, Log_databuffer_t *log_databuffer);
+Log_databuffer_get_log_level_server(void* buf,
+                                    Log_databuffer_t* log_databuffer);
 
 
 bool
-Log_databuffer_get_log_level_client(void *buf, Log_databuffer_t *log_databuffer);
+Log_databuffer_get_log_level_client(void* buf,
+                                    Log_databuffer_t* log_databuffer);
 
 
 bool
-Log_databuffer_get_log_message(void *buf, Log_databuffer_t *log_databuffer);
+Log_databuffer_get_log_message(void* buf, Log_databuffer_t* log_databuffer);
 
 
 bool
-Log_databuffer_get_info(void *buf, Log_databuffer_t *log_databuffer);
+Log_databuffer_get_info(void* buf, Log_databuffer_t* log_databuffer);
 
 
 bool
-Log_databuffer_clear_databuffer(void *buf);
+Log_databuffer_clear_databuffer(void* buf);

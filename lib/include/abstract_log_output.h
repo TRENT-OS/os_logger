@@ -11,11 +11,11 @@ typedef struct Output_t Output_t;
 
 
 typedef void
-(*Output_dtorT)(Output_t *self);
+(*Output_dtorT)(Output_t* self);
 
 
 typedef bool
-(*Output_printT)(Output_t *self, void *data);
+(*Output_printT)(Output_t* self, void* data);
 
 
 typedef struct
@@ -29,37 +29,23 @@ Output_Vtable;
 
 struct Output_t
 {
-    const Output_Vtable *vtable;
+    const Output_Vtable* vtable;
 };
 
 
 inline void
-Output_dtor(Output_t *self)
+Output_dtor(Output_t* self)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return;
-    }
+    CHECK_SELF(self);
 
     memset(self, 0, sizeof (Output_t));
 }
 
 
 inline bool
-Output_print(Output_t *self, void *data)
+Output_print(Output_t* self, void* data)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return false;
-    }
+    CHECK_SELF(self);
 
     return self->vtable->print(self, data);
 }

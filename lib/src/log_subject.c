@@ -18,18 +18,12 @@ static const Subject_Vtable Log_subject_vtable =
 
 
 bool
-Log_subject_ctor(Log_subject_t *self)
+Log_subject_ctor(Log_subject_t* self)
 {
-    bool nullptr = false;
+    CHECK_SELF(self);
+
     bool retval = false;
-    Subject_node_t *node = NULL;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return false;
-    }
+    Subject_node_t* node = NULL;
 
     self->vtable = &Log_subject_vtable;
 
@@ -42,16 +36,9 @@ Log_subject_ctor(Log_subject_t *self)
 
 
 void
-Log_subject_dtor(Subject_t *self)
+Log_subject_dtor(Subject_t* self)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return;
-    }
+    CHECK_SELF(self);
 
     memset(self, 0, sizeof (Log_subject_t));
 }
@@ -59,41 +46,38 @@ Log_subject_dtor(Subject_t *self)
 
 
 bool
-Log_subject_attach(Subject_t *self, Observer_t *observer)
+Log_subject_attach(Subject_t* self, Observer_t* observer)
 {
-    bool nullptr = false;
+    CHECK_SELF(self);
+
     bool isInsert = false;
-    Log_subject_t *log_subject;
-    Log_output_t *last = NULL;
+    Log_subject_t* log_subject;
+    Log_output_t* last = NULL;
 
-    ASSERT_SELF__(self);
-
-    if(nullptr){
+    if (observer == NULL)
+    {
         // Debug_printf
         return false;
     }
 
-    if(observer == NULL){
-        // Debug_printf
-        return false;
-    }
-
-    log_subject = (Log_subject_t *)self;
+    log_subject = (Log_subject_t*)self;
     last = log_subject->node.first;
 
     // first entry
-    if(last == NULL)
+    if (last == NULL)
     {
-        last = (Log_output_t *)observer;
+        last = (Log_output_t*)observer;
     }
     else
     {
         last = last->listT.vtable->get_last(log_subject->node.first);
     }
 
-    isInsert = ((Log_output_t *)observer)->listT.vtable->insert(&last->node, &((Log_output_t *)observer)->node);
+    isInsert = ((Log_output_t*)observer)->listT.vtable->insert(&last->node,
+                                                               &((Log_output_t*)observer)->node);
 
-    log_subject->node.first = (void *)((Log_output_t *)observer)->listT.vtable->get_first(&last->node);
+    log_subject->node.first = (void*)((Log_output_t*)
+                                      observer)->listT.vtable->get_first(&last->node);
 
     return isInsert;
 }
@@ -101,33 +85,32 @@ Log_subject_attach(Subject_t *self, Observer_t *observer)
 
 
 bool
-Log_subject_detach(Subject_t *self, Observer_t *observer)
+Log_subject_detach(Subject_t* self, Observer_t* observer)
 {
-    bool nullptr = false;
+    CHECK_SELF(self);
+
     bool isDelete = false;
-    Log_subject_t *log_subject;
-    Subject_node_t *node = NULL;
+    Log_subject_t* log_subject;
+    Subject_node_t* node = NULL;
 
-    ASSERT_SELF__(self);
-
-    if(nullptr){
+    if (observer == NULL)
+    {
         // Debug_printf
         return false;
     }
 
-    if(observer == NULL){
-        // Debug_printf
-        return false;
-    }
-
-    log_subject = (Log_subject_t *)self;
+    log_subject = (Log_subject_t*)self;
     node = &log_subject->node;
 
-    if(!((Log_output_t *)observer)->listT.vtable->has_prev( &((Log_output_t *)observer)->node) ){
-        node->first = (void *)((Log_output_t *)observer)->listT.vtable->get_next( &((Log_output_t *)observer)->node );
+    if (!((Log_output_t*)observer)->listT.vtable->has_prev( &((
+            Log_output_t*)observer)->node) )
+    {
+        node->first = (void*)((Log_output_t*)observer)->listT.vtable->get_next( &((
+                          Log_output_t*)observer)->node );
     }
 
-    isDelete = ((Log_output_t *)observer)->listT.vtable->delete( &((Log_output_t *)observer)->node );
+    isDelete = ((Log_output_t*)observer)->listT.vtable->delete ( &((
+                   Log_output_t*)observer)->node );
 
     return isDelete;
 }
@@ -135,37 +118,30 @@ Log_subject_detach(Subject_t *self, Observer_t *observer)
 
 
 void
-Log_subject_notify(Subject_t *self, void *data)
+Log_subject_notify(Subject_t* self, void* data)
 {
-    bool nullptr = false;
-    Log_subject_t *log_subject;
-    Log_output_t *log_output;
+    CHECK_SELF(self);
 
-    ASSERT_SELF__(self);
+    Log_subject_t* log_subject;
+    Log_output_t* log_output;
 
-    if(nullptr){
+    if (data == NULL)
+    {
         // Debug_printf
         return;
     }
 
-    if(data == NULL){
-        // Debug_printf
-        return;
-    }
-
-    log_subject = (Log_subject_t *)self;
+    log_subject = (Log_subject_t*)self;
 
     // traverse list
     log_output = log_subject->node.first;
 
-    ASSERT_SELF__(log_output);
+    CHECK_SELF(log_output);
 
-    if(nullptr){
-        // Debug_printf
-        return;
+    do
+    {
+        log_output->vtable->parent.update((Observer_t*)log_output, data);
     }
-
-    do{
-        log_output->vtable->parent.update((Observer_t *)log_output, data);
-    } while ( (log_output = log_output->listT.vtable->get_next(&log_output->node)) != NULL );
+    while ( (log_output = log_output->listT.vtable->get_next(
+                              &log_output->node)) != NULL );
 }

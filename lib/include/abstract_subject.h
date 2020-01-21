@@ -12,19 +12,19 @@ typedef struct Subject_t Subject_t;
 
 
 typedef void
-(*Subject_dtorT)(Subject_t *self);
+(*Subject_dtorT)(Subject_t* self);
 
 
 typedef bool
-(*Subject_attachT)(Subject_t *self, Observer_t *observer);
+(*Subject_attachT)(Subject_t* self, Observer_t* observer);
 
 
 typedef bool
-(*Subject_detachT)(Subject_t *self, Observer_t *observer);
+(*Subject_detachT)(Subject_t* self, Observer_t* observer);
 
 
 typedef void
-(*Subject_notifyT)(Subject_t *self, void *data);
+(*Subject_notifyT)(Subject_t* self, void* data);
 
 
 typedef struct
@@ -39,39 +39,26 @@ Subject_Vtable;
 
 struct Subject_t
 {
-    const Subject_Vtable *vtable;
+    const Subject_Vtable* vtable;
 };
 
 
 inline void
-Subject_dtor(Subject_t *self)
+Subject_dtor(Subject_t* self)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return;
-    }
+    CHECK_SELF(self);
 
     memset(self, 0, sizeof (Subject_t));
 }
 
 
 inline bool
-Subject_attach(Subject_t *self, Observer_t *observer)
+Subject_attach(Subject_t* self, Observer_t* observer)
 {
-    bool nullptr = false;
+    CHECK_SELF(self);
 
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return false;
-    }
-
-    if(observer == NULL){
+    if (observer == NULL)
+    {
         // Debug_printf
         return false;
     }
@@ -81,18 +68,12 @@ Subject_attach(Subject_t *self, Observer_t *observer)
 
 
 inline bool
-Subject_detach(Subject_t *self, Observer_t *observer)
+Subject_detach(Subject_t* self, Observer_t* observer)
 {
-    bool nullptr = false;
+    CHECK_SELF(self);
 
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return false;
-    }
-
-    if(observer == NULL){
+    if (observer == NULL)
+    {
         // Debug_printf
         return false;
     }
@@ -102,16 +83,9 @@ Subject_detach(Subject_t *self, Observer_t *observer)
 
 
 inline void
-Subject_notify(Subject_t *self, void *data)
+Subject_notify(Subject_t* self, void* data)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return;
-    }
+    CHECK_SELF(self);
 
     self->vtable->notify(self, data);
 }

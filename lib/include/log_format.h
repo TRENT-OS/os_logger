@@ -7,13 +7,15 @@
 typedef struct
 {
     char                 buffer[FORMAT_BUFFER_SIZE];
-    const FormatT_Vtable *vtable;
+    const FormatT_Vtable* vtable;
 } Log_format_t;
 
-
 bool
-Log_format_ctor(Log_format_t *self);
-
+Log_format_ctor(Log_format_t* self);
 
 void
-Log_format_dtor(Format_t *self);
+Log_format_dtor(Format_t* self);
+
+void
+Log_format_print(Format_t* self);
+

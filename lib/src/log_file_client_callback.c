@@ -4,19 +4,13 @@
 
 
 bool
-Log_file_client_callback_ctor(Log_file_client_callback_t *self,
-                     Log_file_client_callback_read_log_fileT read_log_file)
+Log_file_client_callback_ctor(Log_file_client_callback_t* self,
+                              Log_file_client_callback_read_log_fileT read_log_file)
 {
-    bool nullptr = false;
+    CHECK_SELF(self);
 
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return false;
-    }
-
-    if(read_log_file == NULL){
+    if (read_log_file == NULL)
+    {
         // Debug_printf
         return false;
     }
@@ -29,16 +23,9 @@ Log_file_client_callback_ctor(Log_file_client_callback_t *self,
 
 
 void
-Log_file_client_callback_dtor(Log_file_client_callback_t *self)
+Log_file_client_callback_dtor(Log_file_client_callback_t* self)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF__(self);
-
-    if(nullptr){
-        // Debug_printf
-        return;
-    }
+    CHECK_SELF(self);
 
     memset(self, 0, sizeof (Log_file_client_callback_t));
 }

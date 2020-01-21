@@ -14,14 +14,14 @@ typedef void
 
 
 typedef bool
-(*Consumer_chain_appendT)(Log_consumer_t *consumer);
+(*Consumer_chain_appendT)(Log_consumer_t* consumer);
 
 
 typedef bool
-(*Consumer_chain_removeT)(Log_consumer_t *consumer);
+(*Consumer_chain_removeT)(Log_consumer_t* consumer);
 
 
-typedef Log_consumer_t *
+typedef Log_consumer_t*
 (*Consumer_chain_get_senderT)(void);
 
 
@@ -42,7 +42,7 @@ Consumer_chain_Vtable;
 
 typedef struct
 {
-    void *first;
+    void* first;
 } Consumer_chain_node_t;
 
 
@@ -50,11 +50,11 @@ struct Consumer_chain_t
 {
     ListT_t                     listT;
     Consumer_chain_node_t       node;
-    const Consumer_chain_Vtable *vtable;
+    const Consumer_chain_Vtable* vtable;
 };
 
 
-Consumer_chain_t *
+Consumer_chain_t*
 get_instance_Consumer_chain(void);
 
 
@@ -63,14 +63,14 @@ Consumer_chain_dtor(void);
 
 
 bool
-Consumer_chain_append(Log_consumer_t *consumer);
+Consumer_chain_append(Log_consumer_t* consumer);
 
 
 bool
-Consumer_chain_remove(Log_consumer_t *consumer);
+Consumer_chain_remove(Log_consumer_t* consumer);
 
 
-Log_consumer_t *
+Log_consumer_t*
 Consumer_chain_get_sender(void);
 
 

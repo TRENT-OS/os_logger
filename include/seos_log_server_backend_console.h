@@ -9,5 +9,4 @@
 #include "log_emitter_callback.h"
 #include "log_format.h"
 #include "log_subject.h"
-#include "log_output.h"
-#include "log_file.h"
+#include "log_output_console.h"
