@@ -1,19 +1,7 @@
 #pragma once
 
-
-// common macro hacks
-#define x_2_cat(a,b)                    a##b
-
-#define VAR_EXPAND_2_VAR(x,y)           x_2_cat(x,y)
-
-
 #define STR_(x)                         #x
 #define STR(x)                          STR_(x)
-#define STR_2_VAR(x,y)                  (STR_(x) STR_(y))
-
-
-#define OVERFLOW( a, b, max)            (((b) > 0) && ((a) > (max) - (b)))
-
 
 // include parameter for configuration file
 #if !defined(LOGGER_CONFIG_H_FILE)
