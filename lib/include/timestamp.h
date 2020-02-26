@@ -37,6 +37,7 @@ typedef struct
     Timestamp_create_timestampT create_timestamp;
     Timestamp_get_timeT         get_time;
     Timestamp_get_timestampT    get_timestamp;
+    Timestamp_dtorT             dtor;             /**< function pointer to desctructor */
 } Timestamp_Vtable;
 
 
