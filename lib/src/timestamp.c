@@ -1,3 +1,4 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "timestamp.h"
 #include <stdio.h>
 #include <string.h>
@@ -53,7 +54,8 @@ static bool _fill_time(const char* string, Time_t* tm, const char* delimiter);
 
 
 
-static const Timestamp_Vtable Timestamp_vtable = {
+static const Timestamp_Vtable Timestamp_vtable =
+{
     .dtor             = Timestamp_dtor,
     .create_timestamp = Timestamp_create_timestamp,
     .get_time         = Timestamp_get_time,

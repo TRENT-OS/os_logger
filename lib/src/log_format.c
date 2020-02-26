@@ -1,3 +1,4 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "log_format.h"
 #include "timestamp.h"
 #include <stdio.h>

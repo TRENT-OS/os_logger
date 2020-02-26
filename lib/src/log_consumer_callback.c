@@ -1,3 +1,4 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "log_consumer_callback.h"
 #include "log_symbol.h"
 #include <string.h>

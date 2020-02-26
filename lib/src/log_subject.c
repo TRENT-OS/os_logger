@@ -1,3 +1,4 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "log_subject.h"
 #include "log_output.h"
 #include "log_symbol.h"

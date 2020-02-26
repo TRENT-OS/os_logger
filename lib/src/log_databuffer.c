@@ -1,3 +1,4 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "log_databuffer.h"
 #include <stddef.h>
 #include <string.h>
@@ -19,8 +20,12 @@ Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client)
         return retval;
     }
 
-    retval = snprintf((char*)buf + LOG_LEVEL_CLIENT_OFFSET, LOG_LEVEL_CLIENT_LENGTH,
-                      "%d", log_level_client);
+    retval = snprintf(
+                 (char*)buf + LOG_LEVEL_CLIENT_OFFSET,
+                 LOG_LEVEL_CLIENT_LENGTH,
+                 "%d",
+                 log_level_client);
+
     if (retval < 0 || retval > LOG_LEVEL_CLIENT_LENGTH)
     {
         return -1;

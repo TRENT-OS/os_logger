@@ -1,3 +1,4 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "log_file.h"
 #include "consumer_chain.h"
 #include "log_consumer.h"

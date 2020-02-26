@@ -1,7 +1,23 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
+
+/**
+ * @file
+ * @brief Defines of log server internals
+ */
 #pragma once
 
 #define STR_(x)                         #x
 #define STR(x)                          STR_(x)
+
+/**
+ * @defgroup    log_symbol Defines of log server internals
+ *
+ * @brief       Defines the configuration of the log server internals.
+ * @details     This file contain configuration for the log databuffer and for
+ *              the log format example implementation.
+ *
+ * @ingroup     seos_logger_server, seos_logger_client
+ */
 
 // include parameter for configuration file
 #if !defined(LOGGER_CONFIG_H_FILE)

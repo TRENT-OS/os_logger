@@ -1,3 +1,4 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "listT.h"
 #include "log_symbol.h"
 #include <string.h>
