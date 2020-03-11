@@ -68,8 +68,12 @@ Log_databuffer_set_log_message(void* buf, const char* msg)
         return retval;
     }
 
-    retval = snprintf((char*)buf + LOG_LEVEL_MESSAGE_OFFSET, LOG_MESSAGE_LENGTH,
-                      msg);
+    retval = snprintf(
+                 (char*)buf + LOG_LEVEL_MESSAGE_OFFSET,
+                 LOG_MESSAGE_LENGTH,
+                 "%s",
+                 msg);
+
     if (retval < 0 || retval > LOG_MESSAGE_LENGTH)
     {
         return -2;
