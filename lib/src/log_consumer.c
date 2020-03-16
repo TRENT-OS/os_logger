@@ -60,14 +60,21 @@ _create_id_string(Log_consumer_t* self, uint32_t id, const char* name)
         return false;
     }
 
-    sprintf(self->log_info.log_id_and_name, "%06u", id);
+    sprintf(self->log_info.log_id_and_name, "%.*u", LOG_ID_LENGTH, id);
 
     if (name != NULL)
     {
-        sprintf(self->log_info.log_id_and_name + 6, " %s", name);
+        sprintf(self->log_info.log_id_and_name + LOG_ID_LENGTH, " %.*s",
+                LOG_NAME_LENGTH - 1, // Leaving space for the NULL terminator
+                name);
+    }
+    else
+    {
+        sprintf(self->log_info.log_id_and_name + LOG_ID_LENGTH, " %.*s",
+                LOG_NAME_LENGTH - 1, // Leaving space for the NULL terminator
+                "");
     }
 
-    self->log_info.log_id_and_name[strlen(self->log_info.log_id_and_name)] = '\0';
 
     return true;
 }
