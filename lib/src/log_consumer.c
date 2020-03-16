@@ -60,14 +60,14 @@ _create_id_string(Log_consumer_t* self, uint32_t id, const char* name)
         return false;
     }
 
-    sprintf(self->log_info.log_id_name, "%06u", id);
+    sprintf(self->log_info.log_id_and_name, "%06u", id);
 
     if (name != NULL)
     {
-        sprintf(self->log_info.log_id_name + 6, " %s", name);
+        sprintf(self->log_info.log_id_and_name + 6, " %s", name);
     }
 
-    self->log_info.log_id_name[strlen(self->log_info.log_id_name)] = '\0';
+    self->log_info.log_id_and_name[strlen(self->log_info.log_id_and_name)] = '\0';
 
     return true;
 }

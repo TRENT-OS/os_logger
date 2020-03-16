@@ -129,11 +129,11 @@ typedef struct
 */
 typedef struct
 {
-    uint8_t      drv_id;                       /**< partition id */
-    char         filename[LOG_ID_NAME_LENGTH]; /**< filename */
-    hPartition_t phandle;                      /**< partition handle */
-    uint64_t     offset;                       /**< offset in log file */
-    uint64_t     lenght;                       /**< size of log file */
+    uint8_t      drv_id;                            /**< partition id */
+    char         filename[LOG_ID_AND_NAME_LENGTH];  /**< filename */
+    hPartition_t phandle;                           /**< partition handle */
+    uint64_t     offset;                            /**< offset in log file */
+    uint64_t     lenght;                            /**< size of log file */
 } Log_file_info_t;
 
 

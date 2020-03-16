@@ -41,7 +41,7 @@ typedef struct
 */
 typedef struct
 {
-    char             log_id_name[LOG_ID_NAME_LENGTH];
+    char             log_id_and_name[LOG_ID_AND_NAME_LENGTH];
     Timestamp_t      timestamp;
     Log_databuffer_t log_databuffer;
 } Log_info_t;
