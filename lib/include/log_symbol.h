@@ -44,12 +44,11 @@
 
 
 // configure log format string
-#define FORMAT_ID_LENGTH                LOG_ID_AND_NAME_LENGTH
 #define FORMAT_TIMESTAMP_LENTGH         20
 #define FORMAT_LOG_LEVEL_SERVER_LENGTH  2
 #define FORMAT_LOG_LEVEL_CLIENT_LENGTH  2
 #define FORMAT_LOG_MESSAGE_LENGTH       LOG_MESSAGE_LENGTH
-#define FORMAT_BUFFER_SIZE              (FORMAT_ID_LENGTH +                 \
+#define FORMAT_BUFFER_SIZE              (LOG_ID_AND_NAME_LENGTH +           \
                                          FORMAT_TIMESTAMP_LENTGH +          \
                                          FORMAT_LOG_LEVEL_SERVER_LENGTH +   \
                                          FORMAT_LOG_LEVEL_CLIENT_LENGTH +   \
