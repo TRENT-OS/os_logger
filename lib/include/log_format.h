@@ -27,6 +27,13 @@
 */
 #include "abstract_format.h"
 
+// configure log format string
+#define FORMAT_TIMESTAMP_LENTGH         20
+#define FORMAT_BUFFER_SIZE              (LOG_ID_AND_NAME_LENGTH  +          \
+                                         FORMAT_TIMESTAMP_LENTGH +          \
+                                         LOG_LEVEL_SERVER_LENGTH +          \
+                                         LOG_LEVEL_CLIENT_LENGTH +          \
+                                         LOG_MESSAGE_LENGTH)
 
 /**
  * @details Log_format_t contain informations about the log format and a pointer

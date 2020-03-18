@@ -44,18 +44,6 @@
 #define LOG_ID_LENGTH                   6
 #define LOG_NAME_LENGTH                 (LOG_ID_AND_NAME_LENGTH - LOG_ID_LENGTH)
 
-// configure log format string
-#define FORMAT_TIMESTAMP_LENTGH         20
-#define FORMAT_LOG_LEVEL_SERVER_LENGTH  2
-#define FORMAT_LOG_LEVEL_CLIENT_LENGTH  2
-#define FORMAT_LOG_MESSAGE_LENGTH       LOG_MESSAGE_LENGTH
-#define FORMAT_BUFFER_SIZE              (LOG_ID_AND_NAME_LENGTH +           \
-                                         FORMAT_TIMESTAMP_LENTGH +          \
-                                         FORMAT_LOG_LEVEL_SERVER_LENGTH +   \
-                                         FORMAT_LOG_LEVEL_CLIENT_LENGTH +   \
-                                         FORMAT_LOG_MESSAGE_LENGTH)
-
-
 // includes
 #include <assert.h>
 
