@@ -27,10 +27,19 @@
 */
 #include "abstract_format.h"
 
-// configure log format string
-#define FORMAT_TIMESTAMP_LENTGH         20
+/**
+ * @brief   Length of the timestamp string
+ *
+ *          Timestamp has the following format ' dd.mm.yyyy-hh:mm:ss'.
+ *
+ * @note    Altough null terminator is not included in the calculation the value
+ *          includes blank space in front to separate it from the previous
+ *          field.
+ */
+#define FORMAT_TIMESTAMP_LENGTH         20
+
 #define FORMAT_BUFFER_SIZE              (LOG_ID_AND_NAME_LENGTH  +          \
-                                         FORMAT_TIMESTAMP_LENTGH +          \
+                                         FORMAT_TIMESTAMP_LENGTH +          \
                                          LOG_LEVEL_SERVER_LENGTH +          \
                                          LOG_LEVEL_CLIENT_LENGTH +          \
                                          LOG_MESSAGE_LENGTH)

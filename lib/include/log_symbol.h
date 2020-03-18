@@ -33,11 +33,11 @@
 #endif
 
 #define LOG_LEVEL_SERVER_OFFSET         0
-#define LOG_LEVEL_CLIENT_OFFSET         1
-#define LOG_LEVEL_MESSAGE_OFFSET        2
+#define LOG_LEVEL_CLIENT_OFFSET         LOG_LEVEL_SERVER_LENGTH
+#define LOG_LEVEL_MESSAGE_OFFSET        LOG_LEVEL_CLIENT_OFFSET + LOG_LEVEL_CLIENT_LENGTH
 
-#define LOG_LEVEL_SERVER_LENGTH         2
-#define LOG_LEVEL_CLIENT_LENGTH         2
+#define LOG_LEVEL_SERVER_LENGTH         3 // Without the null terminator!
+#define LOG_LEVEL_CLIENT_LENGTH         3 // Without the null terminator!
 #define LOG_MESSAGE_LENGTH              (DATABUFFER_SIZE - (LOG_LEVEL_SERVER_LENGTH + LOG_LEVEL_CLIENT_LENGTH))
 
 #define LOG_ID_AND_NAME_LENGTH          20

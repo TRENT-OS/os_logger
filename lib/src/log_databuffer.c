@@ -20,10 +20,10 @@ Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client)
         return retval;
     }
 
-    retval = snprintf(
+    retval = sprintf(
                  (char*)buf + LOG_LEVEL_CLIENT_OFFSET,
+                 "%*u",
                  LOG_LEVEL_CLIENT_LENGTH,
-                 "%d",
                  log_level_client);
 
     if (retval < 0 || retval > LOG_LEVEL_CLIENT_LENGTH)
@@ -46,8 +46,12 @@ Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server)
         return retval;
     }
 
-    retval = snprintf((char*)buf + LOG_LEVEL_SERVER_OFFSET, LOG_LEVEL_SERVER_LENGTH,
-                      "%d", log_level_server);
+    retval = sprintf(
+                 (char*)buf + LOG_LEVEL_SERVER_OFFSET,
+                 "%*u",
+                 LOG_LEVEL_SERVER_LENGTH,
+                 log_level_server);
+
     if (retval < 0 || retval > LOG_LEVEL_SERVER_LENGTH)
     {
         return -1;
@@ -95,12 +99,10 @@ Log_databuffer_get_log_level_server(void* buf, Log_databuffer_t* log_databuffer)
         return false;
     }
 
-    char tmp_log_level_srv[LOG_LEVEL_SERVER_LENGTH];
+    char tmp_log_level_srv[LOG_LEVEL_SERVER_LENGTH + 1] = "0"; // + '\0'
 
     memcpy(tmp_log_level_srv, (char*)buf + LOG_LEVEL_SERVER_OFFSET,
            LOG_LEVEL_SERVER_LENGTH);
-
-    tmp_log_level_srv[1] = 0;
 
     log_databuffer->log_level_srv = (uint8_t)atoi(tmp_log_level_srv);
 
@@ -117,12 +119,10 @@ Log_databuffer_get_log_level_client(void* buf, Log_databuffer_t* log_databuffer)
         return false;
     }
 
-    char tmp_log_level_client[LOG_LEVEL_CLIENT_LENGTH];
+    char tmp_log_level_client[LOG_LEVEL_CLIENT_LENGTH] = "0"; // + '\0'
 
     memcpy(tmp_log_level_client, (char*)buf + LOG_LEVEL_CLIENT_OFFSET,
            LOG_LEVEL_CLIENT_LENGTH);
-
-    tmp_log_level_client[1] = 0;
 
     log_databuffer->log_level_client = (uint8_t)atoi(tmp_log_level_client);
 

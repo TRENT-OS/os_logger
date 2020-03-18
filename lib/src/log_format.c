@@ -60,7 +60,7 @@ _Log_format_convert(Format_t* self, Log_info_t* log_info)
 
     sprintf(
         buf,
-        "%-*s %02d.%02d.%04d-%02d:%02d:%02d %*d%*d %.*s\n",
+        "%-*s %02d.%02d.%04d-%02d:%02d:%02d %*u %*u %.*s\n",
         LOG_ID_AND_NAME_LENGTH, log_info->log_id_and_name,
         tm.day, tm.month, tm.year, tm.hour, tm.min, tm.sec,
         LOG_LEVEL_SERVER_LENGTH,
