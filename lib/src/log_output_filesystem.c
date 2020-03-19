@@ -131,14 +131,14 @@ _Log_output_filesystem_print(Output_t* self, void* data)
     if (file_write(fhandle, (long)((Log_file_t*)
                                    log_consumer->log_file)->log_file_info.offset,
                    (long)strlen(log_output->log_format->buffer),
-                   log_output->log_format->buffer) != SEOS_FS_SUCCESS)
+                   log_output->log_format->buffer) != SEOS_SUCCESS)
     {
         printf("Fail to write file: %s!\n",
                ((Log_file_t*)log_consumer->log_file)->log_file_info.filename);
         return false;
     }
 
-    if (file_close(fhandle) != SEOS_FS_SUCCESS)
+    if (file_close(fhandle) != SEOS_SUCCESS)
     {
         printf("Fail to close file: %s!\n",
                ((Log_file_t*)log_consumer->log_file)->log_file_info.filename);

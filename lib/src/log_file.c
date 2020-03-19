@@ -148,13 +148,13 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
     }
 
     if (file_read(fhandle, (long)offset, (long)len,
-                  log_consumer->buf) != SEOS_FS_SUCCESS)
+                  log_consumer->buf) != SEOS_SUCCESS)
     {
         printf("Fail to read file: %s!\n", filename);
         return -1;
     }
 
-    if (file_close(fhandle) != SEOS_FS_SUCCESS)
+    if (file_close(fhandle) != SEOS_SUCCESS)
     {
         printf("Fail to close file: %s!\n", filename);
         return -1;
@@ -197,13 +197,13 @@ Log_file_dtor(Log_file_t* self)
 
     if (_is_init_partition())
     {
-        if (partition_fs_unmount(self->log_file_info.phandle) != SEOS_FS_SUCCESS)
+        if (partition_fs_unmount(self->log_file_info.phandle) != SEOS_SUCCESS)
         {
             printf("Fail to unmount partition: %d!\n", self->log_file_info.drv_id);
             return;
         }
 
-        if (partition_close(self->log_file_info.phandle) != SEOS_FS_SUCCESS)
+        if (partition_close(self->log_file_info.phandle) != SEOS_SUCCESS)
         {
             printf("Fail to close partition: %d!\n", self->log_file_info.drv_id);
             return;
@@ -230,7 +230,7 @@ Log_file_create_log_file(Log_file_t* self)
             return -1;
         }
 
-        if (partition_fs_mount(self->log_file_info.phandle) != SEOS_FS_SUCCESS)
+        if (partition_fs_mount(self->log_file_info.phandle) != SEOS_SUCCESS)
         {
             return false;
         }
@@ -248,7 +248,7 @@ Log_file_create_log_file(Log_file_t* self)
         return false;
     }
 
-    if (file_close(fhandle) != SEOS_FS_SUCCESS)
+    if (file_close(fhandle) != SEOS_SUCCESS)
     {
         printf("Fail to close file: %s!\n", self->log_file_info.filename);
         return false;
