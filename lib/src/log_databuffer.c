@@ -13,7 +13,7 @@
 int
 Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client)
 {
-    int retval = EOF;
+    int retval = -1;
 
     if (buf == NULL)
     {
@@ -39,7 +39,7 @@ Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client)
 int
 Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server)
 {
-    int retval = EOF;
+    int retval = -1;
 
     if (buf == NULL)
     {
@@ -65,7 +65,7 @@ Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server)
 int
 Log_databuffer_set_log_message(void* buf, const char* msg)
 {
-    int retval = EOF;
+    int retval = -1;
 
     if (buf == NULL || msg == NULL)
     {

@@ -3,14 +3,6 @@
 #include <string.h>
 #include <stdio.h>
 
-
-
-#if !defined(EOF)
-#define EOF     -1
-#endif
-
-
-
 // forward declaration
 static bool     _Log_consumer_process(Log_consumer_t* self);
 static uint64_t _Log_consumer_get_timestamp(Log_consumer_t* self);

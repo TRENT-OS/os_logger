@@ -3,14 +3,6 @@
 #include "log_symbol.h"
 #include <string.h>
 
-
-
-#if !defined(EOF)
-#define EOF     -1
-#endif
-
-
-
 bool
 Log_consumer_callback_ctor(Log_consumer_callback_t* self,
                            Log_consumer_callback_emitT server_emit,

@@ -56,7 +56,7 @@ typedef struct
  *
  * @return  an status code
  *
- * @retval  >= 0, if all allright
+ * @retval  >= 0, the total number of characters written
  * @retval    -1, if an error has been occurred
  *
  * @ingroup log_databuffer
@@ -74,7 +74,7 @@ Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server);
  *
  * @return  an status code
  *
- * @retval  >= 0, if all allright
+ * @retval  >= 0, the total number of characters written
  * @retval    -1, if an error has been occurred
  *
  * @ingroup log_databuffer
@@ -92,7 +92,7 @@ Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client);
  *
  * @return  an status code
  *
- * @retval  >= 0, if all allright
+ * @retval  >= 0, the total number of characters written
  * @retval    -1, if an error has been occurred
  *
  * @ingroup log_databuffer
