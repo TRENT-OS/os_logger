@@ -7,13 +7,13 @@
 #pragma once
 
 /**
- * @defgroup    log_databuffer Data buffer implementation
+ * @defgroup    OS_LoggerDataBuffer Data buffer implementation
  *
  * @brief       This layer provides functions to manage data buffer.
  * @details     There are functions for getting and setting information from an
  *              object to data buffer and vice versa.
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include "OS_LoggerSymbols.h"
 #include "OS_LoggerTimestamp.h"
@@ -24,7 +24,7 @@
  * @details Log_databuffer_t contain informations from a data buffer in a
  *          structured way.
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 typedef struct
 {
@@ -37,7 +37,7 @@ typedef struct
 /**
  * @details Log_info_t contain all informations about a log.
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 typedef struct
 {
@@ -59,7 +59,7 @@ typedef struct
  * @retval  >= 0, the total number of characters written
  * @retval    -1, if an error has been occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 int
 Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server);
@@ -77,7 +77,7 @@ Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server);
  * @retval  >= 0, the total number of characters written
  * @retval    -1, if an error has been occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 int
 Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client);
@@ -95,7 +95,7 @@ Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client);
  * @retval  >= 0, the total number of characters written
  * @retval    -1, if an error has been occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 int
 Log_databuffer_set_log_message(void* buf, const char* msg);
@@ -113,7 +113,7 @@ Log_databuffer_set_log_message(void* buf, const char* msg);
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 bool
 Log_databuffer_get_log_level_server(void* buf,
@@ -132,7 +132,7 @@ Log_databuffer_get_log_level_server(void* buf,
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 bool
 Log_databuffer_get_log_level_client(void* buf,
@@ -151,7 +151,7 @@ Log_databuffer_get_log_level_client(void* buf,
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 bool
 Log_databuffer_get_log_message(void* buf, Log_databuffer_t* log_databuffer);
@@ -175,7 +175,7 @@ Log_databuffer_get_log_message(void* buf, Log_databuffer_t* log_databuffer);
  * @retval  true,  if all allright
  * @retval  false, if an error has occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 bool
 Log_databuffer_get_info(void* buf, Log_databuffer_t* log_databuffer);
@@ -191,7 +191,7 @@ Log_databuffer_get_info(void* buf, Log_databuffer_t* log_databuffer);
  * @retval  true,  if all allright
  * @retval  false, if an error has occurred
  *
- * @ingroup log_databuffer
+ * @ingroup OS_LoggerDataBuffer
 */
 bool
 Log_databuffer_clear_databuffer(void* buf);

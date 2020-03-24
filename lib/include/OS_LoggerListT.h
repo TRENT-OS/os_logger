@@ -8,13 +8,13 @@
 
 
 /**
- * @defgroup    list List interface and implementation
+ * @defgroup    OS_LoggerListT List interface and implementation
  *
  * @brief       Helper to the manager list objects.
  * @details     This object provides the interface to deal with lists without
  *              the malloc space.
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include <stdint.h>
 #include <stdbool.h>
@@ -23,13 +23,13 @@
 /**
  * @details ListT_t defines the list datatype.
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef struct ListT_t ListT_t;
 /**
  * @details NodeT_t defines the node datatype.
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef struct NodeT_t NodeT_t;
 
@@ -40,7 +40,7 @@ typedef struct NodeT_t NodeT_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef void
 (*ListT_dtorT)(ListT_t* self);
@@ -54,7 +54,7 @@ typedef void
  *
  * @return  a status code
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef bool
 (*ListT_hasPrevT)(NodeT_t* current);
@@ -68,7 +68,7 @@ typedef bool
  *
  * @return  a status code
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef bool
 (*ListT_hasNextT)(NodeT_t* current);
@@ -82,7 +82,7 @@ typedef bool
  *
  * @return  pointer to the list object
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef void*
 (*ListT_getPrevT)(NodeT_t* current);
@@ -96,7 +96,7 @@ typedef void*
  *
  * @return  pointer to list object
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef void*
 (*ListT_getNextT)(NodeT_t* current);
@@ -114,7 +114,7 @@ typedef void*
  *
  * @return  an status code
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef bool
 (*ListT_insertT)(NodeT_t* current, NodeT_t* new_Node);
@@ -128,7 +128,7 @@ typedef bool
  *
  * @return  a status code
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef bool
 (*ListT_deleteT)(NodeT_t* current);
@@ -142,7 +142,7 @@ typedef bool
  *
  * @return  pointer to the list object
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef void*
 (*ListT_getFirstT)(NodeT_t* current);
@@ -156,7 +156,7 @@ typedef void*
  *
  * @return  pointer to the list object
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef void*
 (*ListT_getLastT)(NodeT_t* current);
@@ -170,7 +170,7 @@ typedef void*
  *
  * @return  the status code
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef bool
 (*ListT_isInsideT)(NodeT_t* current);
@@ -179,7 +179,7 @@ typedef bool
 /**
  * @details ListT_Vtable contain the member functions to his class.
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 typedef struct
 {
@@ -200,7 +200,7 @@ ListT_Vtable;
 /**
  * @details ListT_t contains the class' vtable.
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 struct ListT_t
 {
@@ -211,7 +211,7 @@ struct ListT_t
 /**
  * @details NodeT_t contains the node's previous and next objects.
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 struct NodeT_t
 {
@@ -230,7 +230,7 @@ struct NodeT_t
  * @retval  true,  if all allright
  *          false, if pointer is NULL
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 bool
 ListT_ctor(ListT_t* self);
@@ -241,7 +241,7 @@ ListT_ctor(ListT_t* self);
  *
  * @param   self:   pointer to the class
  *
- * @ingroup list
+ * @ingroup OS_LoggerListT
 */
 void
 ListT_dtor(ListT_t* self);

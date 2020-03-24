@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    abstract_log_output Abstract log server backend interface
+ * @defgroup    OS_LoggerAbstractOutput Abstract log server backend interface
  *
  * @brief       Defined abstract interface for log server backend.
  * @details     This level provides an abstract interface for print the log
@@ -29,7 +29,7 @@
  *
  * @see         abstract_observer
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include <stdbool.h>
 #include <string.h>
@@ -40,7 +40,7 @@
 /**
  * @details Output_t defines the class datatype.
  *
- * @ingroup abstract_log_output
+ * @ingroup OS_LoggerAbstractOutput
 */
 typedef struct Output_t Output_t;
 
@@ -51,7 +51,7 @@ typedef struct Output_t Output_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_log_output
+ * @ingroup OS_LoggerAbstractOutput
 */
 typedef void
 (*Output_dtorT)(Output_t* self);
@@ -65,7 +65,7 @@ typedef void
  *
  * @return  an status code
  *
- * @ingroup abstract_log_output
+ * @ingroup OS_LoggerAbstractOutput
 */
 typedef bool
 (*Output_printT)(Output_t* self, void* data);
@@ -75,7 +75,7 @@ typedef bool
  *          This class is depend on the layers \link abstract_observer \endlink
  *          vtable.
  *
- * @ingroup abstract_log_output
+ * @ingroup OS_LoggerAbstractOutput
 */
 typedef struct
 {
@@ -89,7 +89,7 @@ Output_Vtable;
 /**
  * @details Output_t contain the vtable to his class.
  *
- * @ingroup abstract_log_output
+ * @ingroup OS_LoggerAbstractOutput
 */
 struct Output_t
 {
@@ -102,7 +102,7 @@ struct Output_t
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_log_output
+ * @ingroup OS_LoggerAbstractOutput
 */
 inline void
 Output_dtor(Output_t* self)
@@ -123,7 +123,7 @@ Output_dtor(Output_t* self)
  *
  * @retval  depends on the implementation of the print function
  *
- * @ingroup abstract_log_output
+ * @ingroup OS_LoggerAbstractOutput
 */
 inline bool
 Output_print(Output_t* self, void* data)

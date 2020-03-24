@@ -7,13 +7,13 @@
 #pragma once
 
 /**
- * @defgroup   seos_logger_client Log client interface
+ * @defgroup   OS_LoggerClient Log client interface
  *
  * @brief      Defined log client interface.
  * @details    This layer is required to make functions and objects available
  *             by client site.
  *
- * @ingroup    seos_logger
+ * @ingroup    OS_Logger
 */
 #include "OS_LoggerEmitter.h"
 #include "OS_LoggerEmitterCallback.h"

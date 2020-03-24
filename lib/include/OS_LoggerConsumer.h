@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_consumer Log consumer implementation
+ * @defgroup    OS_LoggerConsumer Log consumer implementation
  *
  * @brief       This layer provides a implementation of concrete log consumer.
  * @details     On the server side, a log consumer is the object that receives
@@ -43,7 +43,7 @@
  *
  * @see         log_consumer_callback
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include "OS_LoggerListT.h"
 #include "OS_LoggerFilter.h"
@@ -55,7 +55,7 @@
 /**
  * @details Log_consumer_t defines the class datatype.
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 typedef struct Log_consumer_t Log_consumer_t;
 
@@ -66,7 +66,7 @@ typedef struct Log_consumer_t Log_consumer_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 typedef void
 (*Log_consumer_dtorT)(Log_consumer_t* self);
@@ -80,7 +80,7 @@ typedef void
  *
  * @return  an error code
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 typedef bool
 (*Log_consumer_processT)(Log_consumer_t* self);
@@ -92,7 +92,7 @@ typedef bool
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 typedef void
 (*Log_consumer_emitT)(Log_consumer_t* self);
@@ -106,7 +106,7 @@ typedef void
  *
  * @return  timestamp
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 typedef uint64_t
 (*Log_consumer_get_timestampT)(Log_consumer_t* self);
@@ -115,7 +115,7 @@ typedef uint64_t
 /**
  * @details Log_consumer_Vtable contain the member functions to his class.
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 typedef struct
 {
@@ -129,7 +129,7 @@ typedef struct
 /**
  * @details Log_consumer_t contain the vtable to his class.
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 struct Log_consumer_t
 {
@@ -169,7 +169,7 @@ struct Log_consumer_t
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 bool
 Log_consumer_ctor(Log_consumer_t* self,
@@ -187,7 +187,7 @@ Log_consumer_ctor(Log_consumer_t* self,
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_consumer
+ * @ingroup OS_LoggerConsumer
 */
 void
 Log_consumer_dtor(Log_consumer_t* self);

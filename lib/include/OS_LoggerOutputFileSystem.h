@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup   log_output_filesystem Log server filesystem backend
+ * @defgroup   OS_LoggerOutputFileSystem Log server filesystem backend
  *             implementation
  *
  * @brief      Derived class from class \link abstract_log_output \endlink and
@@ -22,7 +22,7 @@
  *             \n \n
  *             Further implements this layer the observer functions.
  *
- * @ingroup    log_output
+ * @ingroup    OS_LoggerOutput
 */
 #include "OS_LoggerOutput.h"
 
@@ -38,7 +38,7 @@
  * @retval  true,  if all allright
  *          false, if pointer is NULL
  *
- * @ingroup log_output_filesystem
+ * @ingroup OS_LoggerOutputFileSystem
 */
 bool
 Log_output_filesystem_ctor(Log_output_t* self,
@@ -50,7 +50,7 @@ Log_output_filesystem_ctor(Log_output_t* self,
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_output_filesystem
+ * @ingroup OS_LoggerOutputFileSystem
 */
 void
 Log_output_filesystem_dtor(Output_t* self);

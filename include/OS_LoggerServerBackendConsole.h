@@ -7,14 +7,14 @@
 #pragma once
 
 /**
- * @defgroup    seos_logger Logger interface
+ * @defgroup    OS_Logger Logger interface
  *
  * @brief       Defined logger interface.
  * @details     Defined logger interface.
  */
 
 /**
- * @defgroup   seos_logger_server Log server interface
+ * @defgroup   OS_LoggerServer Log server interface
  *
  * @brief      Defined log server interface.
  * @details    This level is required to make functions and objects available
@@ -36,7 +36,7 @@
  *             By using filesystem backend, there is a strong dependency to file
  *             system api. The console backend is additional available.
  *
- * @ingroup    seos_logger
+ * @ingroup    OS_Logger
  */
 #include "OS_LoggerConsumerChain.h"
 #include "OS_LoggerSymbols.h"

@@ -7,8 +7,8 @@
 #pragma once
 
 /**
- * @defgroup   seos_logger_filesystem_backend Log server interface with
- *             filesystem backend
+ * @defgroup    OS_LoggerFileSystemBackend Log server interface with filesystem
+ *              backend
  *
  * @brief      Defined log server interface with filesystem backend.
  *
@@ -21,7 +21,7 @@
  *             \n
  *             The console backend is additional available.
  *
- * @ingroup  seos_logger_server
+ * @ingroup     OS_LoggerServer
  */
 #include "OS_LoggerServerBackendConsole.h"
 #include "OS_LoggerOutputFileSystem.h"

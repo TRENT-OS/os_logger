@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_filter Log filter implementation
+ * @defgroup    OS_LoggerFilter Log filter implementation
  *
  * @brief       This layer provides the interface and implementation of log
  *              filter.
@@ -31,7 +31,7 @@
  *              messages will be transmitted or processed to the log server
  *              backend.
  *
- * @ingroup     seos_logger_server, seos_logger_client
+ * @ingroup     OS_LoggerServer, OS_LoggerClient
 */
 #include <stdbool.h>
 #include <stdint.h>
@@ -39,7 +39,7 @@
 /**
  * @details Log_filter_t defines the class datatype.
  *
- * @ingroup log_filter
+ * @ingroup OS_LoggerFilter
 */
 typedef struct Log_filter_t Log_filter_t;
 
@@ -50,7 +50,7 @@ typedef struct Log_filter_t Log_filter_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_filter
+ * @ingroup OS_LoggerFilter
 */
 typedef void
 (*Log_filter_dtorT)(Log_filter_t* self);
@@ -65,7 +65,7 @@ typedef void
  *
  * @return  an error code
  *
- * @ingroup log_filter
+ * @ingroup OS_LoggerFilter
 */
 typedef bool
 (*Log_filter_filteringT)(Log_filter_t* self, uint8_t log_level);
@@ -74,7 +74,7 @@ typedef bool
 /**
  * @details Log_filter_Vtable contain the member functions to his class.
  *
- * @ingroup log_filter
+ * @ingroup OS_LoggerFilter
 */
 typedef struct
 {
@@ -86,7 +86,7 @@ typedef struct
 /**
  * @details Log_filter_t contain information about log filter.
  *
- * @ingroup log_filter
+ * @ingroup OS_LoggerFilter
 */
 struct Log_filter_t
 {
@@ -106,7 +106,7 @@ struct Log_filter_t
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_filter
+ * @ingroup OS_LoggerFilter
 */
 bool
 Log_filter_ctor(Log_filter_t* self, uint8_t log_level);
@@ -117,7 +117,7 @@ Log_filter_ctor(Log_filter_t* self, uint8_t log_level);
  *
  * @param   self:       pointer to the class
  *
- * @ingroup log_filter
+ * @ingroup OS_LoggerFilter
 */
 void
 Log_filter_dtor(Log_filter_t* self);

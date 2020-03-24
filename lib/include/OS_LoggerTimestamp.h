@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    timestamp Timestamp interface and implementation
+ * @defgroup    OS_LoggerTimestamp Timestamp interface and implementation
  *
  * @brief       Helper object to create or convert a timestamp.
  * @details     This object contain to create or convert a timestamp.
@@ -17,7 +17,7 @@
  *              \n
  *              This class has been created for a time server. So the time server hosts the timestamp object as singleton.
  *
- * @ingroup     seos_logger_server, seos_logger_client
+ * @ingroup     OS_LoggerServer, OS_LoggerClient
 */
 #include <stdint.h>
 #include <stdbool.h>
@@ -26,13 +26,13 @@
 /**
  * @details Timestamp_t defines the class datatype for timestamp.
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 typedef struct Timestamp_t Timestamp_t;
 /**
  * @details Time_t defines the class datatype for human readable format.
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 typedef struct Time_t Time_t;
 
@@ -41,7 +41,7 @@ typedef struct Time_t Time_t;
  * @details Timestamp_dtorT defines the interface for function pointer to
  *          destructor.
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 typedef void
 (*Timestamp_dtorT)(void);
@@ -56,7 +56,7 @@ typedef void
  *
  * @return  an status code
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 typedef bool
 (*Timestamp_create_timestampT)(const char* date, const char* time);
@@ -72,7 +72,7 @@ typedef bool
  *
  * @return  an status code
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 typedef bool
 (*Timestamp_get_timeT)(Timestamp_t* t_stamp, uint8_t hours, Time_t* tm);
@@ -87,7 +87,7 @@ typedef bool
  *
  * @return  an status code
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 typedef bool
 (*Timestamp_get_timestampT)(Time_t* tm, Timestamp_t* t_stamp);
@@ -96,7 +96,7 @@ typedef bool
 /**
  * @details Time_t contain the parameters for human readable format.
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 struct Time_t
 {
@@ -112,7 +112,7 @@ struct Time_t
 /**
  * @details Timestamp_Vtable contain the member functions to his class.
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 typedef struct
 {
@@ -126,7 +126,7 @@ typedef struct
 /**
  * @details Timestamp_t contain the vtable to his class.
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 struct Timestamp_t
 {
@@ -149,7 +149,7 @@ struct Timestamp_t
  * @retval  not NULL, if all allright
  *              NULL, if an error has been occurred
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 Timestamp_t*
 get_instance_Timestamp(void);
@@ -158,7 +158,7 @@ get_instance_Timestamp(void);
 /**
  * @details %Timestamp_dtor is the destructor.
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 void
 Timestamp_dtor(void);
@@ -176,7 +176,7 @@ Timestamp_dtor(void);
  * @retval  true,  if all allright
  *          false, if an error has been occurred
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 bool
 Timestamp_create_timestamp(const char* date, const char* time);
@@ -194,7 +194,7 @@ Timestamp_create_timestamp(const char* date, const char* time);
  * @retval  true,  if all allright
  *          false, if an error has been occurred
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 bool
 Timestamp_get_time(Timestamp_t* t_stamp, uint8_t hours, Time_t* tm);
@@ -212,7 +212,7 @@ Timestamp_get_time(Timestamp_t* t_stamp, uint8_t hours, Time_t* tm);
  * @retval  true,  if all allright
  *          false, if an error has been occurred
  *
- * @ingroup timestamp
+ * @ingroup OS_LoggerTimestamp
 */
 bool
 Timestamp_get_timestamp(Time_t* tm, Timestamp_t* t_stamp);

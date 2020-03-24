@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_subject Log subject implemenation
+ * @defgroup    OS_LoggerSubject Log subject implemenation
  *
  * @brief       Derived class from class \link abstract_subject \endlink and
  *              provides an implemention for log subject.
@@ -32,7 +32,7 @@
  *              observer is assigned to the second (last - if more than two
  *              assigning issues has been done) concrete subject.
  *
- * @ingroup     abstract_subject
+ * @ingroup     OS_LoggerAbstractSubject
 */
 #include "OS_LoggerAbstractSubject.h"
 #include <stdbool.h>
@@ -42,7 +42,7 @@
  * @details Subject_node_t contain informations about the log subject and is
  *          realized as singleton.
  *
- * @ingroup log_subject
+ * @ingroup OS_LoggerSubject
 */
 typedef struct
 {
@@ -53,7 +53,7 @@ typedef struct
 /**
  * @details Log_subject_t contain informations about the log subject.
  *
- * @ingroup log_subject
+ * @ingroup OS_LoggerSubject
 */
 typedef struct
 {
@@ -72,7 +72,7 @@ typedef struct
  * @retval  true,  if all allright
  *          false, if pointer is NULL
  *
- * @ingroup log_subject
+ * @ingroup OS_LoggerSubject
 */
 bool
 Log_subject_ctor(Log_subject_t* self);
@@ -83,7 +83,7 @@ Log_subject_ctor(Log_subject_t* self);
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_subject
+ * @ingroup OS_LoggerSubject
 */
 void
 Log_subject_dtor(Subject_t* self);
@@ -101,7 +101,7 @@ Log_subject_dtor(Subject_t* self);
  * @retval  true,  if all allright
  *          false, if pointer is NULL
  *
- * @ingroup log_subject
+ * @ingroup OS_LoggerSubject
 */
 bool
 Log_subject_attach(Subject_t* self, Observer_t* observer);
@@ -119,7 +119,7 @@ Log_subject_attach(Subject_t* self, Observer_t* observer);
  * @retval  true,  if all allright
  *          false, if pointer is NULL
  *
- * @ingroup log_subject
+ * @ingroup OS_LoggerSubject
 */
 bool
 Log_subject_detach(Subject_t* self, Observer_t* observer);
@@ -132,7 +132,7 @@ Log_subject_detach(Subject_t* self, Observer_t* observer);
  * @param   self:   pointer to the class
  * @param   data:   user data from observer
  *
- * @ingroup log_subject
+ * @ingroup OS_LoggerSubject
 */
 void
 Log_subject_notify(Subject_t* self, void* data);

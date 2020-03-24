@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    consumer_chain Consumer chain implementation
+ * @defgroup    OS_LoggerConsumerChain Consumer chain implementation
  *
  * @brief       This layer provides to manage consumer log objects.
  * @details     All log consumer objects, which will be getting logged, has to
@@ -25,7 +25,7 @@
  *              \n \n
  *              This layer is implemented as singleton.
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include "OS_LoggerConsumer.h"
 #include "OS_LoggerSymbols.h"
@@ -35,7 +35,7 @@
 /**
  * @details Consumer_chain_t defines the class datatype.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef struct Consumer_chain_t Consumer_chain_t;
 
@@ -44,7 +44,7 @@ typedef struct Consumer_chain_t Consumer_chain_t;
  * @details Consumer_chain_dtorT defines the interface for function pointer to
  *          destructor.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef void
 (*Consumer_chain_dtorT)(void);
@@ -58,7 +58,7 @@ typedef void
  *
  * @return  an status code
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef bool
 (*Consumer_chain_appendT)(Log_consumer_t* consumer);
@@ -72,7 +72,7 @@ typedef bool
  *
  * @return  an status code
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef bool
 (*Consumer_chain_removeT)(Log_consumer_t* consumer);
@@ -84,7 +84,7 @@ typedef bool
  *
  * @return  pointer to consumer log object
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef Log_consumer_t*
 (*Consumer_chain_get_senderT)(void);
@@ -94,7 +94,7 @@ typedef Log_consumer_t*
  * @details Consumer_chain_pollT defines the interface for function pointer to
  *          start the poll process.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef void
 (*Consumer_chain_pollT)(void);
@@ -103,7 +103,7 @@ typedef void
 /**
  * @details Consumer_chain_Vtable contain the member functions to his class.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef struct
 {
@@ -120,7 +120,7 @@ Consumer_chain_Vtable;
  * @details Consumer_chain_node_t contain informations about the consumer log
  *          object and is realized as singleton.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 typedef struct
 {
@@ -131,7 +131,7 @@ typedef struct
 /**
  * @details Consumer_chain_t contain the vtable to his class.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 struct Consumer_chain_t
 {
@@ -155,7 +155,7 @@ struct Consumer_chain_t
  * @retval  not NULL, if all allright
  *              NULL, if an error has been occurred
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 Consumer_chain_t*
 get_instance_Consumer_chain(void);
@@ -164,7 +164,7 @@ get_instance_Consumer_chain(void);
 /**
  * @details %Consumer_chain_dtor is the destructor.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 void
 Consumer_chain_dtor(void);
@@ -180,7 +180,7 @@ Consumer_chain_dtor(void);
  * @retval  true,  if all allright
  *          false, if an error has been occurred
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 bool
 Consumer_chain_append(Log_consumer_t* consumer);
@@ -196,7 +196,7 @@ Consumer_chain_append(Log_consumer_t* consumer);
  * @retval  true,  if all allright
  *          false, if an error has been occurred
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 bool
 Consumer_chain_remove(Log_consumer_t* consumer);
@@ -211,7 +211,7 @@ Consumer_chain_remove(Log_consumer_t* consumer);
  * @retval  not NULL, if all allright
  *              NULL, if an error has been occurred
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 Log_consumer_t*
 Consumer_chain_get_sender(void);
@@ -220,7 +220,7 @@ Consumer_chain_get_sender(void);
 /**
  * @details %Consumer_chain_poll provides to start the poll process.
  *
- * @ingroup consumer_chain
+ * @ingroup OS_LoggerConsumerChain
 */
 void
 Consumer_chain_poll(void);

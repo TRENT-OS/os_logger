@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_emitter_callback Log emitter flow control interface
+ * @defgroup    OS_LoggerEmitterCallback Log emitter flow control interface
  *
  * @brief       This layer provides functions for log emitter flow control.
  * @details     The functions of this level serve to control the flow of log
@@ -16,7 +16,7 @@
  *              This layer only defines the interface functions.
  *              The implementation itself does not take place
  *
- * @ingroup     seos_logger_client
+ * @ingroup     OS_LoggerClient
 */
 #include "OS_LoggerFilter.h"
 #include <stdarg.h>
@@ -26,7 +26,7 @@
  * @details Log_emitter_callback_emitT defines the interface for function
  *          pointer to emit a signal, when client site logging process is done.
  *
- * @ingroup log_emitter_callback
+ * @ingroup OS_LoggerEmitterCallback
 */
 typedef void
 (*Log_emitter_callback_emitT)(void);
@@ -36,7 +36,7 @@ typedef void
  * @details Log_emitter_callback_waitT defines the interface for function
  *          pointer to wait for a signal.
  *
- * @ingroup log_emitter_callback
+ * @ingroup OS_LoggerEmitterCallback
 */
 typedef void
 (*Log_emitter_callback_waitT)(void);
@@ -45,7 +45,7 @@ typedef void
 /**
  * @details Log_emitter_callback_t contain interface functions.
  *
- * @ingroup log_emitter_callback
+ * @ingroup OS_LoggerEmitterCallback
 */
 typedef struct
 {
@@ -66,7 +66,7 @@ typedef struct
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_emitter_callback
+ * @ingroup OS_LoggerEmitterCallback
 */
 bool
 Log_emitter_callback_ctor(Log_emitter_callback_t* self,
@@ -79,7 +79,7 @@ Log_emitter_callback_ctor(Log_emitter_callback_t* self,
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_emitter_callback
+ * @ingroup OS_LoggerEmitterCallback
 */
 void
 Log_emitter_callback_dtor(Log_emitter_callback_t* self);

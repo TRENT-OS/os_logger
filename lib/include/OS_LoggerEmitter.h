@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_emitter Log emitter implementation
+ * @defgroup    OS_LoggerEmitter Log emitter implementation
  *
  * @brief       This layer provides a implementation of concrete log emitter.
  * @details     On the client side, a log emitter is the object that transceives
@@ -36,7 +36,7 @@
  *
  * @see         log_emitter_callback
  *
- * @ingroup     seos_logger_client
+ * @ingroup     OS_LoggerClient
 */
 #include "OS_LoggerFilter.h"
 #include "OS_LoggerEmitterCallback.h"
@@ -48,7 +48,7 @@
 /**
  * @details Log_emitter_t defines the class datatype.
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 typedef struct Log_emitter_t Log_emitter_t;
 
@@ -57,7 +57,7 @@ typedef struct Log_emitter_t Log_emitter_t;
  * @details Log_emitter_dtorT defines the interface for function pointer to
  *          destructor.
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 typedef void
 (*Log_emitter_dtorT)(void);
@@ -69,7 +69,7 @@ typedef void
  *
  * @return  pointer to data buffer
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 typedef void*
 (*Log_emitter_get_bufferT)(void);
@@ -81,7 +81,7 @@ typedef void*
  *
  * @return  an status code
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 typedef bool
 (*Log_emitter_waitT)(void);
@@ -96,7 +96,7 @@ typedef bool
  *
  * @return  an status code
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 typedef bool
 (*Log_emitter_emitT)(void);
@@ -118,7 +118,7 @@ typedef bool
  *
  * @return  an status code
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 typedef bool
 (*Log_emitter_emit_logT)(uint8_t log_level, const char* format, ...);
@@ -127,7 +127,7 @@ typedef bool
 /**
  * @details Log_emitter_Vtable contain the member functions to his class.
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 typedef struct
 {
@@ -142,7 +142,7 @@ typedef struct
 /**
  * @details Log_emitter_t contain the vtable to his class.
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 struct Log_emitter_t
 {
@@ -175,7 +175,7 @@ struct Log_emitter_t
  * @retval  not NULL, if all allright
  *              NULL, if an error has been occurred
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 Log_emitter_t*
 get_instance_Log_emitter(void* buffer,
@@ -186,7 +186,7 @@ get_instance_Log_emitter(void* buffer,
 /**
  * @details %Log_emitter_dtor is the destructor.
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 void
 Log_emitter_dtor(void);
@@ -210,7 +210,7 @@ Log_emitter_dtor(void);
  * @retval  true,  if all allright
  *          false, if an error has been occurred
  *
- * @ingroup log_emitter
+ * @ingroup OS_LoggerEmitter
 */
 bool
 Log_emitter_emit_log(uint8_t log_level, const char* format, ...);

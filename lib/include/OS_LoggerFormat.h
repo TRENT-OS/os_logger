@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_format Log format implementation
+ * @defgroup    OS_LoggerFormat Log format implementation
  *
  * @brief       Derived class from class \link abstract_format \endlink and
  *              provides an implemention for log format.
@@ -23,7 +23,7 @@
  *              Before print the log message to an backend, convert the log
  *              message in the defined format.
  *
- * @ingroup     abstract_format
+ * @ingroup     OS_LoggerAbstractFormat
 */
 #include "OS_LoggerAbstractFormat.h"
 
@@ -48,7 +48,7 @@
  * @details Log_format_t contain informations about the log format and a pointer
  *          the parent vtable.
  *
- * @ingroup log_format
+ * @ingroup OS_LoggerFormat
 */
 typedef struct
 {
@@ -70,7 +70,7 @@ typedef struct
  * @retval  true,  if all allright
  *          false, if pointer is NULL
  *
- * @ingroup log_format
+ * @ingroup OS_LoggerFormat
 */
 bool
 Log_format_ctor(Log_format_t* self);
@@ -80,7 +80,7 @@ Log_format_ctor(Log_format_t* self);
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_format
+ * @ingroup OS_LoggerFormat
 */
 void
 Log_format_dtor(Format_t* self);

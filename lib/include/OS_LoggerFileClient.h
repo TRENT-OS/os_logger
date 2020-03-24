@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_file_client Log file client implementation
+ * @defgroup    OS_LoggerFileClient Log file client implementation
  *
  * @brief       This layer provides the implementation of log file client
  *              functions.
@@ -20,7 +20,7 @@
  *              functionality to read content from a log file or a complete log
  *              file.
  *
- * @ingroup     seos_logger_client
+ * @ingroup     OS_LoggerClient
 */
 #include "OS_LoggerSymbols.h"
 #include "OS_LoggerFileClientCallback.h"
@@ -31,7 +31,7 @@
 /**
  * @details Log_file_client_t defines the class datatype.
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 typedef struct Log_file_client_t Log_file_client_t;
 
@@ -42,7 +42,7 @@ typedef struct Log_file_client_t Log_file_client_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 typedef void
 (*Log_file_client_dtorT)(Log_file_client_t* self);
@@ -66,7 +66,7 @@ typedef void
  *
  * @return  an error code
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 typedef bool
 (*Log_file_client_read_log_fileT)(
@@ -79,7 +79,7 @@ typedef bool
 /**
  * @details Log_file_client_Vtable contain the member functions to his class.
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 typedef struct
 {
@@ -91,7 +91,7 @@ typedef struct
 /**
  * @details Log_file_client_t contain the vtable to his class.
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 struct Log_file_client_t
 {
@@ -117,7 +117,7 @@ struct Log_file_client_t
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 bool
 Log_file_client_ctor(
@@ -132,7 +132,7 @@ Log_file_client_ctor(
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 void
 Log_file_client_dtor(Log_file_client_t* self);
@@ -155,7 +155,7 @@ Log_file_client_dtor(Log_file_client_t* self);
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_file_client
+ * @ingroup OS_LoggerFileClient
 */
 bool
 Log_file_client_read_log_file(Log_file_client_t* self,

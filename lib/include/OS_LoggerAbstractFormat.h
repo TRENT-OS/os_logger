@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    abstract_format Abstract log format interface
+ * @defgroup    OS_LoggerAbstractFormat Abstract log format interface
  *
  * @brief       Defined abstract format interface for log format.
  * @details     This level provides an abstract interface for converting and
@@ -19,7 +19,7 @@
  *              Print function is a helper function to print the temporary log
  *              format.
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include "OS_LoggerDataBuffer.h"
 #include "OS_LoggerSymbols.h"
@@ -30,7 +30,7 @@
 /**
  * @details Format_t defines the class datatype.
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 typedef struct Format_t Format_t;
 
@@ -41,7 +41,7 @@ typedef struct Format_t Format_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 typedef void
 (*FormatT_dtorT)(Format_t* self);
@@ -59,7 +59,7 @@ typedef void
  *
  * @return  an status code
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 typedef bool
 (*FormatT_convertT)(Format_t* self, Log_info_t* log_info);
@@ -73,7 +73,7 @@ typedef bool
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 typedef void
 (*FormatT_printT)(Format_t* self);
@@ -82,7 +82,7 @@ typedef void
 /**
  * @details FormatT_Vtable contain the member functions to his class.
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 typedef struct
 {
@@ -95,7 +95,7 @@ typedef struct
 /**
  * @details Format_t contain the vtable to his class.
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 struct Format_t
 {
@@ -108,7 +108,7 @@ struct Format_t
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 inline void
 FormatT_dtor(Format_t* self)
@@ -129,7 +129,7 @@ FormatT_dtor(Format_t* self)
  *
  * @retval  depends on the implementation of the convert function
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 inline bool
 FormatT_convert(Format_t* self, Log_info_t* log_info)
@@ -151,7 +151,7 @@ FormatT_convert(Format_t* self, Log_info_t* log_info)
  *
  * @param   self:       pointer to the class
  *
- * @ingroup abstract_format
+ * @ingroup OS_LoggerAbstractFormat
 */
 inline void
 FormatT_print(Format_t* self)

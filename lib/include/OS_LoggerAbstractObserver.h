@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    abstract_observer Abstract observer interface
+ * @defgroup    OS_LoggerAbstractObserver Abstract observer interface
  *
  * @brief       Defined abstract observer interface.
  *
@@ -79,7 +79,7 @@
  *
  * @see         abstract_subject
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include <stdbool.h>
 #include <string.h>
@@ -89,7 +89,7 @@
 /**
  * @details Observer_t defines the class datatype.
  *
- * @ingroup abstract_observer
+ * @ingroup OS_LoggerAbstractObserver
 */
 typedef struct Observer_t Observer_t;
 
@@ -100,7 +100,7 @@ typedef struct Observer_t Observer_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_observer
+ * @ingroup OS_LoggerAbstractObserver
 */
 typedef void
 (*Observer_dtorT)(Observer_t* self);
@@ -116,7 +116,7 @@ typedef void
  *
  * @return  an status code
  *
- * @ingroup abstract_observer
+ * @ingroup OS_LoggerAbstractObserver
 */
 typedef bool
 (*Observer_updateT)(Observer_t* self, void* data);
@@ -125,7 +125,7 @@ typedef bool
 /**
  * @details Observer_Vtable contain the member functions to his class.
  *
- * @ingroup abstract_observer
+ * @ingroup OS_LoggerAbstractObserver
 */
 typedef struct
 {
@@ -138,7 +138,7 @@ Observer_Vtable;
 /**
  * @details Observer_t contain the vtable to his class.
  *
- * @ingroup abstract_observer
+ * @ingroup OS_LoggerAbstractObserver
 */
 struct Observer_t
 {
@@ -151,7 +151,7 @@ struct Observer_t
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_observer
+ * @ingroup OS_LoggerAbstractObserver
 */
 inline void
 Observer_dtor(Observer_t* self)
@@ -172,7 +172,7 @@ Observer_dtor(Observer_t* self)
  *
  * @retval  depends on the implementation of the print function
  *
- * @ingroup abstract_observer
+ * @ingroup OS_LoggerAbstractObserver
 */
 inline bool
 Observer_update(Observer_t* self, void* data)

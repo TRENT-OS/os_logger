@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_file_client_callback Log file client flow control
+ * @defgroup    OS_LoggerFileClientCallback Log file client flow control
  *
  * @brief       This layer provides functions for log file client flow control.
  *
@@ -18,7 +18,7 @@
  *
  *              The implementation itself is not place here.
  *
- * @ingroup     log_file_client
+ * @ingroup     OS_LoggerFileClient
 */
 #include "OS_LoggerSymbols.h"
 #include <stdint.h>
@@ -36,7 +36,7 @@
  *
  * @return  count read bytes
  *
- * @ingroup log_file_client_callback
+ * @ingroup OS_LoggerFileClient
 */
 typedef int64_t
 (*Log_file_client_callback_read_log_fileT)(
@@ -49,7 +49,7 @@ typedef int64_t
 /**
  * @details Log_file_client_callback_t contain interface functions.
  *
- * @ingroup log_file_client_callback
+ * @ingroup OS_LoggerFileClient
 */
 typedef struct
 {
@@ -68,7 +68,7 @@ typedef struct
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_file_client_callback
+ * @ingroup OS_LoggerFileClient
 */
 bool
 Log_file_client_callback_ctor(
@@ -81,7 +81,7 @@ Log_file_client_callback_ctor(
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_file_client_callback
+ * @ingroup OS_LoggerFileClient
 */
 void
 Log_file_client_callback_dtor(Log_file_client_callback_t* self);

@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    abstract_subject Abstract subject interface
+ * @defgroup    OS_LoggerAbstractSubject Abstract subject interface
  *
  * @brief       Defined abstract subject interface.
  * @details     This level provides the mechanism for an abstract subject
@@ -35,7 +35,7 @@
  *
  * @see         abstract_observer
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include <stdbool.h>
 #include <string.h>
@@ -46,7 +46,7 @@
 /**
  * @details Subject_t defines the class datatype.
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 typedef struct Subject_t Subject_t;
 
@@ -57,7 +57,7 @@ typedef struct Subject_t Subject_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 typedef void
 (*Subject_dtorT)(Subject_t* self);
@@ -72,7 +72,7 @@ typedef void
  *
  * @return  an status code
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 typedef bool
 (*Subject_attachT)(Subject_t* self, Observer_t* observer);
@@ -87,7 +87,7 @@ typedef bool
  *
  * @return  an status code
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 typedef bool
 (*Subject_detachT)(Subject_t* self, Observer_t* observer);
@@ -100,7 +100,7 @@ typedef bool
  * @param   self:   pointer to the class
  * @param   data:   user data from observer
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 typedef void
 (*Subject_notifyT)(Subject_t* self, void* data);
@@ -109,7 +109,7 @@ typedef void
 /**
  * @details Subject_Vtable contain the member functions to his class.
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 typedef struct
 {
@@ -124,7 +124,7 @@ Subject_Vtable;
 /**
  * @details Subject_t contain the vtable to his class.
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 struct Subject_t
 {
@@ -137,7 +137,7 @@ struct Subject_t
  *
  * @param   self:   pointer to the class
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 inline void
 Subject_dtor(Subject_t* self)
@@ -159,7 +159,7 @@ Subject_dtor(Subject_t* self)
  *
  * @retval  depends on the implementation of the print function
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 inline bool
 Subject_attach(Subject_t* self, Observer_t* observer)
@@ -187,7 +187,7 @@ Subject_attach(Subject_t* self, Observer_t* observer)
  *
  * @retval  depends on the implementation of the print function
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 inline bool
 Subject_detach(Subject_t* self, Observer_t* observer)
@@ -211,7 +211,7 @@ Subject_detach(Subject_t* self, Observer_t* observer)
  * @param   self:   pointer to the class
  * @param   data:   user data from observer
  *
- * @ingroup abstract_subject
+ * @ingroup OS_LoggerAbstractSubject
 */
 inline void
 Subject_notify(Subject_t* self, void* data)

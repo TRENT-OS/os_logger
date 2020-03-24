@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_consumer_callback Log consumer flow control interface
+ * @defgroup    OS_LoggerConsumerCallback Log consumer flow control interface
  *
  * @brief       This layer provides functions for log consumer flow control.
  * @details     The functions of this level serve to control the flow of log
@@ -16,7 +16,7 @@
  *              This layer only defines the interface functions.
  *              The implementation itself does not take place
  *
- * @ingroup     log_consumer
+ * @ingroup     OS_LoggerConsumer
 */
 #include <stdint.h>
 #include <stdbool.h>
@@ -26,7 +26,7 @@
  * @details Log_consumer_callback_emitT defines the interface for the function
  *          pointer to emit a signal, when server site logging process is done.
  *
- * @ingroup log_consumer_callback
+ * @ingroup OS_LoggerConsumerCallback
 */
 typedef void
 (*Log_consumer_callback_emitT)(void);
@@ -38,7 +38,7 @@ typedef void
  *
  * @return  sender id
  *
- * @ingroup log_consumer_callback
+ * @ingroup OS_LoggerConsumerCallback
 */
 typedef uint32_t
 (*Log_consumer_callback_get_sender_id)(void);
@@ -50,7 +50,7 @@ typedef uint32_t
  *
  * @return  timestamp
  *
- * @ingroup log_consumer_callback
+ * @ingroup OS_LoggerConsumerCallback
 */
 typedef uint64_t
 (*Log_consumer_callback_get_timestampT)(void);
@@ -59,7 +59,7 @@ typedef uint64_t
 /**
  * @details Log_consumer_callback_t contain interface functions.
  *
- * @ingroup log_consumer_callback
+ * @ingroup OS_LoggerConsumerCallback
 */
 typedef struct
 {
@@ -82,7 +82,7 @@ typedef struct
  * @retval  true,  if all allright
  * @retval  false, if an error has occurred
  *
- * @ingroup log_consumer_callback
+ * @ingroup OS_LoggerConsumerCallback
 */
 bool
 Log_consumer_callback_ctor(Log_consumer_callback_t* self,
@@ -96,7 +96,7 @@ Log_consumer_callback_ctor(Log_consumer_callback_t* self,
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_consumer_callback
+ * @ingroup OS_LoggerConsumerCallback
 */
 void
 Log_consumer_callback_dtor(Log_consumer_callback_t* self);

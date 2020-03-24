@@ -10,13 +10,13 @@
 #define STR(x)                          STR_(x)
 
 /**
- * @defgroup    log_symbol Defines of log server internals
+ * @defgroup    OS_LoggerSymbols Defines of log server internals
  *
  * @brief       Defines the configuration of the log server internals.
  * @details     This file contain configuration for the log databuffer and for
  *              the log format example implementation.
  *
- * @ingroup     seos_logger_server, seos_logger_client
+ * @ingroup     OS_LoggerServer, OS_LoggerClient
  */
 
 // include parameter for configuration file

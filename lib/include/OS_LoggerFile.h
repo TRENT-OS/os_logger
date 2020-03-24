@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_file Log file interface and implementation
+ * @defgroup    OS_LoggerFile Log file interface and implementation
  *
  * @brief       This layer provides the interface and implementation of log
  *              file.
@@ -25,7 +25,7 @@
  *              As an interface layer provides this layer functions to create
  *              and read log files on filesystem.
  *
- * @ingroup     seos_logger_server
+ * @ingroup     OS_LoggerServer
 */
 #include "OS_LoggerSymbols.h"
 #include "seos_fs.h"
@@ -36,7 +36,7 @@
 /**
  * @details Log_file_t defines the class datatype.
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 typedef struct Log_file_t Log_file_t;
 
@@ -47,7 +47,7 @@ typedef struct Log_file_t Log_file_t;
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 typedef void
 (*Log_file_dtorT)(Log_file_t* self);
@@ -61,7 +61,7 @@ typedef void
  *
  * @return  an error code
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 typedef bool
 (*Log_file_create_log_fileT)(Log_file_t* self);
@@ -86,7 +86,7 @@ typedef bool
  *
  * @return  count read bytes
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 typedef int64_t
 (*Log_file_read_log_fileT)(Log_file_t* self, const char* filename,
@@ -101,7 +101,7 @@ typedef int64_t
  *
  * @return  pointer to log consumer
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 typedef void*
 (*Log_file_get_consumer_by_filenameT)(const char* filename);
@@ -110,7 +110,7 @@ typedef void*
 /**
  * @details Log_file_Vtable contain the member functions to his class.
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 typedef struct
 {
@@ -125,7 +125,7 @@ typedef struct
  * @details Log_file_info_t contain information about log file and filesystem
  *          backend.
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 typedef struct
 {
@@ -140,7 +140,7 @@ typedef struct
 /**
  * @details Log_file_t contain the vtable to his class.
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 struct Log_file_t
 {
@@ -161,7 +161,7 @@ struct Log_file_t
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 bool
 Log_file_ctor(Log_file_t* self,
@@ -174,7 +174,7 @@ Log_file_ctor(Log_file_t* self,
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 void
 Log_file_dtor(Log_file_t* self);
@@ -190,7 +190,7 @@ Log_file_dtor(Log_file_t* self);
  * @retval  true,  if all allright
  * @retval  false, if an error has been occurred
  *
- * @ingroup log_file
+ * @ingroup OS_LoggerFile
 */
 bool
 Log_file_create_log_file(Log_file_t* self);

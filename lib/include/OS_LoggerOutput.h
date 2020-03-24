@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_output Log server backend interface
+ * @defgroup    OS_LoggerOutput Log server backend interface
  *
  * @brief       Defined an generally class for log server backend
  *              implementation.
@@ -34,7 +34,7 @@
  *              This class is the consumer of the log formats and uses the log
  *              format only.
  *
- * @ingroup     abstract_log_output
+ * @ingroup     OS_LoggerAbstractOutput
 */
 #include "OS_LoggerAbstractOutput.h"
 #include "OS_LoggerFormat.h"
@@ -52,7 +52,7 @@
  *          The log format is are interchangeable due to its special
  *          implementation.
  *
- * @ingroup log_output
+ * @ingroup OS_LoggerOutput
 */
 typedef struct
 {

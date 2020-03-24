@@ -7,7 +7,7 @@
 #pragma once
 
 /**
- * @defgroup    log_output_console Log server console backend implementation
+ * @defgroup    OS_LoggerOutputConsole Log server console backend
  *
  * @brief       Derived class from class \link abstract_log_output \endlink and
  *              provides an implemention for log server console backend.
@@ -20,7 +20,7 @@
  *              \n \n
  *              This layer implements the observer functions.
  *
- * @ingroup     log_output
+ * @ingroup     OS_LoggerOutput
 */
 
 
@@ -41,7 +41,7 @@
  * @retval  true,  if all allright
  *          false, if pointer is NULL
  *
- * @ingroup log_output_console
+ * @ingroup OS_LoggerOutputConsole
 */
 bool
 Log_output_console_ctor(Log_output_t* self,
@@ -53,7 +53,7 @@ Log_output_console_ctor(Log_output_t* self,
  *
  * @param   self:   pointer to the class
  *
- * @ingroup log_output_console
+ * @ingroup OS_LoggerOutputConsole
 */
 void
 Log_output_console_dtor(Output_t* self);
