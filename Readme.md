@@ -27,7 +27,7 @@ Observers are connected.
 
 The typical example would be that Log Server has a "View_A" (Subject_A with two
 Observers) with the entries being displayed in the default format
-(@see log_format.h) and being print on the console and full_log.txt
+(@see OS_LoggerFormat.h) and being print on the console and full_log.txt
 (i.e. the two Observers are console and full_log.txt), and a View_B with the
 entries being displayed in the custom format (e.g. lite one with
 less data) stored in the file critical_log.txt.

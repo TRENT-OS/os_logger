@@ -18,13 +18,13 @@ target_include_directories(${PROJECT_NAME}
 
 target_sources(${PROJECT_NAME}
     INTERFACE
-        lib/src/log_databuffer.c
-        lib/src/log_emitter.c
-        lib/src/log_emitter_callback.c
-        lib/src/log_file_client.c
-        lib/src/log_file_client_callback.c
-        lib/src/log_filter.c
-        lib/src/timestamp.c
+        lib/src/OS_LoggerDataBuffer.c
+        lib/src/OS_LoggerEmitter.c
+        lib/src/OS_LoggerEmitterCallback.c
+        lib/src/OS_LoggerFileClient.c
+        lib/src/OS_LoggerFileClientCallback.c
+        lib/src/OS_LoggerFilter.c
+        lib/src/OS_LoggerTimestamp
 )
 
 if (LOGGER_CONFIG_H_FILE)
@@ -56,18 +56,18 @@ target_include_directories(${PROJECT_NAME}
 
 target_sources(${PROJECT_NAME}
     INTERFACE
-        lib/src/consumer_chain.c
-        lib/src/listT.c
-        lib/src/log_consumer.c
-        lib/src/log_consumer_callback.c
-        lib/src/log_databuffer.c
-        lib/src/log_emitter.c
-        lib/src/log_emitter_callback.c
-        lib/src/log_filter.c
-        lib/src/log_format.c
-        lib/src/log_subject.c
-        lib/src/timestamp.c
-        lib/src/log_output_console.c
+        lib/src/OS_LoggerConsumerChain.c
+        lib/src/OS_LoggerListT.c
+        lib/src/OS_LoggerConsumer.c
+        lib/src/OS_LoggerConsumerCallback.c
+        lib/src/OS_LoggerDataBuffer.c
+        lib/src/OS_LoggerEmitter.c
+        lib/src/OS_LoggerEmitterCallback.c
+        lib/src/OS_LoggerFilter.c
+        lib/src/OS_LoggerFormat.c
+        lib/src/OS_LoggerSubject.c
+        lib/src/OS_LoggerTimestamp
+        lib/src/OS_LoggerOutputConsole.c
 )
 
 if (LOGGER_CONFIG_H_FILE)
@@ -99,8 +99,8 @@ target_include_directories(${PROJECT_NAME}
 
 target_sources(${PROJECT_NAME}
     INTERFACE
-        lib/src/log_file.c
-        lib/src/log_output_filesystem.c
+        lib/src/OS_LoggerFile.c
+        lib/src/OS_LoggerOutputFileSystem.c
 )
 
 if (LOGGER_CONFIG_H_FILE)
