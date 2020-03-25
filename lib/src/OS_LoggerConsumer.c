@@ -4,18 +4,26 @@
 #include <stdio.h>
 
 // forward declaration
-static bool     _Log_consumer_process(Log_consumer_t* self);
-static uint64_t _Log_consumer_get_timestamp(Log_consumer_t* self);
-static bool     _Log_consumer_init(void* buffer, Log_filter_t* log_filter);
-static bool     _create_id_string(Log_consumer_t* self, uint32_t id,
-                                  const char* name);
-static void     _Log_consumer_emit(Log_consumer_t* self);
+static bool _Log_consumer_process(OS_LoggerConsumer_Handle_t* self);
+static uint64_t _Log_consumer_get_timestamp(OS_LoggerConsumer_Handle_t* self);
+
+static
+bool _Log_consumer_init(
+    void* buffer,
+    OS_LoggerFilter_Handle_t* log_filter);
+
+static bool _create_id_string(
+    OS_LoggerConsumer_Handle_t* self,
+    uint32_t id,
+    const char* name);
+
+static void _Log_consumer_emit(OS_LoggerConsumer_Handle_t* self);
 
 
 
-static const Log_consumer_Vtable Log_consumer_vtable =
+static const OS_LoggerConsumer_vtable_t Log_consumer_vtable =
 {
-    .dtor          = Log_consumer_dtor,
+    .dtor          = OS_LoggerConsumer_dtor,
     .process       = _Log_consumer_process,
     .emit          = _Log_consumer_emit,
     .get_timestamp = _Log_consumer_get_timestamp,
@@ -24,19 +32,19 @@ static const Log_consumer_Vtable Log_consumer_vtable =
 
 
 static bool
-_Log_consumer_init(void* buffer, Log_filter_t* log_filter)
+_Log_consumer_init(void* buffer, OS_LoggerFilter_Handle_t* log_filter)
 {
     if (buffer == NULL)
     {
         return false;
     }
 
-    Log_databuffer_clear_databuffer(buffer);
+    OS_LoggerDataBuffer_clear(buffer);
 
     if (log_filter != NULL)
     {
         // Debug_printf -> no log filter installed
-        Log_databuffer_set_log_level_server(buffer, log_filter->log_level);
+        OS_LoggerDataBuffer_setServerLogLevel(buffer, log_filter->log_level);
     }
 
     return true;
@@ -44,26 +52,30 @@ _Log_consumer_init(void* buffer, Log_filter_t* log_filter)
 
 
 
-static bool
-_create_id_string(Log_consumer_t* self, uint32_t id, const char* name)
+static
+bool
+_create_id_string(
+    OS_LoggerConsumer_Handle_t* self,
+    uint32_t id,
+    const char* name)
 {
     if (self == NULL)
     {
         return false;
     }
 
-    sprintf(self->log_info.log_id_and_name, "%.*u", LOG_ID_LENGTH, id);
+    sprintf(self->log_info.log_id_and_name, "%.*u", OS_Logger_ID_LENGTH, id);
 
     if (name != NULL)
     {
-        sprintf(self->log_info.log_id_and_name + LOG_ID_LENGTH, " %.*s",
-                LOG_NAME_LENGTH - 1, // Leaving space for the NULL terminator
+        sprintf(self->log_info.log_id_and_name + OS_Logger_ID_LENGTH, " %.*s",
+                OS_Logger_NAME_LENGTH - 1, // Leaving space for the NULL terminator
                 name);
     }
     else
     {
-        sprintf(self->log_info.log_id_and_name + LOG_ID_LENGTH, " %.*s",
-                LOG_NAME_LENGTH - 1, // Leaving space for the NULL terminator
+        sprintf(self->log_info.log_id_and_name + OS_Logger_ID_LENGTH, " %.*s",
+                OS_Logger_NAME_LENGTH - 1, // Leaving space for the NULL terminator
                 "");
     }
 
@@ -74,16 +86,17 @@ _create_id_string(Log_consumer_t* self, uint32_t id, const char* name)
 
 
 bool
-Log_consumer_ctor(Log_consumer_t* self,
-                  void* buffer,
-                  Log_filter_t* log_filter,
-                  Log_consumer_callback_t* callback_vtable,
-                  Log_subject_t* log_subject,
-                  void* log_file,
-                  uint32_t id,
-                  const char* name)
+OS_LoggerConsumer_ctor(
+    OS_LoggerConsumer_Handle_t* self,
+    void* buffer,
+    OS_LoggerFilter_Handle_t* log_filter,
+    OS_LoggerConsumerCallback_t* callback_vtable,
+    OS_LoggerSubject_Handle_t* log_subject,
+    void* log_file,
+    uint32_t id,
+    const char* name)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     bool retval = false;
 
@@ -126,19 +139,19 @@ Log_consumer_ctor(Log_consumer_t* self,
 
 
 void
-Log_consumer_dtor(Log_consumer_t* self)
+OS_LoggerConsumer_dtor(OS_LoggerConsumer_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Log_consumer_t));
+    memset(self, 0, sizeof (OS_LoggerConsumer_Handle_t));
 }
 
 
 
 static void
-_Log_consumer_emit(Log_consumer_t* self)
+_Log_consumer_emit(OS_LoggerConsumer_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (self->callback_vtable->server_emit != NULL)
     {
@@ -149,9 +162,9 @@ _Log_consumer_emit(Log_consumer_t* self)
 
 
 static uint64_t
-_Log_consumer_get_timestamp(Log_consumer_t* self)
+_Log_consumer_get_timestamp(OS_LoggerConsumer_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (self->callback_vtable->get_timestamp != NULL)
     {
@@ -164,12 +177,13 @@ _Log_consumer_get_timestamp(Log_consumer_t* self)
 
 
 static bool
-_Log_consumer_process(Log_consumer_t* self)
+_Log_consumer_process(OS_LoggerConsumer_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     // get log level client
-    Log_databuffer_get_log_level_client(self->buf, &self->log_info.log_databuffer);
+    OS_LoggerDataBuffer_getClientLogLevel(self->buf,
+                                          &self->log_info.log_databuffer);
 
     if (self->log_filter != NULL)
     {
@@ -177,19 +191,21 @@ _Log_consumer_process(Log_consumer_t* self)
                                                 self->log_info.log_databuffer.log_level_client) == false)
         {
             // Debug_printf -> Log filter!!!
-            Log_databuffer_clear_databuffer(self->buf);
+            OS_LoggerDataBuffer_clear(self->buf);
             return false;
         }
     }
 
-    Log_databuffer_get_info(self->buf, &self->log_info.log_databuffer);
+    OS_LoggerDataBuffer_getInfo(self->buf, &self->log_info.log_databuffer);
 
-    Log_databuffer_clear_databuffer(self->buf);
+    OS_LoggerDataBuffer_clear(self->buf);
 
     self->log_info.timestamp.timestamp = self->vtable->get_timestamp(self);
 
     // log subject
-    self->log_subject->vtable->notify((Subject_t*)self->log_subject, (void*)self);
+    self->log_subject->vtable->notify(
+        (OS_LoggerAbstractSubject_Handle_t*) self->log_subject,
+        (void*)self);
 
     return true;
 }

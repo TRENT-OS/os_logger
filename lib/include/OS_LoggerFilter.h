@@ -37,15 +37,15 @@
 #include <stdint.h>
 
 /**
- * @details Log_filter_t defines the class datatype.
+ * @details OS_LoggerFilter_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerFilter
 */
-typedef struct Log_filter_t Log_filter_t;
+typedef struct OS_LoggerFilter_Handle OS_LoggerFilter_Handle_t;
 
 
 /**
- * @details Log_filter_dtorT defines the interface for function pointer to
+ * @details OS_LoggerFilter_dtor_t defines the interface for function pointer to
  *          destructor.
  *
  * @param   self:   pointer to the class
@@ -53,12 +53,12 @@ typedef struct Log_filter_t Log_filter_t;
  * @ingroup OS_LoggerFilter
 */
 typedef void
-(*Log_filter_dtorT)(Log_filter_t* self);
+(*OS_LoggerFilter_dtor_t)(OS_LoggerFilter_Handle_t* self);
 
 
 /**
- * @details Log_filter_filteringT defines the interface for function pointer to
- *          filter logs by log level id.
+ * @details OS_LoggerFilter_filtering_t defines the interface for function
+ *          pointer to filter logs by log level id.
  *
  * @param   self:       pointer to the class
  * @param   log_level:  log level id
@@ -68,35 +68,37 @@ typedef void
  * @ingroup OS_LoggerFilter
 */
 typedef bool
-(*Log_filter_filteringT)(Log_filter_t* self, uint8_t log_level);
+(*OS_LoggerFilter_filtering_t)(
+    OS_LoggerFilter_Handle_t* self,
+    uint8_t log_level);
 
 
 /**
- * @details Log_filter_Vtable contain the member functions to his class.
+ * @details OS_LoggerFilter_vtable_t contain the member functions to his class.
  *
  * @ingroup OS_LoggerFilter
 */
 typedef struct
 {
-    Log_filter_dtorT      dtor;      /**< function pointer to destructor */
-    Log_filter_filteringT filtering; /**< function pointer to filter function */
-} Log_filter_Vtable;
+    OS_LoggerFilter_dtor_t      dtor;      //!< function ptr to destructor
+    OS_LoggerFilter_filtering_t filtering; //!< function ptr to filter function
+} OS_LoggerFilter_vtable_t;
 
 
 /**
- * @details Log_filter_t contain information about log filter.
+ * @details OS_LoggerFilter_Handle contain information about log filter.
  *
  * @ingroup OS_LoggerFilter
 */
-struct Log_filter_t
+struct OS_LoggerFilter_Handle
 {
-    uint8_t                 log_level; /**< log level id */
-    const Log_filter_Vtable* vtable;   /**< vtable */
+    uint8_t                         log_level; /**< log level id */
+    const OS_LoggerFilter_vtable_t* vtable;    /**< vtable */
 } ;
 
 
 /**
- * @details %Log_filter_ctor is the constructor.
+ * @details %OS_LoggerFilter_ctor is the constructor.
  *
  * @param   self:       pointer to the class
  * @param   log_level:  log level id
@@ -109,15 +111,15 @@ struct Log_filter_t
  * @ingroup OS_LoggerFilter
 */
 bool
-Log_filter_ctor(Log_filter_t* self, uint8_t log_level);
+OS_LoggerFilter_ctor(OS_LoggerFilter_Handle_t* self, uint8_t log_level);
 
 
 /**
- * @details %Log_filter_dtor is the destructor.
+ * @details %OS_LoggerFilter_dtor is the destructor.
  *
  * @param   self:       pointer to the class
  *
  * @ingroup OS_LoggerFilter
 */
 void
-Log_filter_dtor(Log_filter_t* self);
+OS_LoggerFilter_dtor(OS_LoggerFilter_Handle_t* self);

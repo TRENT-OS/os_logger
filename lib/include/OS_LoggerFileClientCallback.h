@@ -26,7 +26,7 @@
 
 
 /**
- * @details Log_file_client_callback_read_log_fileT defines the interface for
+ * @details OS_LoggerFileClientCallback_read_t defines the interface for
  *          function pointer to read a log file from log server.
  *
  * @param   filename:       name of log file
@@ -39,26 +39,26 @@
  * @ingroup OS_LoggerFileClient
 */
 typedef int64_t
-(*Log_file_client_callback_read_log_fileT)(
+(*OS_LoggerFileClientCallback_read_t)(
     const char* filename,
-    uint64_t offset,
-    uint64_t len,
-    int64_t* log_file_size);
+    uint64_t    offset,
+    uint64_t    len,
+    int64_t*    log_file_size);
 
 
 /**
- * @details Log_file_client_callback_t contain interface functions.
+ * @details OS_LoggerFileClientCallback_Handle_t contain interface functions.
  *
  * @ingroup OS_LoggerFileClient
 */
 typedef struct
 {
-    Log_file_client_callback_read_log_fileT read_log_file;
-} Log_file_client_callback_t;
+    OS_LoggerFileClientCallback_read_t read_log_file;
+} OS_LoggerFileClientCallback_Handle_t;
 
 
 /**
- * @details %Log_file_client_callback_ctor is the constructor.
+ * @details %OS_LoggerFileClientCallback_ctor is the constructor.
  *
  * @param   self:           pointer to the class
  * @param   read_log_file:  function pointer to read log file function
@@ -71,17 +71,17 @@ typedef struct
  * @ingroup OS_LoggerFileClient
 */
 bool
-Log_file_client_callback_ctor(
-    Log_file_client_callback_t* self,
-    Log_file_client_callback_read_log_fileT read_log_file);
+OS_LoggerFileClientCallback_ctor(
+    OS_LoggerFileClientCallback_Handle_t* self,
+    OS_LoggerFileClientCallback_read_t read_log_file);
 
 
 /**
- * @details %Log_file_client_callback_dtor is the destructor.
+ * @details %OS_LoggerFileClientCallback_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerFileClient
 */
 void
-Log_file_client_callback_dtor(Log_file_client_callback_t* self);
+OS_LoggerFileClientCallback_dtor(OS_LoggerFileClientCallback_Handle_t* self);

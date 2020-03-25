@@ -8,18 +8,23 @@
 
 
 // forward declaration
-static int64_t _Log_file_read_log_file(Log_file_t* self, const char* filename,
-                                       uint64_t offset, uint64_t len, int64_t log_file_size);
+static int64_t _Log_file_read_log_file(
+    OS_LoggerFile_Handle_t* self,
+    const char* filename,
+    uint64_t offset,
+    uint64_t len,
+    int64_t log_file_size);
+
 static void    _init_partition(bool flag);
 static bool    _is_init_partition(void);
 static void*    _Log_file_get_consumer_by_filename(const char* filename);
 
 
 
-static const Log_file_Vtable Log_file_vtable =
+static const OS_LoggerFile_vtable_t Log_file_vtable =
 {
-    .dtor                     = Log_file_dtor,
-    .create_log_file          = Log_file_create_log_file,
+    .dtor                     = OS_LoggerFile_dtor,
+    .create_log_file          = OS_LoggerFile_create,
     .read_log_file            = _Log_file_read_log_file,
     .get_consumer_by_filename = _Log_file_get_consumer_by_filename
 };
@@ -55,10 +60,10 @@ _Log_file_get_consumer_by_filename(const char* filename)
         return NULL;
     }
 
-    Consumer_chain_t* consumer_chain;
-    Log_consumer_t* log_consumer;
+    OS_LoggerConsumerChain_Handle_t* consumer_chain;
+    OS_LoggerConsumer_Handle_t* log_consumer;
 
-    consumer_chain = get_instance_Consumer_chain();
+    consumer_chain = OS_LoggerConsumerChain_getInstance();
 
     if (consumer_chain == NULL)
     {
@@ -79,8 +84,10 @@ _Log_file_get_consumer_by_filename(const char* filename)
             continue;
         }
 
-        if (strcmp(((Log_file_t*)log_consumer->log_file)->log_file_info.filename,
-                   filename) == 0)
+        if (0 == strcmp(
+                ((OS_LoggerFile_Handle_t*)
+                 log_consumer->log_file)->log_file_info.filename,
+                filename))
         {
             return (void*)log_consumer;
             break;
@@ -105,28 +112,33 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
         return -1;
     }
 
-    Log_consumer_t* log_consumer = Consumer_chain_get_sender();
+    OS_LoggerConsumer_Handle_t* log_consumer =
+        OS_LoggerConsumerChain_getSender();
+
     if (log_consumer == NULL)
     {
         return -1;
     }
 
-    Log_consumer_t* log_consumer_filename = (Log_consumer_t*)
-                                            _Log_file_get_consumer_by_filename(filename);
+    OS_LoggerConsumer_Handle_t* log_consumer_filename =
+        (OS_LoggerConsumer_Handle_t*)_Log_file_get_consumer_by_filename(
+            filename);
+
     if (log_consumer_filename == NULL)
     {
         return -1;
     }
 
-    *log_file_size = file_getSize(((Log_file_t*)
+    *log_file_size = file_getSize(((OS_LoggerFile_Handle_t*)
                                    log_consumer_filename->log_file)->log_file_info.phandle, filename);
     if (*log_file_size < 0)
     {
         return -1;
     }
 
-    ((Log_file_t*)log_consumer_filename->log_file)->log_file_info.lenght =
-        (uint64_t) * log_file_size;
+    ((OS_LoggerFile_Handle_t*)log_consumer_filename->log_file)->log_file_info.lenght
+        =
+            (uint64_t) * log_file_size;
 
     if (offset > (uint64_t)*log_file_size)
     {
@@ -139,7 +151,7 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
     }
 
     hFile_t fhandle;
-    fhandle = file_open(((Log_file_t*)
+    fhandle = file_open(((OS_LoggerFile_Handle_t*)
                          log_consumer_filename->log_file)->log_file_info.phandle, filename, FA_READ);
     if (!is_valid_file_handle(fhandle))
     {
@@ -166,11 +178,12 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
 
 
 bool
-Log_file_ctor(Log_file_t* self,
-              uint8_t drv_id,
-              const char* filename)
+OS_LoggerFile_ctor(
+    OS_LoggerFile_Handle_t* self,
+    uint8_t drv_id,
+    const char* filename)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (filename == NULL)
     {
@@ -191,9 +204,9 @@ Log_file_ctor(Log_file_t* self,
 
 
 void
-Log_file_dtor(Log_file_t* self)
+OS_LoggerFile_dtor(OS_LoggerFile_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (_is_init_partition())
     {
@@ -212,15 +225,15 @@ Log_file_dtor(Log_file_t* self)
         _init_partition(false);
     }
 
-    memset(self, 0, sizeof (Log_file_t));
+    memset(self, 0, sizeof (OS_LoggerFile_Handle_t));
 }
 
 
 
 bool
-Log_file_create_log_file(Log_file_t* self)
+OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (!_is_init_partition())
     {
@@ -262,13 +275,13 @@ Log_file_create_log_file(Log_file_t* self)
 
 
 static int64_t
-_Log_file_read_log_file(Log_file_t* self,
+_Log_file_read_log_file(OS_LoggerFile_Handle_t* self,
                         const char* filename,
                         uint64_t offset,
                         uint64_t len,
                         int64_t log_file_size)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     return API_LOG_SERVER_READ_LOG_FILE(filename, offset, len, &log_file_size);
 }

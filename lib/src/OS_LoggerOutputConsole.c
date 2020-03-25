@@ -5,37 +5,42 @@
 
 
 // forward declaration
-static void _Log_observer_dtor(Observer_t* self);
-static bool _Log_output_console_update(Observer_t* self, void* data);
-static bool _Log_output_console_print(Output_t* self, void* data);
+static void _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self);
 
+static bool _Log_output_console_update(
+    OS_LoggerAbstractObserver_Handle_t* self,
+    void* data);
 
+static bool _Log_output_console_print(
+    OS_LoggerAbstractOutput_Handle_t* self,
+    void* data);
 
-static const Output_Vtable Log_output_console_vtable =
+static const OS_LoggerAbstractOutput_vtable_t Log_output_console_vtable =
 {
     .parent.dtor   = _Log_observer_dtor,
     .parent.update = _Log_output_console_update,
-    .dtor          = Log_output_console_dtor,
+    .dtor          = OS_LoggerOutputConsole_dtor,
     .print         = _Log_output_console_print
 };
 
 
 
 static void
-_Log_observer_dtor(Observer_t* self)
+_Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Observer_t));
+    memset(self, 0, sizeof (OS_LoggerAbstractObserver_Handle_t));
 }
 
 
 
 bool
-Log_output_console_ctor(Log_output_t* self,
-                        Log_format_t* log_format)
+OS_LoggerOutputConsole_ctor(
+    OS_LoggerOutput_Handle_t* self,
+    OS_LoggerFormat_Handle_t* log_format)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     bool retval = false;
 
@@ -45,7 +50,7 @@ Log_output_console_ctor(Log_output_t* self,
         return retval;
     }
 
-    retval = ListT_ctor(&self->listT);
+    retval = OS_LoggerListT_ctor(&self->listT);
 
     self->node.prev = NULL;
     self->node.next = NULL;
@@ -60,19 +65,22 @@ Log_output_console_ctor(Log_output_t* self,
 
 
 void
-Log_output_console_dtor(Output_t* self)
+OS_LoggerOutputConsole_dtor(OS_LoggerAbstractOutput_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Log_output_t));
+    memset(self, 0, sizeof (OS_LoggerOutput_Handle_t));
 }
 
 
 
-static bool
-_Log_output_console_update(Observer_t* self, void* data)
+static
+bool
+_Log_output_console_update(
+    OS_LoggerAbstractObserver_Handle_t* self,
+    void* data)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (data == NULL)
     {
@@ -80,8 +88,10 @@ _Log_output_console_update(Observer_t* self, void* data)
         return false;
     }
 
-    Log_output_t* log_output = (Log_output_t*)self;
-    log_output->vtable->print((Output_t*)log_output, data);
+    OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
+    log_output->vtable->print(
+        (OS_LoggerAbstractOutput_Handle_t*)log_output,
+        data);
 
     return true;
 }
@@ -89,16 +99,20 @@ _Log_output_console_update(Observer_t* self, void* data)
 
 
 static bool
-_Log_output_console_print(Output_t* self, void* data)
+_Log_output_console_print(OS_LoggerAbstractOutput_Handle_t* self, void* data)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    Log_output_t* log_output = (Log_output_t*)self;
+    OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
 
     // log format layer
-    log_output->log_format->vtable->convert((Format_t*)log_output->log_format,
-                                            (Log_info_t*) & (((Log_consumer_t*)data)->log_info));
-    log_output->log_format->vtable->print((Format_t*)log_output->log_format);
+    log_output->log_format->vtable->convert(
+        (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format,
+        (OS_LoggerDataBuffer_info*)
+        & (((OS_LoggerConsumer_Handle_t*)data)->log_info));
+
+    log_output->log_format->vtable->print(
+        (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format);
 
     return true;
 }

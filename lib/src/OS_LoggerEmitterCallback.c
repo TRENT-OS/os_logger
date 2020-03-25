@@ -6,13 +6,14 @@
 
 
 bool
-Log_emitter_callback_ctor(Log_emitter_callback_t* self,
-                          Log_emitter_callback_waitT client_wait,
-                          Log_emitter_callback_emitT client_emit)
+OS_LoggerEmitterCallback_ctor(
+    OS_LoggerEmitterCallback_Handle_t* self,
+    OS_LoggerEmitterCallback_wait_t client_wait,
+    OS_LoggerEmitterCallback_emit_t client_emit)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    // "client_wait" can be NULL, if Log_emitter_t will be declared as "local" log server
+    // "client_wait" can be NULL, if OS_LoggerEmitter_Handle_t will be declared as "local" log server
     if (/*client_wait == NULL ||*/ client_emit == NULL)
     {
         // Debug_printf
@@ -28,9 +29,9 @@ Log_emitter_callback_ctor(Log_emitter_callback_t* self,
 
 
 void
-Log_emitter_callback_dtor(Log_emitter_callback_t* self)
+OS_LoggerEmitterCallback_dtor(OS_LoggerEmitterCallback_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Log_emitter_callback_t));
+    memset(self, 0, sizeof (OS_LoggerEmitterCallback_Handle_t));
 }

@@ -46,50 +46,50 @@
 
 
 /**
- * @details Log_emitter_t defines the class datatype.
+ * @details OS_LoggerEmitter_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerEmitter
 */
-typedef struct Log_emitter_t Log_emitter_t;
+typedef struct OS_LoggerEmitter_Handle OS_LoggerEmitter_Handle_t;
 
 
 /**
- * @details Log_emitter_dtorT defines the interface for function pointer to
- *          destructor.
+ * @details OS_LoggerEmitter_dtor_t defines the interface for function pointer
+ *          to destructor.
  *
  * @ingroup OS_LoggerEmitter
 */
 typedef void
-(*Log_emitter_dtorT)(void);
+(*OS_LoggerEmitter_dtor_t)(void);
 
 
 /**
- * @details Log_emitter_get_bufferT defines the interface for function pointer
- *          to get client data buffer.
+ * @details OS_LoggerEmitter_getBuffer_t defines the interface for function
+ *          pointer to get client data buffer.
  *
  * @return  pointer to data buffer
  *
  * @ingroup OS_LoggerEmitter
 */
 typedef void*
-(*Log_emitter_get_bufferT)(void);
+(*OS_LoggerEmitter_getBuffer_t)(void);
 
 
 /**
- * @details Log_emitter_waitT defines the interface for function pointer to wait
- *          for signal from server.
+ * @details OS_LoggerEmitter_wait_t defines the interface for function pointer
+ *          to wait for signal from server.
  *
  * @return  an status code
  *
  * @ingroup OS_LoggerEmitter
 */
 typedef bool
-(*Log_emitter_waitT)(void);
+(*OS_LoggerEmitter_wait_t)(void);
 
 
 /**
- * @details Log_emitter_emitT defines the interface for function pointer to emit
- *          a signal to server.
+ * @details OS_LoggerEmitter_emit_t defines the interface for function pointer
+ *          to emit a signal to server.
  *
  *          The signal meant the logging process is complete and the log server
  *          can process the log.
@@ -99,11 +99,11 @@ typedef bool
  * @ingroup OS_LoggerEmitter
 */
 typedef bool
-(*Log_emitter_emitT)(void);
+(*OS_LoggerEmitter_emit_t)(void);
 
 
 /**
- * @details Log_emitter_emit_logT defines the interface for function pointer to
+ * @details OS_LoggerEmitter_log_t defines the interface for function pointer to
  *          process the client log action.
  *
  *          This function is called by the debug log interface function
@@ -121,40 +121,40 @@ typedef bool
  * @ingroup OS_LoggerEmitter
 */
 typedef bool
-(*Log_emitter_emit_logT)(uint8_t log_level, const char* format, ...);
+(*OS_LoggerEmitter_log_t)(uint8_t log_level, const char* format, ...);
 
 
 /**
- * @details Log_emitter_Vtable contain the member functions to his class.
+ * @details OS_LoggerEmitter_vtable_t contain the member functions to his class.
  *
  * @ingroup OS_LoggerEmitter
 */
 typedef struct
 {
-    Log_emitter_dtorT       dtor;
-    Log_emitter_get_bufferT get_buffer;
-    Log_emitter_waitT       wait;
-    Log_emitter_emitT       emit;
-    Log_emitter_emit_logT   emit_log;
-} Log_emitter_Vtable;
+    OS_LoggerEmitter_dtor_t      dtor;
+    OS_LoggerEmitter_getBuffer_t get_buffer;
+    OS_LoggerEmitter_wait_t      wait;
+    OS_LoggerEmitter_emit_t      emit;
+    OS_LoggerEmitter_log_t       log;
+} OS_LoggerEmitter_vtable_t;
 
 
 /**
- * @details Log_emitter_t contain the vtable to his class.
+ * @details OS_LoggerEmitter_Handle contain the vtable to his class.
  *
  * @ingroup OS_LoggerEmitter
 */
-struct Log_emitter_t
+struct OS_LoggerEmitter_Handle
 {
-    void*                     buf;             /**< data buffer */
-    Log_filter_t*             log_filter;      /**< layer for log filter */
-    Log_emitter_callback_t*   callback_vtable; /**< layer for callback vtable */
-    const Log_emitter_Vtable* vtable;          /**< vtable */
+    void*                                buf;
+    OS_LoggerFilter_Handle_t*                   log_filter;
+    OS_LoggerEmitterCallback_Handle_t* callback_vtable;
+    const OS_LoggerEmitter_vtable_t*     vtable;
 };
 
 
 /**
- * @details %get_instance_Log_emitter is a getter to instantiate this object.
+ * @details %OS_LoggerEmitter_getInstance is a getter to instantiate this object.
  *
  *          This is an singleton implementation i.e. it will internally create a
  *          log emitter object.
@@ -170,30 +170,31 @@ struct Log_emitter_t
  * @param   log_filter:         layer for log filter
  * @param   callback_vtable:    layer for callback vtable
  *
- * @return  pointer to Log_emitter_t object
+ * @return  pointer to OS_LoggerEmitter_Handle_t object
  *
  * @retval  not NULL, if all allright
  *              NULL, if an error has been occurred
  *
  * @ingroup OS_LoggerEmitter
 */
-Log_emitter_t*
-get_instance_Log_emitter(void* buffer,
-                         Log_filter_t* log_filter,
-                         Log_emitter_callback_t* callback_vtable);
+OS_LoggerEmitter_Handle_t*
+OS_LoggerEmitter_getInstance(
+    void* buffer,
+    OS_LoggerFilter_Handle_t* log_filter,
+    OS_LoggerEmitterCallback_Handle_t* callback_vtable);
 
 
 /**
- * @details %Log_emitter_dtor is the destructor.
+ * @details %OS_LoggerEmitter_dtor is the destructor.
  *
  * @ingroup OS_LoggerEmitter
 */
 void
-Log_emitter_dtor(void);
+OS_LoggerEmitter_dtor(void);
 
 
 /**
- * @details %Log_emitter_emit_log provides the client log action.
+ * @details %OS_LoggerEmitter_log provides the client log action.
  *
  *          This function is called by the debug log interface function
  *          Debug_LOG _XXX.
@@ -213,4 +214,4 @@ Log_emitter_dtor(void);
  * @ingroup OS_LoggerEmitter
 */
 bool
-Log_emitter_emit_log(uint8_t log_level, const char* format, ...);
+OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...);

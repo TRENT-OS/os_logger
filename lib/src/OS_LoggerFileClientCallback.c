@@ -5,10 +5,11 @@
 
 
 bool
-Log_file_client_callback_ctor(Log_file_client_callback_t* self,
-                              Log_file_client_callback_read_log_fileT read_log_file)
+OS_LoggerFileClientCallback_ctor(
+    OS_LoggerFileClientCallback_Handle_t* self,
+    OS_LoggerFileClientCallback_read_t read_log_file)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (read_log_file == NULL)
     {
@@ -24,9 +25,9 @@ Log_file_client_callback_ctor(Log_file_client_callback_t* self,
 
 
 void
-Log_file_client_callback_dtor(Log_file_client_callback_t* self)
+OS_LoggerFileClientCallback_dtor(OS_LoggerFileClientCallback_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Log_file_client_callback_t));
+    memset(self, 0, sizeof (OS_LoggerFileClientCallback_Handle_t));
 }

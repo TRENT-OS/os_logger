@@ -21,34 +21,34 @@
 
 
 /**
- * @details ListT_t defines the list datatype.
+ * @details OS_LoggerListT_t_Handle_t defines the list datatype.
  *
  * @ingroup OS_LoggerListT
 */
-typedef struct ListT_t ListT_t;
+typedef struct OS_LoggerListT_Handle OS_LoggerListT_t_Handle_t;
 /**
- * @details NodeT_t defines the node datatype.
+ * @details OS_LoggerNodeT_Handle_t defines the node datatype.
  *
  * @ingroup OS_LoggerListT
 */
-typedef struct NodeT_t NodeT_t;
+typedef struct OS_LoggerNodeT_Handle OS_LoggerNodeT_Handle_t;
 
 
 /**
- * @details ListT_dtorT defines the interface for the function pointer to
- *          destructor.
+ * @details OS_LoggerListT_dtor_t defines the interface for the function pointer
+ *          to destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerListT
 */
 typedef void
-(*ListT_dtorT)(ListT_t* self);
+(*OS_LoggerListT_dtor_t)(OS_LoggerListT_t_Handle_t* self);
 
 
 /**
- * @details ListT_hasPrevT defines the interface for the function pointer to
- *          check if the list has the previous object.
+ * @details OS_LoggerListT_hasPrev_t defines the interface for the function
+ *          pointer to check if the list has the previous object.
  *
  * @param   current:    pointer to a list object
  *
@@ -57,12 +57,12 @@ typedef void
  * @ingroup OS_LoggerListT
 */
 typedef bool
-(*ListT_hasPrevT)(NodeT_t* current);
+(*OS_LoggerListT_hasPrev_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_hasNextT defines the interface for the function pointer to
- *          check if the list has the next object.
+ * @details OS_LoggerListT_hasNext_t defines the interface for the function
+ *          pointer to check if the list has the next object.
  *
  * @param   current:    pointer to a list object
  *
@@ -71,12 +71,12 @@ typedef bool
  * @ingroup OS_LoggerListT
 */
 typedef bool
-(*ListT_hasNextT)(NodeT_t* current);
+(*OS_LoggerListT_hasNext_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_getPrevT defines the interface for the function pointer to get
- *          the previous object from the list.
+ * @details OS_LoggerListT_getPrev_t defines the interface for the function
+ *          pointer to get the previous object from the list.
  *
  * @param   current:    pointer to the list object
  *
@@ -85,12 +85,12 @@ typedef bool
  * @ingroup OS_LoggerListT
 */
 typedef void*
-(*ListT_getPrevT)(NodeT_t* current);
+(*OS_LoggerListT_getPrev_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_getNextT defines the interface for the function pointer to get
- *          the next object from the list.
+ * @details OS_LoggerListT_getNext_t defines the interface for the function
+ *          pointer to get the next object from the list.
  *
  * @param   current:    pointer to a list object
  *
@@ -99,12 +99,12 @@ typedef void*
  * @ingroup OS_LoggerListT
 */
 typedef void*
-(*ListT_getNextT)(NodeT_t* current);
+(*OS_LoggerListT_getNext_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_insertT defines the interface for the function pointer to
- *          insert a new object in the list.
+ * @details OS_LoggerListT_insert_t defines the interface for the function
+ *          pointer to insert a new object in the list.
  *
  *          The new object will be placed as next object after the current
  *          object.
@@ -117,12 +117,14 @@ typedef void*
  * @ingroup OS_LoggerListT
 */
 typedef bool
-(*ListT_insertT)(NodeT_t* current, NodeT_t* new_Node);
+(*OS_LoggerListT_insert_t)(
+    OS_LoggerNodeT_Handle_t* current,
+    OS_LoggerNodeT_Handle_t* new_Node);
 
 
 /**
- * @details ListT_deleteT defines the interface for the function pointer to
- *          delete an object from the list.
+ * @details OS_LoggerListT_delete_t defines the interface for the function
+ *          pointer to delete an object from the list.
  *
  * @param   current:    pointer to the list object
  *
@@ -131,12 +133,12 @@ typedef bool
  * @ingroup OS_LoggerListT
 */
 typedef bool
-(*ListT_deleteT)(NodeT_t* current);
+(*OS_LoggerListT_delete_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_getFirstT defines the interface for the function pointer to
- *          get the first object from the list.
+ * @details OS_LoggerListT_getFirst_t defines the interface for the function
+ *          pointer to get the first object from the list.
  *
  * @param   current:    pointer to the list object
  *
@@ -145,12 +147,12 @@ typedef bool
  * @ingroup OS_LoggerListT
 */
 typedef void*
-(*ListT_getFirstT)(NodeT_t* current);
+(*OS_LoggerListT_getFirst_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_getLastT defines the interface for the function pointer to get
- *          the last object from the list.
+ * @details OS_LoggerListT_getLast_t defines the interface for the function
+ *          pointer to get the last object from the list.
  *
  * @param   current:    pointer to the list object
  *
@@ -159,12 +161,12 @@ typedef void*
  * @ingroup OS_LoggerListT
 */
 typedef void*
-(*ListT_getLastT)(NodeT_t* current);
+(*OS_LoggerListT_getLast_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_isInsideT defines the interface for function pointer to check
- *          if the current object is inserted in the list.
+ * @details OS_LoggerListT_isInside_t defines the interface for function pointer
+ *          to check if the current object is inserted in the list.
  *
  * @param   current:    pointer to the list object
  *
@@ -173,47 +175,47 @@ typedef void*
  * @ingroup OS_LoggerListT
 */
 typedef bool
-(*ListT_isInsideT)(NodeT_t* current);
+(*OS_LoggerListT_isInside_t)(OS_LoggerNodeT_Handle_t* current);
 
 
 /**
- * @details ListT_Vtable contain the member functions to his class.
+ * @details OS_LoggerListT_vtable_t contain the member functions to his class.
  *
  * @ingroup OS_LoggerListT
 */
 typedef struct
 {
-    ListT_dtorT     dtor;      /**< function pointer to desctructor */
-    ListT_hasPrevT  has_prev;  /**< function pointer to has previous function */
-    ListT_hasNextT  has_next;  /**< function pointer to has next function */
-    ListT_getPrevT  get_prev;  /**< function pointer to get previous function */
-    ListT_getNextT  get_next;  /**< function pointer to get next function */
-    ListT_insertT   insert;    /**< function pointer to insert function */
-    ListT_deleteT   delete;    /**< function pointer to delete function */
-    ListT_getFirstT get_first; /**< function pointer to get first function */
-    ListT_getLastT  get_last;  /**< function pointer to get last function */
-    ListT_isInsideT isInside;  /**< function pointer to is inside function */
-}
-ListT_Vtable;
+    OS_LoggerListT_dtor_t     dtor;
+    OS_LoggerListT_hasPrev_t  has_prev;
+    OS_LoggerListT_hasNext_t  has_next;
+    OS_LoggerListT_getPrev_t  get_prev;
+    OS_LoggerListT_getNext_t  get_next;
+    OS_LoggerListT_insert_t   insert;
+    OS_LoggerListT_delete_t   delete;
+    OS_LoggerListT_getFirst_t get_first;
+    OS_LoggerListT_getLast_t  get_last;
+    OS_LoggerListT_isInside_t isInside;
+} OS_LoggerListT_vtable_t;
 
 
 /**
- * @details ListT_t contains the class' vtable.
+ * @details OS_LoggerListT_t_Handle_t contains the class' vtable.
  *
  * @ingroup OS_LoggerListT
 */
-struct ListT_t
+struct OS_LoggerListT_Handle
 {
-    const ListT_Vtable* vtable; /**< virtual table */
+    const OS_LoggerListT_vtable_t* vtable; /**< virtual table */
 };
 
 
 /**
- * @details NodeT_t contains the node's previous and next objects.
+ * @details OS_LoggerNodeT_Handle_t contains the node's previous and next
+ *          objects.
  *
  * @ingroup OS_LoggerListT
 */
-struct NodeT_t
+struct OS_LoggerNodeT_Handle
 {
     void* prev; /**< (pointer) node to previous object */
     void* next; /**< (pointer) node to next object */
@@ -221,7 +223,7 @@ struct NodeT_t
 
 
 /**
- * @details %ListT_ctor is the constructor.
+ * @details %OS_LoggerListT_ctor is the constructor.
  *
  * @param   self:   pointer to the class
  *
@@ -233,15 +235,15 @@ struct NodeT_t
  * @ingroup OS_LoggerListT
 */
 bool
-ListT_ctor(ListT_t* self);
+OS_LoggerListT_ctor(OS_LoggerListT_t_Handle_t* self);
 
 
 /**
- * @details %ListT_dtor is the destructor.
+ * @details %OS_LoggerListT_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerListT
 */
 void
-ListT_dtor(ListT_t* self);
+OS_LoggerListT_dtor(OS_LoggerListT_t_Handle_t* self);

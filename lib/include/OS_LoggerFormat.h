@@ -18,12 +18,13 @@
  *              This class is derived by abstract format.
  *              \n
  *              The print function is a helper function to print the temporary
- *              log format from "Log_format_t->buffer" via "printf().
+ *              log format from "OS_LoggerFormat_Handle_t->buffer" via
+ *              "printf().
  *              \n
  *              Before print the log message to an backend, convert the log
  *              message in the defined format.
  *
- * @ingroup     OS_LoggerAbstractFormat
+ * @ingroup     OS_LoggerAbstractFormat_Handle_t
 */
 #include "OS_LoggerAbstractFormat.h"
 
@@ -36,32 +37,32 @@
  *          includes blank space in front to separate it from the previous
  *          field.
  */
-#define FORMAT_TIMESTAMP_LENGTH         20
+#define OS_Logger_FORMAT_TIMESTAMP_LENGTH 20
 
-#define FORMAT_BUFFER_SIZE              (LOG_ID_AND_NAME_LENGTH  +          \
-                                         FORMAT_TIMESTAMP_LENGTH +          \
-                                         LOG_LEVEL_SERVER_LENGTH +          \
-                                         LOG_LEVEL_CLIENT_LENGTH +          \
-                                         LOG_MESSAGE_LENGTH)
+#define OS_Logger_FORMAT_BUFFER_SIZE    (OS_Logger_ID_AND_NAME_LENGTH  +     \
+                                         OS_Logger_FORMAT_TIMESTAMP_LENGTH + \
+                                         OS_Logger_LOG_LEVEL_LENGTH +        \
+                                         OS_Logger_LOG_LEVEL_LENGTH +        \
+                                         OS_Logger_MESSAGE_LENGTH)
 
 /**
- * @details Log_format_t contain informations about the log format and a pointer
- *          the parent vtable.
+ * @details OS_LoggerFormat_Handle_t contain informations about the log format
+ *          and a pointer the parent vtable.
  *
  * @ingroup OS_LoggerFormat
 */
 typedef struct
 {
     char
-    buffer[FORMAT_BUFFER_SIZE]; /**< buffer for log format message */
+    buffer[OS_Logger_FORMAT_BUFFER_SIZE]; /**< buffer for log format message */
 
-    const FormatT_Vtable*
+    const OS_LoggerAbstractFormat_vtable_t*
     vtable;                     /**< pointer to parent vtable */
-} Log_format_t;
+} OS_LoggerFormat_Handle_t;
 
 
 /**
- * @details %Log_format_ctor is the constructor.
+ * @details %OS_LoggerFormat_ctor is the constructor.
  *
  * @param   self:   pointer to the class
  *
@@ -73,22 +74,22 @@ typedef struct
  * @ingroup OS_LoggerFormat
 */
 bool
-Log_format_ctor(Log_format_t* self);
+OS_LoggerFormat_ctor(OS_LoggerFormat_Handle_t* self);
 
 /**
- * @details %Log_format_dtor is the destructor.
+ * @details %OS_LoggerFormat_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerFormat
 */
 void
-Log_format_dtor(Format_t* self);
+OS_LoggerFormat_dtor(OS_LoggerAbstractFormat_Handle_t* self);
 
 /**
  * @brief Prints data in the given format.
  * @param self:   pointer to the class
  */
 void
-Log_format_print(Format_t* self);
+OS_LoggerFormat_print(OS_LoggerAbstractFormat_Handle_t* self);
 

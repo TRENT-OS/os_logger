@@ -53,28 +53,28 @@
 
 
 /**
- * @details Log_consumer_t defines the class datatype.
+ * @details OS_LoggerConsumer_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerConsumer
 */
-typedef struct Log_consumer_t Log_consumer_t;
+typedef struct OS_LoggerConsumer_Handle OS_LoggerConsumer_Handle_t;
 
 
 /**
- * @details Log_consumer_dtorT defines the interface for the function pointer to
- *          destructor.
+ * @details OS_LoggerConsumer_dtor_t defines the interface for the function
+ *          pointer to destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerConsumer
 */
 typedef void
-(*Log_consumer_dtorT)(Log_consumer_t* self);
+(*OS_LoggerConsumer_dtor_t)(OS_LoggerConsumer_Handle_t* self);
 
 
 /**
- * @details Log_consumer_processT defines the interface for function pointer to
- *          process the logging call.
+ * @details OS_LoggerConsumer_process_t defines the interface for function
+ *          pointer to process the logging call.
  *
  * @param   self:   pointer to the class
  *
@@ -83,23 +83,23 @@ typedef void
  * @ingroup OS_LoggerConsumer
 */
 typedef bool
-(*Log_consumer_processT)(Log_consumer_t* self);
+(*OS_LoggerConsumer_process_t)(OS_LoggerConsumer_Handle_t* self);
 
 
 /**
- * @details Log_consumer_emitT defines the interface for function pointer to
- *          emit a signal, that the interface is ready for new logs.
+ * @details OS_LoggerConsumer_emit_t defines the interface for function pointer
+ *          to emit a signal, that the interface is ready for new logs.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerConsumer
 */
 typedef void
-(*Log_consumer_emitT)(Log_consumer_t* self);
+(*OS_LoggerConsumer_emit_t)(OS_LoggerConsumer_Handle_t* self);
 
 
 /**
- * @details Log_consumer_get_timestampT defines the interface for function
+ * @details OS_LoggerConsumer_getTimestamp_t defines the interface for function
  *          pointer to get a timestamp from timeserver.
  *
  * @param   self:   pointer to the class
@@ -109,44 +109,45 @@ typedef void
  * @ingroup OS_LoggerConsumer
 */
 typedef uint64_t
-(*Log_consumer_get_timestampT)(Log_consumer_t* self);
+(*OS_LoggerConsumer_getTimestamp_t)(OS_LoggerConsumer_Handle_t* self);
 
 
 /**
- * @details Log_consumer_Vtable contain the member functions to his class.
+ * @details OS_LoggerConsumer_vtable_t contain the member functions to his
+ *          class.
  *
  * @ingroup OS_LoggerConsumer
 */
 typedef struct
 {
-    Log_consumer_dtorT          dtor;
-    Log_consumer_processT       process;
-    Log_consumer_emitT          emit;
-    Log_consumer_get_timestampT get_timestamp;
-} Log_consumer_Vtable;
+    OS_LoggerConsumer_dtor_t         dtor;
+    OS_LoggerConsumer_process_t      process;
+    OS_LoggerConsumer_emit_t         emit;
+    OS_LoggerConsumer_getTimestamp_t get_timestamp;
+} OS_LoggerConsumer_vtable_t;
 
 
 /**
- * @details Log_consumer_t contain the vtable to his class.
+ * @details OS_LoggerConsumer_Handle contain the vtable to his class.
  *
  * @ingroup OS_LoggerConsumer
 */
-struct Log_consumer_t
+struct OS_LoggerConsumer_Handle
 {
-    NodeT_t                   node;
-    void*                      buf;
-    uint32_t                  id;
-    Log_info_t                log_info;
-    Log_filter_t*              log_filter;
-    Log_subject_t*             log_subject;
-    void*                      log_file;
-    Log_consumer_callback_t*   callback_vtable;
-    const Log_consumer_Vtable* vtable;
+    OS_LoggerNodeT_Handle_t           node;
+    void*                             buf;
+    uint32_t                          id;
+    OS_LoggerDataBuffer_info          log_info;
+    OS_LoggerFilter_Handle_t*         log_filter;
+    OS_LoggerSubject_Handle_t*        log_subject;
+    void*                             log_file;
+    OS_LoggerConsumerCallback_t*      callback_vtable;
+    const OS_LoggerConsumer_vtable_t* vtable;
 };
 
 
 /**
- * @details %Log_consumer_dtor is the constructor.
+ * @details %OS_LoggerConsumer_dtor is the constructor.
  *          \n
  *          The parameters "log_filter", "log_file" and "name" are optional.
  *          "log_file" can be NULL, if no log file is needed.
@@ -172,22 +173,23 @@ struct Log_consumer_t
  * @ingroup OS_LoggerConsumer
 */
 bool
-Log_consumer_ctor(Log_consumer_t* self,
-                  void* buffer,
-                  Log_filter_t* log_filter,
-                  Log_consumer_callback_t* callback_vtable,
-                  Log_subject_t* log_subject,
-                  void* log_file,
-                  uint32_t id,
-                  const char* name);
+OS_LoggerConsumer_ctor(
+    OS_LoggerConsumer_Handle_t* self,
+    void* buffer,
+    OS_LoggerFilter_Handle_t* log_filter,
+    OS_LoggerConsumerCallback_t* callback_vtable,
+    OS_LoggerSubject_Handle_t* log_subject,
+    void* log_file,
+    uint32_t id,
+    const char* name);
 
 
 /**
- * @details %Log_consumer_dtor is the destructor.
+ * @details %OS_LoggerConsumer_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerConsumer
 */
 void
-Log_consumer_dtor(Log_consumer_t* self);
+OS_LoggerConsumer_dtor(OS_LoggerConsumer_Handle_t* self);

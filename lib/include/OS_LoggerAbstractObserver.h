@@ -87,29 +87,30 @@
 
 
 /**
- * @details Observer_t defines the class datatype.
+ * @details OS_LoggerAbstractObserver_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerAbstractObserver
 */
-typedef struct Observer_t Observer_t;
+typedef
+struct OS_LoggerAbstractObserver_Handle OS_LoggerAbstractObserver_Handle_t;
 
 
 /**
- * @details Observer_dtorT defines the interface for function pointer to
- *          destructor.
+ * @details OS_LoggerAbstractObserver_dtor_t defines the interface for function
+ *          pointer to destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerAbstractObserver
 */
 typedef void
-(*Observer_dtorT)(Observer_t* self);
+(*OS_LoggerAbstractObserver_dtor_t)(OS_LoggerAbstractObserver_Handle_t* self);
 
 
 /**
- * @details Observer_updateT defines the interface for function pointer to
- *          notify the specific observer in the form of a parameter of the
- *          update operation.
+ * @details OS_LoggerAbstractObserver_update_t defines the interface for
+ *          function pointer to notify the specific observer in the form of a
+ *          parameter of the update operation.
  *
  * @param   self:   pointer to the class
  * @param   data:   user data
@@ -119,51 +120,56 @@ typedef void
  * @ingroup OS_LoggerAbstractObserver
 */
 typedef bool
-(*Observer_updateT)(Observer_t* self, void* data);
+(*OS_LoggerAbstractObserver_update_t)(
+    OS_LoggerAbstractObserver_Handle_t* self,
+    void* data);
 
 
 /**
- * @details Observer_Vtable contain the member functions to his class.
+ * @details OS_LoggerAbstractObserver_vtable_t contain the member functions to
+ *          his class.
  *
  * @ingroup OS_LoggerAbstractObserver
 */
 typedef struct
 {
-    Observer_dtorT   dtor;   /**< function pointer to desctructor */
-    Observer_updateT update; /**< function pointer to update function */
+    OS_LoggerAbstractObserver_dtor_t   dtor;   //!< Function ptr to destructor
+    OS_LoggerAbstractObserver_update_t update; //!< Function ptr to update
 }
-Observer_Vtable;
+OS_LoggerAbstractObserver_vtable_t;
 
 
 /**
- * @details Observer_t contain the vtable to his class.
+ * @details OS_LoggerAbstractObserver_Handle_t contain the vtable to his class.
  *
  * @ingroup OS_LoggerAbstractObserver
 */
-struct Observer_t
+struct OS_LoggerAbstractObserver_Handle
 {
-    const Observer_Vtable* vtable; /**< vtable */
+    const OS_LoggerAbstractObserver_vtable_t* vtable; //!< vtable
 };
 
 
 /**
- * @details %Observer_dtor is an abstract function for the destructor.
+ * @details %OS_LoggerAbstractObserver_dtor is an abstract function for the
+ *          destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerAbstractObserver
 */
 inline void
-Observer_dtor(Observer_t* self)
+OS_LoggerAbstractObserver_dtor(OS_LoggerAbstractObserver_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Observer_t));
+    memset(self, 0, sizeof (OS_LoggerAbstractObserver_Handle_t));
 }
 
 
 /**
- * @details %Observer_update is an abstract function for the update function.
+ * @details %OS_LoggerAbstractObserver_update is an abstract function for the
+ *          update function.
  *
  * @param   self:   pointer to the class
  * @param   data:   user data
@@ -174,10 +180,13 @@ Observer_dtor(Observer_t* self)
  *
  * @ingroup OS_LoggerAbstractObserver
 */
-inline bool
-Observer_update(Observer_t* self, void* data)
+inline
+bool
+OS_LoggerAbstractObserver_update(
+    OS_LoggerAbstractObserver_Handle_t* self,
+    void* data)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     self->vtable->update(self, data);
 

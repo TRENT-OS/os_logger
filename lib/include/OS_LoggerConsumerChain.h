@@ -33,26 +33,26 @@
 
 
 /**
- * @details Consumer_chain_t defines the class datatype.
+ * @details OS_LoggerConsumerChain_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerConsumerChain
 */
-typedef struct Consumer_chain_t Consumer_chain_t;
+typedef struct OS_LoggerConsumerChain_Handle OS_LoggerConsumerChain_Handle_t;
 
 
 /**
- * @details Consumer_chain_dtorT defines the interface for function pointer to
- *          destructor.
+ * @details OS_LoggerConsumerChain_dtor_t defines the interface for function
+ *          pointer to the destructor.
  *
  * @ingroup OS_LoggerConsumerChain
 */
 typedef void
-(*Consumer_chain_dtorT)(void);
+(*OS_LoggerConsumerChain_dtor_t)(void);
 
 
 /**
- * @details Consumer_chain_appendT defines the interface for function pointer to
- *          append a consumer log object.
+ * @details OS_LoggerConsumerChain_append_t defines the interface for function
+ *          pointer to append a consumer log object.
  *
  * @param   consumer:   pointer to consumer log object
  *
@@ -61,12 +61,12 @@ typedef void
  * @ingroup OS_LoggerConsumerChain
 */
 typedef bool
-(*Consumer_chain_appendT)(Log_consumer_t* consumer);
+(*OS_LoggerConsumerChain_append_t)(OS_LoggerConsumer_Handle_t* consumer);
 
 
 /**
- * @details Consumer_chain_removeT defines the interface for function pointer to
- *          remove a consumer log object.
+ * @details OS_LoggerConsumerChain_remove_t defines the interface for function
+ *          pointer to remove a consumer log object.
  *
  * @param   consumer:   pointer to consumer log object
  *
@@ -75,74 +75,77 @@ typedef bool
  * @ingroup OS_LoggerConsumerChain
 */
 typedef bool
-(*Consumer_chain_removeT)(Log_consumer_t* consumer);
+(*OS_LoggerConsumerChain_remove_t)(OS_LoggerConsumer_Handle_t* consumer);
 
 
 /**
- * @details Consumer_chain_get_senderT defines the interface for function
- *          pointer to determine a calling consumer log object by sender id.
+ * @details OS_LoggerConsumerChain_getSender_t defines the interface for
+ *          function pointer to determine a calling consumer log object by
+ *          sender id.
  *
  * @return  pointer to consumer log object
  *
  * @ingroup OS_LoggerConsumerChain
 */
-typedef Log_consumer_t*
-(*Consumer_chain_get_senderT)(void);
+typedef OS_LoggerConsumer_Handle_t*
+(*OS_LoggerConsumerChain_getSender_t)(void);
 
 
 /**
- * @details Consumer_chain_pollT defines the interface for function pointer to
- *          start the poll process.
+ * @details OS_LoggerConsumerChain_poll_t defines the interface for function
+ *          pointer to start the poll process.
  *
  * @ingroup OS_LoggerConsumerChain
 */
 typedef void
-(*Consumer_chain_pollT)(void);
+(*OS_LoggerConsumerChain_poll_t)(void);
 
 
 /**
- * @details Consumer_chain_Vtable contain the member functions to his class.
+ * @details OS_LoggerConsumerChain_vtable_t contain the member functions to his
+ *          class.
  *
  * @ingroup OS_LoggerConsumerChain
 */
 typedef struct
 {
-    Consumer_chain_dtorT       dtor;
-    Consumer_chain_appendT     append;
-    Consumer_chain_removeT     remove;
-    Consumer_chain_get_senderT get_sender;
-    Consumer_chain_pollT       poll;
-}
-Consumer_chain_Vtable;
+    OS_LoggerConsumerChain_dtor_t      dtor;
+    OS_LoggerConsumerChain_append_t    append;
+    OS_LoggerConsumerChain_remove_t    remove;
+    OS_LoggerConsumerChain_getSender_t get_sender;
+    OS_LoggerConsumerChain_poll_t      poll;
+} OS_LoggerConsumerChain_vtable_t;
 
 
 /**
- * @details Consumer_chain_node_t contain informations about the consumer log
- *          object and is realized as singleton.
+ * @details OS_LoggerConsumerChain_node_t contain informations about the
+ *          consumer log object and is realized as singleton.
  *
  * @ingroup OS_LoggerConsumerChain
 */
 typedef struct
 {
     void* first; /**< pointer to the first element */
-} Consumer_chain_node_t;
+} OS_LoggerConsumerChain_node_t;
 
 
 /**
- * @details Consumer_chain_t contain the vtable to his class.
+ * @details OS_LoggerConsumerChain_Handle contain the vtable to his class.
  *
  * @ingroup OS_LoggerConsumerChain
 */
-struct Consumer_chain_t
+struct OS_LoggerConsumerChain_Handle
 {
-    ListT_t                     listT;
-    Consumer_chain_node_t       node;
-    const Consumer_chain_Vtable* vtable;
+    OS_LoggerListT_t_Handle_t                       listT;
+    OS_LoggerConsumerChain_node_t          node;
+    const OS_LoggerConsumerChain_vtable_t* vtable;
 };
 
 
 /**
- * @details %get_instance_Consumer_chain is a getter to instantiate this object.
+ * @details %OS_LoggerConsumerChain_getInstance is a getter to instantiate this
+ *          object.
+ *
  *          This is an singleton implementation. It will internally create a
  *          consumer chain object.
  *
@@ -150,28 +153,29 @@ struct Consumer_chain_t
  *          object will returned, in the other case this functions returns a
  *          NULL pointer.
  *
- * @return  pointer to Consumer_chain_t object
+ * @return  pointer to OS_LoggerConsumerChain_Handle_t object
  *
  * @retval  not NULL, if all allright
  *              NULL, if an error has been occurred
  *
  * @ingroup OS_LoggerConsumerChain
 */
-Consumer_chain_t*
-get_instance_Consumer_chain(void);
+OS_LoggerConsumerChain_Handle_t*
+OS_LoggerConsumerChain_getInstance(void);
 
 
 /**
- * @details %Consumer_chain_dtor is the destructor.
+ * @details %OS_LoggerConsumerChain_dtor is the destructor.
  *
  * @ingroup OS_LoggerConsumerChain
 */
 void
-Consumer_chain_dtor(void);
+OS_LoggerConsumerChain_dtor(void);
 
 
 /**
- * @details %Consumer_chain_append provides to append a consumer log object.
+ * @details %OS_LoggerConsumerChain_append provides to append a consumer log
+ *          object.
  *
  * @param   consumer:   pointer to consumer log object
  *
@@ -183,11 +187,12 @@ Consumer_chain_dtor(void);
  * @ingroup OS_LoggerConsumerChain
 */
 bool
-Consumer_chain_append(Log_consumer_t* consumer);
+OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer);
 
 
 /**
- * @details %Consumer_chain_remove provides to remove a consumer log object.
+ * @details %OS_LoggerConsumerChain_remove provides to remove a consumer log
+ *          object.
  *
  * @param   consumer:   pointer to consumer log object
  *
@@ -199,12 +204,12 @@ Consumer_chain_append(Log_consumer_t* consumer);
  * @ingroup OS_LoggerConsumerChain
 */
 bool
-Consumer_chain_remove(Log_consumer_t* consumer);
+OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer);
 
 
 /**
- * @details %Consumer_chain_get_sender provides to determine a calling consumer
- *          log object by sender id.
+ * @details %OS_LoggerConsumerChain_getSender provides to determine a calling
+ *          consumer log object by sender id.
  *
  * @return  pointer to log consumer object
  *
@@ -213,14 +218,14 @@ Consumer_chain_remove(Log_consumer_t* consumer);
  *
  * @ingroup OS_LoggerConsumerChain
 */
-Log_consumer_t*
-Consumer_chain_get_sender(void);
+OS_LoggerConsumer_Handle_t*
+OS_LoggerConsumerChain_getSender(void);
 
 
 /**
- * @details %Consumer_chain_poll provides to start the poll process.
+ * @details %OS_LoggerConsumerChain_poll provides to start the poll process.
  *
  * @ingroup OS_LoggerConsumerChain
 */
 void
-Consumer_chain_poll(void);
+OS_LoggerConsumerChain_poll(void);

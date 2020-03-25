@@ -4,21 +4,22 @@
 
 
 
-static Log_file_client_Vtable Log_file_client_vtable =
+static OS_LoggerFileClient_vtable_t Log_file_client_vtable =
 {
-    .dtor          = Log_file_client_dtor,
-    .read_log_file = Log_file_client_read_log_file
+    .dtor          = OS_LoggerFileClient_dtor,
+    .read_log_file = OS_LoggerFileClient_read
 };
 
 
 
 bool
-Log_file_client_ctor(Log_file_client_t* self,
-                     void* src_buf,
-                     void* dest_buf,
-                     Log_file_client_callback_t* log_file_client_callback)
+OS_LoggerFileClient_ctor(
+    OS_LoggerFileClient_Handle_t* self,
+    void* src_buf,
+    void* dest_buf,
+    OS_LoggerFileClientCallback_Handle_t* log_file_client_callback)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (src_buf == NULL || dest_buf == NULL || log_file_client_callback == NULL)
     {
@@ -37,22 +38,22 @@ Log_file_client_ctor(Log_file_client_t* self,
 
 
 void
-Log_file_client_dtor(Log_file_client_t* self)
+OS_LoggerFileClient_dtor(OS_LoggerFileClient_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Log_file_client_t));
+    memset(self, 0, sizeof (OS_LoggerFileClient_Handle_t));
 }
 
 
 
 bool
-Log_file_client_read_log_file(Log_file_client_t* self,
-                              const char* filename,
-                              uint64_t offset,
-                              uint64_t len)
+OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,
+                         const char* filename,
+                         uint64_t offset,
+                         uint64_t len)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (filename == NULL)
     {

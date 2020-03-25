@@ -39,31 +39,32 @@
 
 
 /**
- * @details Subject_node_t contain informations about the log subject and is
- *          realized as singleton.
+ * @details OS_LoggerSubjectNode_t contain informations about the log subject
+ *          and is realized as singleton.
  *
  * @ingroup OS_LoggerSubject
 */
 typedef struct
 {
     void* first; /**< pointer to the first element */
-} Subject_node_t;
+} OS_LoggerSubjectNode_t;
 
 
 /**
- * @details Log_subject_t contain informations about the log subject.
+ * @details OS_LoggerSubject_Handle_t contain informations about the log
+ *          subject.
  *
  * @ingroup OS_LoggerSubject
 */
 typedef struct
 {
-    Subject_node_t        node;   /**< contain the singleton object */
-    const Subject_Vtable* vtable; /**< vtable */
-} Log_subject_t;
+    OS_LoggerSubjectNode_t node; //!< Contains the singleton object
+    const OS_LoggerAbstractSubject_vtable_t* vtable;
+} OS_LoggerSubject_Handle_t;
 
 
 /**
- * @details %Log_subject_ctor is the constructor.
+ * @details %OS_LoggerSubject_ctor is the constructor.
  *
  * @param   self:   pointer to the class
  *
@@ -75,23 +76,23 @@ typedef struct
  * @ingroup OS_LoggerSubject
 */
 bool
-Log_subject_ctor(Log_subject_t* self);
+OS_LoggerSubject_ctor(OS_LoggerSubject_Handle_t* self);
 
 
 /**
- * @details %Log_subject_ctor is the destructor.
+ * @details %OS_LoggerSubject_ctor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerSubject
 */
 void
-Log_subject_dtor(Subject_t* self);
+OS_LoggerSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self);
 
 
 /**
- * @details %Log_subject_attach is for registrade a concrete observer object to
- *          a subject.
+ * @details %OS_LoggerSubject_attach is for registrade a concrete observer
+ *          object to a subject.
  *
  * @param   self:       pointer to the class
  * @param   observer:   pointer to concrete observer
@@ -104,12 +105,14 @@ Log_subject_dtor(Subject_t* self);
  * @ingroup OS_LoggerSubject
 */
 bool
-Log_subject_attach(Subject_t* self, Observer_t* observer);
+OS_LoggerSubject_attach(
+    OS_LoggerAbstractSubject_Handle_t* self,
+    OS_LoggerAbstractObserver_Handle_t* observer);
 
 
 /**
- * @details %Log_subject_detach is for deregistrade a concrete observer object
- *          from a subject.
+ * @details %OS_LoggerSubject_detach is for deregistrade a concrete observer
+ *          object from a subject.
  *
  * @param   self:       pointer to the class
  * @param   observer:   pointer to concrete observer
@@ -122,11 +125,13 @@ Log_subject_attach(Subject_t* self, Observer_t* observer);
  * @ingroup OS_LoggerSubject
 */
 bool
-Log_subject_detach(Subject_t* self, Observer_t* observer);
+OS_LoggerSubject_detach(
+    OS_LoggerAbstractSubject_Handle_t* self,
+    OS_LoggerAbstractObserver_Handle_t* observer);
 
 
 /**
- * @details %Log_subject_notify is for notifying the registraded observer
+ * @details %OS_LoggerSubject_notify is for notifying the registraded observer
  *          objects by an update.
  *
  * @param   self:   pointer to the class
@@ -135,4 +140,4 @@ Log_subject_detach(Subject_t* self, Observer_t* observer);
  * @ingroup OS_LoggerSubject
 */
 void
-Log_subject_notify(Subject_t* self, void* data);
+OS_LoggerSubject_notify(OS_LoggerAbstractSubject_Handle_t* self, void* data);

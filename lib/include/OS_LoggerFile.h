@@ -34,15 +34,15 @@
 
 
 /**
- * @details Log_file_t defines the class datatype.
+ * @details OS_LoggerFile_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerFile
 */
-typedef struct Log_file_t Log_file_t;
+typedef struct OS_LoggerFile_Handle OS_LoggerFile_Handle_t;
 
 
 /**
- * @details Log_file_dtorT defines the interface for function pointer to
+ * @details OS_LoggerFile_dtor_t defines the interface for function pointer to
  *          destructor.
  *
  * @param   self:   pointer to the class
@@ -50,11 +50,11 @@ typedef struct Log_file_t Log_file_t;
  * @ingroup OS_LoggerFile
 */
 typedef void
-(*Log_file_dtorT)(Log_file_t* self);
+(*OS_LoggerFile_dtor_t)(OS_LoggerFile_Handle_t* self);
 
 
 /**
- * @details Log_file_create_log_fileT defines the interface for function pointer
+ * @details OS_LoggerFile_create_t defines the interface for function pointer
  *          to create a log file in filesystem backend.
  *
  * @param   self:   pointer to the class
@@ -64,11 +64,11 @@ typedef void
  * @ingroup OS_LoggerFile
 */
 typedef bool
-(*Log_file_create_log_fileT)(Log_file_t* self);
+(*OS_LoggerFile_create_t)(OS_LoggerFile_Handle_t* self);
 
 
 /**
- * @details Log_file_read_log_fileT defines the interface for function pointer
+ * @details OS_LoggerFile_read_t defines the interface for function pointer
  *          to read a log file from filesystem backend.
  *
  *          The parameter "len" is the buffer size, i.e. how many bytes should
@@ -89,12 +89,16 @@ typedef bool
  * @ingroup OS_LoggerFile
 */
 typedef int64_t
-(*Log_file_read_log_fileT)(Log_file_t* self, const char* filename,
-                           uint64_t offset, uint64_t len, int64_t log_file_size);
+(*OS_LoggerFile_read_t)(
+    OS_LoggerFile_Handle_t* self,
+    const char* filename,
+    uint64_t offset,
+    uint64_t len,
+    int64_t log_file_size);
 
 
 /**
- * @details Log_file_get_consumer_by_filenameT defines the interface for
+ * @details OS_LoggerFile_getConsumerByFilename_t defines the interface for
  *          function pointer to get a pointer of log consumer by log filename.
  *
  * @param   filename:   name of log file
@@ -104,53 +108,53 @@ typedef int64_t
  * @ingroup OS_LoggerFile
 */
 typedef void*
-(*Log_file_get_consumer_by_filenameT)(const char* filename);
+(*OS_LoggerFile_getConsumerByFilename_t)(const char* filename);
 
 
 /**
- * @details Log_file_Vtable contain the member functions to his class.
+ * @details OS_LoggerFile_vtable_t contain the member functions to his class.
  *
  * @ingroup OS_LoggerFile
 */
 typedef struct
 {
-    Log_file_dtorT                     dtor;
-    Log_file_create_log_fileT          create_log_file;
-    Log_file_read_log_fileT            read_log_file;
-    Log_file_get_consumer_by_filenameT get_consumer_by_filename;
-} Log_file_Vtable;
+    OS_LoggerFile_dtor_t                  dtor;
+    OS_LoggerFile_create_t                create_log_file;
+    OS_LoggerFile_read_t                  read_log_file;
+    OS_LoggerFile_getConsumerByFilename_t get_consumer_by_filename;
+} OS_LoggerFile_vtable_t;
 
 
 /**
- * @details Log_file_info_t contain information about log file and filesystem
- *          backend.
+ * @details OS_LoggerFile_info_t contain information about log file and
+ *          filesystem backend.
  *
  * @ingroup OS_LoggerFile
 */
 typedef struct
 {
-    uint8_t      drv_id;                            /**< partition id */
-    char         filename[LOG_ID_AND_NAME_LENGTH];  /**< filename */
-    hPartition_t phandle;                           /**< partition handle */
-    uint64_t     offset;                            /**< offset in log file */
-    uint64_t     lenght;                            /**< size of log file */
-} Log_file_info_t;
+    uint8_t      drv_id;                                 //!< partition id
+    char         filename[OS_Logger_ID_AND_NAME_LENGTH]; //!< filename
+    hPartition_t phandle;                                //!< partition handle
+    uint64_t     offset;                                 //!< offset in log file
+    uint64_t     lenght;                                 //!< size of log file
+} OS_LoggerFile_info_t;
 
 
 /**
- * @details Log_file_t contain the vtable to his class.
+ * @details OS_LoggerFile_Handle contain the vtable to his class.
  *
  * @ingroup OS_LoggerFile
 */
-struct Log_file_t
+struct OS_LoggerFile_Handle
 {
-    Log_file_info_t       log_file_info; /**< struct Log_file_info_t */
-    const Log_file_Vtable* vtable;       /**< vtable */
+    OS_LoggerFile_info_t          log_file_info;
+    const OS_LoggerFile_vtable_t* vtable;
 };
 
 
 /**
- * @details %Log_file_ctor is the constructor.
+ * @details %OS_LoggerFile_ctor is the constructor.
  *
  * @param   self:       pointer to the class
  * @param   drv_id:     partition id
@@ -164,24 +168,25 @@ struct Log_file_t
  * @ingroup OS_LoggerFile
 */
 bool
-Log_file_ctor(Log_file_t* self,
-              uint8_t drv_id,
-              const char* filename);
+OS_LoggerFile_ctor(
+    OS_LoggerFile_Handle_t* self,
+    uint8_t drv_id,
+    const char* filename);
 
 
 /**
- * @details %Log_file_dtor is the destructor.
+ * @details %OS_LoggerFile_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerFile
 */
 void
-Log_file_dtor(Log_file_t* self);
+OS_LoggerFile_dtor(OS_LoggerFile_Handle_t* self);
 
 
 /**
- * @details %Log_file_create_log_file provides to create a log file.
+ * @details %OS_LoggerFile_create provides to create a log file.
  *
  * @param   self:   pointer to the class
  *
@@ -193,4 +198,4 @@ Log_file_dtor(Log_file_t* self);
  * @ingroup OS_LoggerFile
 */
 bool
-Log_file_create_log_file(Log_file_t* self);
+OS_LoggerFile_create(OS_LoggerFile_Handle_t* self);

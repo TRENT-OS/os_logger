@@ -14,7 +14,7 @@
  *
  * @details     This level provides an implementation for console spending.
  *              \n
- *              It uses as class interface "Log_output_t".
+ *              It uses as class interface "OS_LoggerOutput_Handle_t".
  *              \n
  *              For sending logs to console uses function "printf()".
  *              \n \n
@@ -22,16 +22,11 @@
  *
  * @ingroup     OS_LoggerOutput
 */
-
-
-#pragma once
-
-
 #include "OS_LoggerOutput.h"
 
 
 /**
- * @details %Log_output_console_ctor is the constructor.
+ * @details %OS_LoggerOutputConsole_ctor is the constructor.
  *
  * @param   self:       pointer to the class
  * @param   log_format: pointer to log format layer
@@ -44,16 +39,17 @@
  * @ingroup OS_LoggerOutputConsole
 */
 bool
-Log_output_console_ctor(Log_output_t* self,
-                        Log_format_t* log_format);
+OS_LoggerOutputConsole_ctor(
+    OS_LoggerOutput_Handle_t* self,
+    OS_LoggerFormat_Handle_t* log_format);
 
 
 /**
- * @details %Log_output_console_dtor is the destructor.
+ * @details %OS_LoggerOutputConsole_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerOutputConsole
 */
 void
-Log_output_console_dtor(Output_t* self);
+OS_LoggerOutputConsole_dtor(OS_LoggerAbstractOutput_Handle_t* self);

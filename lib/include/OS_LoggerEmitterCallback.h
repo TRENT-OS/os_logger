@@ -23,39 +23,39 @@
 #include <stdbool.h>
 
 /**
- * @details Log_emitter_callback_emitT defines the interface for function
+ * @details OS_LoggerEmitterCallback_emit_t defines the interface for function
  *          pointer to emit a signal, when client site logging process is done.
  *
  * @ingroup OS_LoggerEmitterCallback
 */
 typedef void
-(*Log_emitter_callback_emitT)(void);
+(*OS_LoggerEmitterCallback_emit_t)(void);
 
 
 /**
- * @details Log_emitter_callback_waitT defines the interface for function
+ * @details OS_LoggerEmitterCallback_wait_t defines the interface for function
  *          pointer to wait for a signal.
  *
  * @ingroup OS_LoggerEmitterCallback
 */
 typedef void
-(*Log_emitter_callback_waitT)(void);
+(*OS_LoggerEmitterCallback_wait_t)(void);
 
 
 /**
- * @details Log_emitter_callback_t contain interface functions.
+ * @details OS_LoggerEmitterCallback_Handle_t contain interface functions.
  *
  * @ingroup OS_LoggerEmitterCallback
 */
 typedef struct
 {
-    Log_emitter_callback_emitT client_emit;
-    Log_emitter_callback_waitT client_wait;
-} Log_emitter_callback_t;
+    OS_LoggerEmitterCallback_emit_t client_emit;
+    OS_LoggerEmitterCallback_wait_t client_wait;
+} OS_LoggerEmitterCallback_Handle_t;
 
 
 /**
- * @details %Log_emitter_callback_ctor is the constructor.
+ * @details %OS_LoggerEmitterCallback_ctor is the constructor.
  *
  * @param   self:           pointer to the class
  * @param   client_wait:    function pointer to client wait callback function
@@ -69,17 +69,18 @@ typedef struct
  * @ingroup OS_LoggerEmitterCallback
 */
 bool
-Log_emitter_callback_ctor(Log_emitter_callback_t* self,
-                          Log_emitter_callback_waitT client_wait,
-                          Log_emitter_callback_emitT client_emit);
+OS_LoggerEmitterCallback_ctor(
+    OS_LoggerEmitterCallback_Handle_t* self,
+    OS_LoggerEmitterCallback_wait_t      client_wait,
+    OS_LoggerEmitterCallback_emit_t      client_emit);
 
 
 /**
- * @details %Log_emitter_callback_dtor is the destructor.
+ * @details %OS_LoggerEmitterCallback_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerEmitterCallback
 */
 void
-Log_emitter_callback_dtor(Log_emitter_callback_t* self);
+OS_LoggerEmitterCallback_dtor(OS_LoggerEmitterCallback_Handle_t* self);

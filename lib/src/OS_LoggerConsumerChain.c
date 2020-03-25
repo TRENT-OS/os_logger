@@ -4,25 +4,25 @@
 
 
 
-static const Consumer_chain_Vtable Consumer_chain_vtable =
+static const OS_LoggerConsumerChain_vtable_t Consumer_chain_vtable =
 {
-    .dtor                     = Consumer_chain_dtor,
-    .append                   = Consumer_chain_append,
-    .remove                   = Consumer_chain_remove,
-    .get_sender               = Consumer_chain_get_sender,
-    .poll                     = Consumer_chain_poll
+    .dtor                     = OS_LoggerConsumerChain_dtor,
+    .append                   = OS_LoggerConsumerChain_append,
+    .remove                   = OS_LoggerConsumerChain_remove,
+    .get_sender               = OS_LoggerConsumerChain_getSender,
+    .poll                     = OS_LoggerConsumerChain_poll
 };
 
 
 
 // Singleton
-static Consumer_chain_t _consumer_chain;
-static Consumer_chain_t* this = NULL;
+static OS_LoggerConsumerChain_Handle_t _consumer_chain;
+static OS_LoggerConsumerChain_Handle_t* this = NULL;
 
 
 
-Consumer_chain_t*
-get_instance_Consumer_chain(void)
+OS_LoggerConsumerChain_Handle_t*
+OS_LoggerConsumerChain_getInstance(void)
 {
     if (this == NULL)
     {
@@ -31,7 +31,7 @@ get_instance_Consumer_chain(void)
         this = &_consumer_chain;
         this->vtable = &Consumer_chain_vtable;
 
-        retval = ListT_ctor(&this->listT);
+        retval = OS_LoggerListT_ctor(&this->listT);
         if (retval == false)
         {
             return NULL;
@@ -44,18 +44,18 @@ get_instance_Consumer_chain(void)
 
 
 void
-Consumer_chain_dtor(void)
+OS_LoggerConsumerChain_dtor(void)
 {
-    memset(this, 0, sizeof (Consumer_chain_t));
+    memset(this, 0, sizeof (OS_LoggerConsumerChain_Handle_t));
     this = NULL;
 }
 
 
 
 bool
-Consumer_chain_append(Log_consumer_t* consumer)
+OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
 {
-    CHECK_SELF(this);
+    OS_Logger_CHECK_SELF(this);
 
     bool retval = false;
 
@@ -71,8 +71,11 @@ Consumer_chain_append(Log_consumer_t* consumer)
         return true;
     }
 
-    retval = this->listT.vtable->insert(this->listT.vtable->get_last((
-                                            NodeT_t*) & (((Log_consumer_t*)(this->node.first))->node)), &consumer->node);
+    retval = this->listT.vtable->insert(
+                 this->listT.vtable->get_last(
+                     (OS_LoggerNodeT_Handle_t*)
+                     & (((OS_LoggerConsumer_Handle_t*)(this->node.first))->node)),
+                 &consumer->node);
 
     return retval;
 }
@@ -80,9 +83,9 @@ Consumer_chain_append(Log_consumer_t* consumer)
 
 
 bool
-Consumer_chain_remove(Log_consumer_t* consumer)
+OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
 {
-    CHECK_SELF(this);
+    OS_Logger_CHECK_SELF(this);
 
     bool retval = false;
 
@@ -110,11 +113,11 @@ Consumer_chain_remove(Log_consumer_t* consumer)
 
 
 void
-Consumer_chain_poll(void)
+OS_LoggerConsumerChain_poll(void)
 {
-    CHECK_SELF(this);
+    OS_Logger_CHECK_SELF(this);
 
-    Log_consumer_t* log_consumer;
+    OS_LoggerConsumer_Handle_t* log_consumer;
 
     log_consumer = this->node.first;
     log_consumer->vtable->emit(log_consumer);
@@ -122,12 +125,12 @@ Consumer_chain_poll(void)
 
 
 
-Log_consumer_t*
-Consumer_chain_get_sender(void)
+OS_LoggerConsumer_Handle_t*
+OS_LoggerConsumerChain_getSender(void)
 {
-    CHECK_SELF(this);
+    OS_Logger_CHECK_SELF(this);
 
-    Log_consumer_t* log_consumer;
+    OS_LoggerConsumer_Handle_t* log_consumer;
 
     if (this->node.first == NULL)
     {
@@ -155,9 +158,9 @@ Consumer_chain_get_sender(void)
 void
 API_LOG_SERVER_EMIT(void)
 {
-    CHECK_SELF(this);
+    OS_Logger_CHECK_SELF(this);
 
-    Log_consumer_t* log_consumer;
+    OS_LoggerConsumer_Handle_t* log_consumer;
 
     log_consumer = this->vtable->get_sender();
     if (log_consumer == NULL)
@@ -168,6 +171,6 @@ API_LOG_SERVER_EMIT(void)
 
     log_consumer->vtable->process(log_consumer);
 
-    ((Log_consumer_t*)(this->node.first))->vtable->emit((Log_consumer_t*)(
-                                                            this->node.first));
+    ((OS_LoggerConsumer_Handle_t*)(this->node.first))->vtable->emit(
+        (OS_LoggerConsumer_Handle_t*)(this->node.first));
 }

@@ -113,4 +113,5 @@ copied, so it is more efficient.
 When the entry is about to be copied to the target directory, it can be
 formatted in the given way.
 
-This can be done by overriding `FormatT_Vtable::convert` function.
+This can be done by overriding `OS_LoggerAbstractFormat_vtable_t::convert`
+function.

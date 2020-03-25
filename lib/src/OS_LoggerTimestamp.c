@@ -49,17 +49,23 @@
 
 // foreward devlaration
 static bool _get_number(const char* string, uint8_t* val);
-static bool _fill_date(const char* string, Time_t* tm, const char* delimiter);
-static bool _fill_time(const char* string, Time_t* tm, const char* delimiter);
 
+static bool _fill_date(
+    const char* string,
+    OS_LoggerTime_Handle_t* tm,
+    const char* delimiter);
 
+static bool _fill_time(
+    const char* string,
+    OS_LoggerTime_Handle_t* tm,
+    const char* delimiter);
 
-static const Timestamp_Vtable Timestamp_vtable =
+static const OS_LoggerTimestamp_vtable_t Timestamp_vtable =
 {
-    .dtor             = Timestamp_dtor,
-    .create_timestamp = Timestamp_create_timestamp,
-    .get_time         = Timestamp_get_time,
-    .get_timestamp    = Timestamp_get_timestamp
+    .dtor             = OS_LoggerTimestamp_dtor,
+    .create_timestamp = OS_LoggerTimestamp_create,
+    .get_time         = OS_LoggerTimestamp_getTime,
+    .get_timestamp    = OS_LoggerTimestamp_getTimestamp
 };
 
 
@@ -75,17 +81,17 @@ static uint16_t month_table[2][13] =
 
 
 // Singleton
-static Timestamp_t _timestamp;
-static Timestamp_t* this = NULL;
+static OS_LoggerTimestamp_Handle_t _timestamp;
+static OS_LoggerTimestamp_Handle_t* this = NULL;
 
 
 
-Timestamp_t*
-get_instance_Timestamp(void)
+OS_LoggerTimestamp_Handle_t*
+OS_LoggerTimestamp_getInstance(void)
 {
     if (this == NULL)
     {
-        memset(&_timestamp, 0, sizeof (Timestamp_t));
+        memset(&_timestamp, 0, sizeof (OS_LoggerTimestamp_Handle_t));
         this = &_timestamp;
 
         this->vtable = &Timestamp_vtable;
@@ -97,16 +103,19 @@ get_instance_Timestamp(void)
 
 
 void
-Timestamp_dtor(void)
+OS_LoggerTimestamp_dtor(void)
 {
-    memset(this, 0, sizeof (Timestamp_t));
+    memset(this, 0, sizeof (OS_LoggerTimestamp_Handle_t));
     this = NULL;
 }
 
 
 
 bool
-Timestamp_get_time(Timestamp_t* t_stamp, uint8_t hours, Time_t* tm)
+OS_LoggerTimestamp_getTime(
+    OS_LoggerTimestamp_Handle_t* t_stamp,
+    uint8_t hours,
+    OS_LoggerTime_Handle_t* tm)
 {
     if (t_stamp == NULL || hours > 24 || tm == NULL)
     {
@@ -186,7 +195,9 @@ Timestamp_get_time(Timestamp_t* t_stamp, uint8_t hours, Time_t* tm)
 
 
 bool
-Timestamp_get_timestamp(Time_t* tm, Timestamp_t* t_stamp)
+OS_LoggerTimestamp_getTimestamp(
+    OS_LoggerTime_Handle_t* tm,
+    OS_LoggerTimestamp_Handle_t* t_stamp)
 {
     bool nullptr = false;
 
@@ -222,7 +233,7 @@ Timestamp_get_timestamp(Time_t* tm, Timestamp_t* t_stamp)
 
 
 bool
-Timestamp_create_timestamp(const char* date, const char* time)
+OS_LoggerTimestamp_create(const char* date, const char* time)
 {
     bool nullptr = false;
 
@@ -239,7 +250,7 @@ Timestamp_create_timestamp(const char* date, const char* time)
         return false;
     }
 
-    Time_t t;
+    OS_LoggerTime_Handle_t t;
 
     _fill_date(date, &t, DELIMITER);
     _fill_time(time, &t, DELIMITER);
@@ -274,8 +285,12 @@ _get_number(const char* string, uint8_t* val)
 
 
 
-static bool
-_fill_date(const char* string, Time_t* tm, const char* delimiter)
+static
+bool
+_fill_date(
+    const char* string,
+    OS_LoggerTime_Handle_t* tm,
+    const char* delimiter)
 {
     if (string == NULL || tm == NULL)
     {
@@ -323,8 +338,12 @@ _fill_date(const char* string, Time_t* tm, const char* delimiter)
 
 
 
-static bool
-_fill_time(const char* string, Time_t* tm, const char* delimiter)
+static
+bool
+_fill_time(
+    const char* string,
+    OS_LoggerTime_Handle_t* tm,
+    const char* delimiter)
 {
     if (string == NULL || tm == NULL)
     {

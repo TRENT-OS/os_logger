@@ -27,10 +27,10 @@ target_sources(${PROJECT_NAME}
         lib/src/OS_LoggerTimestamp
 )
 
-if (LOGGER_CONFIG_H_FILE)
+if (OS_Logger_CONFIG_H_FILE)
     target_compile_definitions(${PROJECT_NAME}
         INTERFACE
-            "LOGGER_CONFIG_H_FILE=${LOGGER_CONFIG_H_FILE}"
+            "OS_Logger_CONFIG_H_FILE=${OS_Logger_CONFIG_H_FILE}"
     )
 endif()
 
@@ -70,10 +70,10 @@ target_sources(${PROJECT_NAME}
         lib/src/OS_LoggerOutputConsole.c
 )
 
-if (LOGGER_CONFIG_H_FILE)
+if (OS_Logger_CONFIG_H_FILE)
     target_compile_definitions(${PROJECT_NAME}
         INTERFACE
-            "LOGGER_CONFIG_H_FILE=${LOGGER_CONFIG_H_FILE}"
+            "OS_Logger_CONFIG_H_FILE=${OS_Logger_CONFIG_H_FILE}"
     )
 endif()
 
@@ -103,10 +103,10 @@ target_sources(${PROJECT_NAME}
         lib/src/OS_LoggerOutputFileSystem.c
 )
 
-if (LOGGER_CONFIG_H_FILE)
+if (OS_Logger_CONFIG_H_FILE)
     target_compile_definitions(${PROJECT_NAME}
         INTERFACE
-            "LOGGER_CONFIG_H_FILE=${LOGGER_CONFIG_H_FILE}"
+            "OS_Logger_CONFIG_H_FILE=${OS_Logger_CONFIG_H_FILE}"
     )
 endif()
 

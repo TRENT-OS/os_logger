@@ -23,54 +23,55 @@
 
 
 /**
- * @details Log_consumer_callback_emitT defines the interface for the function
- *          pointer to emit a signal, when server site logging process is done.
+ * @details OS_LoggerConsumerCallback_emit_t defines the interface for the
+ *          function pointer to emit a signal, when server site logging process
+ *          is done.
  *
  * @ingroup OS_LoggerConsumerCallback
 */
 typedef void
-(*Log_consumer_callback_emitT)(void);
+(*OS_LoggerConsumerCallback_emit_t)(void);
 
 
 /**
- * @details Log_consumer_callback_get_sender_id defines the interface for the
- *          function pointer to get sender id by calling RPC function.
+ * @details OS_LoggerConsumerCallback_getSenderId_t defines the interface for
+ *          the function pointer to get sender id by calling RPC function.
  *
  * @return  sender id
  *
  * @ingroup OS_LoggerConsumerCallback
 */
 typedef uint32_t
-(*Log_consumer_callback_get_sender_id)(void);
+(*OS_LoggerConsumerCallback_getSenderId_t)(void);
 
 
 /**
- * @details Log_consumer_callback_get_timestampT defines the interface for the
- *          function pointer to get timestamp.
+ * @details OS_LoggerConsumerCallback_getTimestamp_t defines the interface for
+ *          the function pointer to get timestamp.
  *
  * @return  timestamp
  *
  * @ingroup OS_LoggerConsumerCallback
 */
 typedef uint64_t
-(*Log_consumer_callback_get_timestampT)(void);
+(*OS_LoggerConsumerCallback_getTimestamp_t)(void);
 
 
 /**
- * @details Log_consumer_callback_t contain interface functions.
+ * @details OS_LoggerConsumerCallback_t contain interface functions.
  *
  * @ingroup OS_LoggerConsumerCallback
 */
 typedef struct
 {
-    Log_consumer_callback_emitT          server_emit;
-    Log_consumer_callback_get_sender_id  get_sender_id;
-    Log_consumer_callback_get_timestampT get_timestamp;
-} Log_consumer_callback_t;
+    OS_LoggerConsumerCallback_emit_t         server_emit;
+    OS_LoggerConsumerCallback_getSenderId_t  get_sender_id;
+    OS_LoggerConsumerCallback_getTimestamp_t get_timestamp;
+} OS_LoggerConsumerCallback_t;
 
 
 /**
- * @details %Log_consumer_dtor is the constructor.
+ * @details %OS_LoggerConsumer_dtor is the constructor.
  *
  * @param   self:           pointer to the class
  * @param   server_emit:    function pointer to emit callback function
@@ -85,18 +86,19 @@ typedef struct
  * @ingroup OS_LoggerConsumerCallback
 */
 bool
-Log_consumer_callback_ctor(Log_consumer_callback_t* self,
-                           Log_consumer_callback_emitT server_emit,
-                           Log_consumer_callback_get_sender_id get_sender_id,
-                           Log_consumer_callback_get_timestampT get_timestamp);
+OS_LoggerConsumerCallback_ctor(
+    OS_LoggerConsumerCallback_t*             self,
+    OS_LoggerConsumerCallback_emit_t         server_emit,
+    OS_LoggerConsumerCallback_getSenderId_t  get_sender_id,
+    OS_LoggerConsumerCallback_getTimestamp_t get_timestamp);
 
 
 /**
- * @details %Log_consumer_callback_dtor is the destructor.
+ * @details %OS_LoggerConsumerCallback_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerConsumerCallback
 */
 void
-Log_consumer_callback_dtor(Log_consumer_callback_t* self);
+OS_LoggerConsumerCallback_dtor(OS_LoggerConsumerCallback_t* self);

@@ -44,28 +44,29 @@
 
 
 /**
- * @details Subject_t defines the class datatype.
+ * @details OS_LoggerAbstractSubject_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerAbstractSubject
 */
-typedef struct Subject_t Subject_t;
+typedef
+struct OS_LoggerAbstractSubject_Handle OS_LoggerAbstractSubject_Handle_t;
 
 
 /**
- * @details Subject_dtorT defines the interface for function pointer to
- *          destructor.
+ * @details OS_LoggerAbstractSubject_dtor_t defines the interface for function
+ *          pointer to destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerAbstractSubject
 */
 typedef void
-(*Subject_dtorT)(Subject_t* self);
+(*OS_LoggerAbstractSubject_dtor_t)(OS_LoggerAbstractSubject_Handle_t* self);
 
 
 /**
- * @details Subject_attachT defines the interface for function pointer to
- *          register observer object to a subject.
+ * @details OS_LoggerAbstractSubject_attach_t defines the interface for function
+ *          pointer to register observer object to a subject.
  *
  * @param   self:       pointer to the class
  * @param   observer:   pointer to a observer object
@@ -75,12 +76,14 @@ typedef void
  * @ingroup OS_LoggerAbstractSubject
 */
 typedef bool
-(*Subject_attachT)(Subject_t* self, Observer_t* observer);
+(*OS_LoggerAbstractSubject_attach_t)(
+    OS_LoggerAbstractSubject_Handle_t* self,
+    OS_LoggerAbstractObserver_Handle_t* observer);
 
 
 /**
- * @details Subject_detachT defines the interface for function pointer to
- *          deregister observer object from a subject.
+ * @details OS_LoggerAbstractSubject_detach_t defines the interface for function
+ *          pointer to deregister observer object from a subject.
  *
  * @param   self:       pointer to the class
  * @param   observer:   pointer to a observer object
@@ -90,12 +93,14 @@ typedef bool
  * @ingroup OS_LoggerAbstractSubject
 */
 typedef bool
-(*Subject_detachT)(Subject_t* self, Observer_t* observer);
+(*OS_LoggerAbstractSubject_detach_t)(
+    OS_LoggerAbstractSubject_Handle_t*  self,
+    OS_LoggerAbstractObserver_Handle_t* observer);
 
 
 /**
- * @details Subject_notifyT defines the interface for function pointer to notify
- *          the registraded observer objects.
+ * @details OS_LoggerAbstractSubject_notify_t defines the interface for function
+ *          pointer to notify the registraded observer objects.
  *
  * @param   self:   pointer to the class
  * @param   data:   user data from observer
@@ -103,54 +108,62 @@ typedef bool
  * @ingroup OS_LoggerAbstractSubject
 */
 typedef void
-(*Subject_notifyT)(Subject_t* self, void* data);
+(*OS_LoggerAbstractSubject_notify_t)(
+    OS_LoggerAbstractSubject_Handle_t* self,
+    void* data);
 
 
 /**
- * @details Subject_Vtable contain the member functions to his class.
+ * @details OS_LoggerAbstractSubject_vtable_t contain the member functions to
+ *          his class.
  *
  * @ingroup OS_LoggerAbstractSubject
 */
 typedef struct
 {
-    Subject_dtorT   dtor;   /**< function pointer to desctructor */
-    Subject_attachT attach; /**< function pointer to attach function */
-    Subject_detachT detach; /**< function pointer to detach function */
-    Subject_notifyT notify; /**< function pointer to notify function */
+    OS_LoggerAbstractSubject_dtor_t
+    dtor;   /**< function pointer to the desctructor */
+    OS_LoggerAbstractSubject_attach_t
+    attach; /**< function pointer to the attach function */
+    OS_LoggerAbstractSubject_detach_t
+    detach; /**< function pointer to the detach function */
+    OS_LoggerAbstractSubject_notify_t
+    notify; /**< function pointer to the notify function */
 }
-Subject_Vtable;
+OS_LoggerAbstractSubject_vtable_t;
 
 
 /**
- * @details Subject_t contain the vtable to his class.
+ * @details OS_LoggerAbstractSubject_Handle_t contain the vtable to his class.
  *
  * @ingroup OS_LoggerAbstractSubject
 */
-struct Subject_t
+struct OS_LoggerAbstractSubject_Handle
 {
-    const Subject_Vtable* vtable; /**< vtable */
+    const OS_LoggerAbstractSubject_vtable_t* vtable; /**< vtable */
 };
 
 
 /**
- * @details %Subject_dtor is an abstract function for the destructor.
+ * @details %OS_LoggerAbstractSubject_dtor is an abstract function for the
+ *          destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerAbstractSubject
 */
 inline void
-Subject_dtor(Subject_t* self)
+OS_LoggerAbstractSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Subject_t));
+    memset(self, 0, sizeof (OS_LoggerAbstractSubject_Handle_t));
 }
 
 
 /**
- * @details %Subject_attach is an abstract function to register observer object
- *          to a subject.
+ * @details %OS_LoggerAbstractSubject_attach is an abstract function to register
+ *          observer object to a subject.
  *
  * @param   self:       pointer to the class
  * @param   observer:   pointer to a observer object
@@ -162,9 +175,11 @@ Subject_dtor(Subject_t* self)
  * @ingroup OS_LoggerAbstractSubject
 */
 inline bool
-Subject_attach(Subject_t* self, Observer_t* observer)
+OS_LoggerAbstractSubject_attach(
+    OS_LoggerAbstractSubject_Handle_t* self,
+    OS_LoggerAbstractObserver_Handle_t* observer)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (observer == NULL)
     {
@@ -177,8 +192,8 @@ Subject_attach(Subject_t* self, Observer_t* observer)
 
 
 /**
- * @details %Subject_detach is an abstract function to deregister observer
- *          object from a subject.
+ * @details %OS_LoggerAbstractSubject_detach is an abstract function to
+ *          deregister observer object from a subject.
  *
  * @param   self:       pointer to the class
  * @param   observer:   pointer to a observer object
@@ -190,9 +205,11 @@ Subject_attach(Subject_t* self, Observer_t* observer)
  * @ingroup OS_LoggerAbstractSubject
 */
 inline bool
-Subject_detach(Subject_t* self, Observer_t* observer)
+OS_LoggerAbstractSubject_detach(
+    OS_LoggerAbstractSubject_Handle_t* self,
+    OS_LoggerAbstractObserver_Handle_t* observer)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     if (observer == NULL)
     {
@@ -205,18 +222,21 @@ Subject_detach(Subject_t* self, Observer_t* observer)
 
 
 /**
- * @details %Subject_notify is an abstract function to notify the registraded
- *          observer objects.
+ * @details %OS_LoggerAbstractSubject_notify is an abstract function to notify
+ *          the registraded observer objects.
  *
  * @param   self:   pointer to the class
  * @param   data:   user data from observer
  *
  * @ingroup OS_LoggerAbstractSubject
 */
-inline void
-Subject_notify(Subject_t* self, void* data)
+inline
+void
+OS_LoggerAbstractSubject_notify(
+    OS_LoggerAbstractSubject_Handle_t* self,
+    void* data)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     self->vtable->notify(self, data);
 }

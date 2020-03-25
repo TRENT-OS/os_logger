@@ -6,21 +6,25 @@
 
 
 
-static bool  _ListT_has_prev(NodeT_t* current);
-static bool  _ListT_has_next(NodeT_t* current);
-static void* _ListT_get_prev(NodeT_t* current);
-static void* _ListT_get_next(NodeT_t* current);
-static bool  _ListT_insert(NodeT_t* current, NodeT_t* new_node);
-static bool  _ListT_delete(NodeT_t* current);
-static void* _ListT_get_first(NodeT_t* current);
-static void* _ListT_get_last(NodeT_t* current);
-static bool  _ListT_isInside(NodeT_t* current);
+static bool  _ListT_has_prev(OS_LoggerNodeT_Handle_t* current);
+static bool  _ListT_has_next(OS_LoggerNodeT_Handle_t* current);
+static void* _ListT_get_prev(OS_LoggerNodeT_Handle_t* current);
+static void* _ListT_get_next(OS_LoggerNodeT_Handle_t* current);
+
+static bool  _ListT_insert(
+    OS_LoggerNodeT_Handle_t* current,
+    OS_LoggerNodeT_Handle_t* new_node);
+
+static bool  _ListT_delete(OS_LoggerNodeT_Handle_t* current);
+static void* _ListT_get_first(OS_LoggerNodeT_Handle_t* current);
+static void* _ListT_get_last(OS_LoggerNodeT_Handle_t* current);
+static bool  _ListT_isInside(OS_LoggerNodeT_Handle_t* current);
 
 
 
-static const ListT_Vtable ListT_vtable =
+static const OS_LoggerListT_vtable_t ListT_vtable =
 {
-    .dtor      = ListT_dtor,
+    .dtor      = OS_LoggerListT_dtor,
     .has_prev  = _ListT_has_prev,
     .has_next  = _ListT_has_next,
     .get_prev  = _ListT_get_prev,
@@ -35,9 +39,9 @@ static const ListT_Vtable ListT_vtable =
 
 
 bool
-ListT_ctor(ListT_t* self)
+OS_LoggerListT_ctor(OS_LoggerListT_t_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
     self->vtable = &ListT_vtable;
 
@@ -47,17 +51,17 @@ ListT_ctor(ListT_t* self)
 
 
 void
-ListT_dtor(ListT_t* self)
+OS_LoggerListT_dtor(OS_LoggerListT_t_Handle_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (ListT_t));
+    memset(self, 0, sizeof (OS_LoggerListT_t_Handle_t));
 }
 
 
 
 static bool
-_ListT_has_prev(NodeT_t* current)
+_ListT_has_prev(OS_LoggerNodeT_Handle_t* current)
 {
     bool retval = false;
 
@@ -78,7 +82,7 @@ _ListT_has_prev(NodeT_t* current)
 
 
 static bool
-_ListT_has_next(NodeT_t* current)
+_ListT_has_next(OS_LoggerNodeT_Handle_t* current)
 {
     bool retval = false;
 
@@ -100,9 +104,9 @@ _ListT_has_next(NodeT_t* current)
 
 
 static void*
-_ListT_get_prev(NodeT_t* current)
+_ListT_get_prev(OS_LoggerNodeT_Handle_t* current)
 {
-    NodeT_t* prev = NULL;
+    OS_LoggerNodeT_Handle_t* prev = NULL;
 
     if (current == NULL)
     {
@@ -123,9 +127,9 @@ _ListT_get_prev(NodeT_t* current)
 
 
 static void*
-_ListT_get_next(NodeT_t* current)
+_ListT_get_next(OS_LoggerNodeT_Handle_t* current)
 {
-    NodeT_t* next = NULL;
+    OS_LoggerNodeT_Handle_t* next = NULL;
 
     if (current == NULL)
     {
@@ -145,12 +149,15 @@ _ListT_get_next(NodeT_t* current)
 
 
 
-static bool
-_ListT_insert(NodeT_t* current, NodeT_t* new_node)
+static
+bool
+_ListT_insert(
+    OS_LoggerNodeT_Handle_t* current,
+    OS_LoggerNodeT_Handle_t* new_node)
 {
     bool retval = false;
 
-    NodeT_t* next = NULL;
+    OS_LoggerNodeT_Handle_t* next = NULL;
 
     if (current == NULL)
     {
@@ -189,10 +196,10 @@ _ListT_insert(NodeT_t* current, NodeT_t* new_node)
 
 
 static bool
-_ListT_delete(NodeT_t* current)
+_ListT_delete(OS_LoggerNodeT_Handle_t* current)
 {
-    NodeT_t* prev = NULL;
-    NodeT_t* next = NULL;
+    OS_LoggerNodeT_Handle_t* prev = NULL;
+    OS_LoggerNodeT_Handle_t* next = NULL;
 
     if (current == NULL)
     {
@@ -237,9 +244,9 @@ _ListT_delete(NodeT_t* current)
 
 
 static void*
-_ListT_get_first(NodeT_t* current)
+_ListT_get_first(OS_LoggerNodeT_Handle_t* current)
 {
-    NodeT_t* first = NULL;
+    OS_LoggerNodeT_Handle_t* first = NULL;
 
     if (current == NULL)
     {
@@ -264,9 +271,9 @@ _ListT_get_first(NodeT_t* current)
 
 
 static void*
-_ListT_get_last(NodeT_t* current)
+_ListT_get_last(OS_LoggerNodeT_Handle_t* current)
 {
-    NodeT_t* last = NULL;
+    OS_LoggerNodeT_Handle_t* last = NULL;
 
     if (current == NULL)
     {
@@ -291,9 +298,9 @@ _ListT_get_last(NodeT_t* current)
 
 
 static bool
-_ListT_isInside(NodeT_t* current)
+_ListT_isInside(OS_LoggerNodeT_Handle_t* current)
 {
-    NodeT_t* first = NULL;
+    OS_LoggerNodeT_Handle_t* first = NULL;
     bool retval = false;
 
     if (current == NULL)

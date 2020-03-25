@@ -21,34 +21,34 @@
 
 
 /**
- * @details Log_databuffer_t contain informations from a data buffer in a
- *          structured way.
+ * @details OS_LoggerDataBuffer_Handle_t contain informations from a data buffer
+ *          in a structured way.
  *
  * @ingroup OS_LoggerDataBuffer
 */
 typedef struct
 {
-    uint8_t log_level_srv;                   /**< server log level */
-    uint8_t log_level_client;                /**< client log level */
-    char    log_message[LOG_MESSAGE_LENGTH]; /**< buffer for log message */
-} Log_databuffer_t;
+    uint8_t log_level_srv;                         //!< server log level
+    uint8_t log_level_client;                      //!< client log level
+    char    log_message[OS_Logger_MESSAGE_LENGTH]; //!< buffer for log message
+} OS_LoggerDataBuffer_Handle_t;
 
 
 /**
- * @details Log_info_t contain all informations about a log.
+ * @details OS_LoggerDataBuffer_info contains all information about a log.
  *
  * @ingroup OS_LoggerDataBuffer
 */
 typedef struct
 {
-    char             log_id_and_name[LOG_ID_AND_NAME_LENGTH];
-    Timestamp_t      timestamp;
-    Log_databuffer_t log_databuffer;
-} Log_info_t;
+    char log_id_and_name[OS_Logger_ID_AND_NAME_LENGTH];
+    OS_LoggerTimestamp_Handle_t timestamp;
+    OS_LoggerDataBuffer_Handle_t log_databuffer;
+} OS_LoggerDataBuffer_info;
 
 
 /**
- * @details %Log_databuffer_set_log_level_server copy the server log level to
+ * @details %OS_LoggerDataBuffer_setServerLogLevel copy the server log level to
  *          the data buffer.
  *
  * @param   buf:                data buffer
@@ -62,11 +62,11 @@ typedef struct
  * @ingroup OS_LoggerDataBuffer
 */
 int
-Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server);
+OS_LoggerDataBuffer_setServerLogLevel(void* buf, uint8_t log_level_server);
 
 
 /**
- * @details %Log_databuffer_set_log_level_client copy the client log level to
+ * @details %OS_LoggerDataBuffer_setClientLogLevel copy the client log level to
  *          the data buffer.
  *
  * @param   buf:                data buffer
@@ -80,11 +80,11 @@ Log_databuffer_set_log_level_server(void* buf, uint8_t log_level_server);
  * @ingroup OS_LoggerDataBuffer
 */
 int
-Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client);
+OS_LoggerDataBuffer_setClientLogLevel(void* buf, uint8_t log_level_client);
 
 
 /**
- * @details %Log_databuffer_set_log_message copy the log message to the data
+ * @details %OS_LoggerDataBuffer_setLogMessage copy the log message to the data
  *          buffer.
  *
  * @param   buf:    data buffer
@@ -98,12 +98,12 @@ Log_databuffer_set_log_level_client(void* buf, uint8_t log_level_client);
  * @ingroup OS_LoggerDataBuffer
 */
 int
-Log_databuffer_set_log_message(void* buf, const char* msg);
+OS_LoggerDataBuffer_setLogMessage(void* buf, const char* msg);
 
 
 /**
- * @details %Log_databuffer_get_log_level_server copy the server log level from
- *          the data buffer to internal data buffer.
+ * @details %OS_LoggerDataBuffer_getServerLogLevel copy the server log level
+ *          from the data buffer to internal data buffer.
  *
  * @param   buf:            data buffer
  * @param   log_databuffer: pointer to internal data buffer
@@ -116,13 +116,14 @@ Log_databuffer_set_log_message(void* buf, const char* msg);
  * @ingroup OS_LoggerDataBuffer
 */
 bool
-Log_databuffer_get_log_level_server(void* buf,
-                                    Log_databuffer_t* log_databuffer);
+OS_LoggerDataBuffer_getServerLogLevel(
+    void* buf,
+    OS_LoggerDataBuffer_Handle_t* log_databuffer);
 
 
 /**
- * @details %Log_databuffer_get_log_level_client copy the client log level from
- *          the data buffer to internal data buffer.
+ * @details %OS_LoggerDataBuffer_getClientLogLevel copy the client log level
+ *          from the data buffer to internal data buffer.
  *
  * @param   buf:            data buffer
  * @param   log_databuffer: pointer to internal data buffer
@@ -135,13 +136,14 @@ Log_databuffer_get_log_level_server(void* buf,
  * @ingroup OS_LoggerDataBuffer
 */
 bool
-Log_databuffer_get_log_level_client(void* buf,
-                                    Log_databuffer_t* log_databuffer);
+OS_LoggerDataBuffer_getClientLogLevel(
+    void* buf,
+    OS_LoggerDataBuffer_Handle_t* log_databuffer);
 
 
 /**
- * @details %Log_databuffer_get_log_message copy the log message from the data
- *          buffer to internal data buffer.
+ * @details %OS_LoggerDataBuffer_getLogMessage copy the log message from the
+ *          data buffer to internal data buffer.
  *
  * @param   buf:            data buffer
  * @param   log_databuffer: pointer to internal data buffer
@@ -154,17 +156,19 @@ Log_databuffer_get_log_level_client(void* buf,
  * @ingroup OS_LoggerDataBuffer
 */
 bool
-Log_databuffer_get_log_message(void* buf, Log_databuffer_t* log_databuffer);
+OS_LoggerDataBuffer_getLogMessage(
+    void* buf,
+    OS_LoggerDataBuffer_Handle_t* log_databuffer);
 
 
 /**
- * @details %Log_databuffer_get_info is an helper function, which getting all
- *          informatations from the data buffer by calling:
+ * @details %OS_LoggerDataBuffer_getInfo is an helper function, which getting
+ *          all informatations from the data buffer by calling:
  *
  *          \code
- *              Log_databuffer_get_log_level_server
- *              Log_databuffer_get_log_level_client
- *              Log_databuffer_get_log_message
+ *              OS_LoggerDataBuffer_getServerLogLevel
+ *              OS_LoggerDataBuffer_getClientLogLevel
+ *              OS_LoggerDataBuffer_getLogMessage
  *          \endcode
  *
  * @param   buf:            data buffer
@@ -178,11 +182,13 @@ Log_databuffer_get_log_message(void* buf, Log_databuffer_t* log_databuffer);
  * @ingroup OS_LoggerDataBuffer
 */
 bool
-Log_databuffer_get_info(void* buf, Log_databuffer_t* log_databuffer);
+OS_LoggerDataBuffer_getInfo(
+    void* buf,
+    OS_LoggerDataBuffer_Handle_t* log_databuffer);
 
 
 /**
- * @details %Log_databuffer_clear_databuffer clean the data buffer.
+ * @details %OS_LoggerDataBuffer_clear clean the data buffer.
  *
  * @param   buf:            data buffer
  *
@@ -194,4 +200,4 @@ Log_databuffer_get_info(void* buf, Log_databuffer_t* log_databuffer);
  * @ingroup OS_LoggerDataBuffer
 */
 bool
-Log_databuffer_clear_databuffer(void* buf);
+OS_LoggerDataBuffer_clear(void* buf);

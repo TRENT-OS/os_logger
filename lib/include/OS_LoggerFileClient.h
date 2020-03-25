@@ -29,27 +29,27 @@
 
 
 /**
- * @details Log_file_client_t defines the class datatype.
+ * @details OS_LoggerFileClient_Handle_t defines the class datatype.
  *
  * @ingroup OS_LoggerFileClient
 */
-typedef struct Log_file_client_t Log_file_client_t;
+typedef struct OS_LoggerFileClient_Handle OS_LoggerFileClient_Handle_t;
 
 
 /**
- * @details Log_file_client_dtorT defines the interface for function pointer to
- *          destructor.
+ * @details OS_LoggerFileClient_dtor_t defines the interface for function
+ *          pointer to destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerFileClient
 */
 typedef void
-(*Log_file_client_dtorT)(Log_file_client_t* self);
+(*OS_LoggerFileClient_dtor_t)(OS_LoggerFileClient_Handle_t* self);
 
 
 /**
- * @details Log_file_client_read_log_fileT defines the interface for function
+ * @details OS_LoggerFileClient_read_t defines the interface for function
  *          pointer to read a log file from log server.
  *
  *          The parameter "len" is the buffer size, i.e. how many bytes should
@@ -69,41 +69,42 @@ typedef void
  * @ingroup OS_LoggerFileClient
 */
 typedef bool
-(*Log_file_client_read_log_fileT)(
-    Log_file_client_t* self,
+(*OS_LoggerFileClient_read_t)(
+    OS_LoggerFileClient_Handle_t* self,
     const char* filename,
     uint64_t offset,
     uint64_t len);
 
 
 /**
- * @details Log_file_client_Vtable contain the member functions to his class.
+ * @details OS_LoggerFileClient_vtable_t contain the member functions to his
+ *          class.
  *
  * @ingroup OS_LoggerFileClient
 */
 typedef struct
 {
-    Log_file_client_dtorT          dtor;
-    Log_file_client_read_log_fileT read_log_file;
-} Log_file_client_Vtable;
+    OS_LoggerFileClient_dtor_t dtor;
+    OS_LoggerFileClient_read_t read_log_file;
+} OS_LoggerFileClient_vtable_t;
 
 
 /**
- * @details Log_file_client_t contain the vtable to his class.
+ * @details OS_LoggerFileClient_Handle contain the vtable to his class.
  *
  * @ingroup OS_LoggerFileClient
 */
-struct Log_file_client_t
+struct OS_LoggerFileClient_Handle
 {
     void* src_buf;
     void* dest_buf;
-    Log_file_client_callback_t* callback_vtable;
-    const Log_file_client_Vtable* vtable;
+    OS_LoggerFileClientCallback_Handle_t* callback_vtable;
+    const OS_LoggerFileClient_vtable_t* vtable;
 };
 
 
 /**
- * @details %Log_file_client_ctor is the constructor. \n
+ * @details %OS_LoggerFileClient_ctor is the constructor. \n
  *          All layer functions are interchangeable due to their special
  *          implementation.
  *
@@ -120,26 +121,26 @@ struct Log_file_client_t
  * @ingroup OS_LoggerFileClient
 */
 bool
-Log_file_client_ctor(
-    Log_file_client_t* self,
+OS_LoggerFileClient_ctor(
+    OS_LoggerFileClient_Handle_t* self,
     void* src_buf,
     void* dest_buf,
-    Log_file_client_callback_t* log_file_client_callback);
+    OS_LoggerFileClientCallback_Handle_t* log_file_client_callback);
 
 
 /**
- * @details %Log_file_client_dtor is the destructor.
+ * @details %OS_LoggerFileClient_dtor is the destructor.
  *
  * @param   self:   pointer to the class
  *
  * @ingroup OS_LoggerFileClient
 */
 void
-Log_file_client_dtor(Log_file_client_t* self);
+OS_LoggerFileClient_dtor(OS_LoggerFileClient_Handle_t* self);
 
 
 /**
- * @details %Log_file_client_read_log_file provides to read a log file from log
+ * @details %OS_LoggerFileClient_read provides to read a log file from log
  *          server.
  *
  * @param   self:       pointer to the class
@@ -158,7 +159,8 @@ Log_file_client_dtor(Log_file_client_t* self);
  * @ingroup OS_LoggerFileClient
 */
 bool
-Log_file_client_read_log_file(Log_file_client_t* self,
-                              const char* filename,
-                              uint64_t offset,
-                              uint64_t len);
+OS_LoggerFileClient_read(
+    OS_LoggerFileClient_Handle_t* self,
+    const char* filename,
+    uint64_t offset,
+    uint64_t len);

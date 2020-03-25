@@ -4,14 +4,16 @@
 #include <string.h>
 
 bool
-Log_consumer_callback_ctor(Log_consumer_callback_t* self,
-                           Log_consumer_callback_emitT server_emit,
-                           Log_consumer_callback_get_sender_id get_sender_id,
-                           Log_consumer_callback_get_timestampT get_timestamp)
+OS_LoggerConsumerCallback_ctor(
+    OS_LoggerConsumerCallback_t* self,
+    OS_LoggerConsumerCallback_emit_t server_emit,
+    OS_LoggerConsumerCallback_getSenderId_t get_sender_id,
+    OS_LoggerConsumerCallback_getTimestamp_t get_timestamp)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    // "server_emit" can be NULL, if Log_consumer_t will be declared as "local" log server
+    // "server_emit" can be NULL, if OS_LoggerConsumer_Handle_t will be
+    //      declared as "local" log server
     // "get_timestamp" can be NULL, if timestamp is not necessary
     if (get_sender_id == NULL /*|| emit == NULL || get_timestamp == NULL*/)
     {
@@ -29,9 +31,9 @@ Log_consumer_callback_ctor(Log_consumer_callback_t* self,
 
 
 void
-Log_consumer_callback_dtor(Log_consumer_callback_t* self)
+OS_LoggerConsumerCallback_dtor(OS_LoggerConsumerCallback_t* self)
 {
-    CHECK_SELF(self);
+    OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (Log_consumer_callback_t));
+    memset(self, 0, sizeof (OS_LoggerConsumerCallback_t));
 }
