@@ -57,18 +57,19 @@ typedef void
 
 
 /**
- * @details OS_LoggerFilter_filtering_t defines the interface for function
+ * @details OS_LoggerFilter_isFilteredOut_t defines the interface for function
  *          pointer to filter logs by log level id.
  *
  * @param   self:       pointer to the class
  * @param   log_level:  log level id
  *
- * @return  an error code
+ * @retval  true  - if filtered out
+ * @retval  false - if NOT filtered out
  *
  * @ingroup OS_LoggerFilter
 */
 typedef bool
-(*OS_LoggerFilter_filtering_t)(
+(*OS_LoggerFilter_isFilteredOut_t)(
     OS_LoggerFilter_Handle_t* self,
     uint8_t log_level);
 
@@ -80,8 +81,8 @@ typedef bool
 */
 typedef struct
 {
-    OS_LoggerFilter_dtor_t      dtor;      //!< function ptr to destructor
-    OS_LoggerFilter_filtering_t filtering; //!< function ptr to filter function
+    OS_LoggerFilter_dtor_t          dtor;
+    OS_LoggerFilter_isFilteredOut_t isFilteredOut;
 } OS_LoggerFilter_vtable_t;
 
 
@@ -105,8 +106,8 @@ struct OS_LoggerFilter_Handle
  *
  * @return  an status code
  *
- * @retval  true,  if all allright
- * @retval  false, if an error has been occurred
+ * @retval  true  - if allright
+ * @retval  false - if an error has occurred
  *
  * @ingroup OS_LoggerFilter
 */

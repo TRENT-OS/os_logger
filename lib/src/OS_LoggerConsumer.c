@@ -187,8 +187,9 @@ _Log_consumer_process(OS_LoggerConsumer_Handle_t* self)
 
     if (self->log_filter != NULL)
     {
-        if (self->log_filter->vtable->filtering(self->log_filter,
-                                                self->log_info.log_databuffer.log_level_client) == false)
+        if (self->log_filter->vtable->isFilteredOut(
+                self->log_filter,
+                self->log_info.log_databuffer.log_level_client))
         {
             // Debug_printf -> Log filter!!!
             OS_LoggerDataBuffer_clear(self->buf);

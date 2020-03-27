@@ -136,7 +136,9 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 
     if (this->log_filter != NULL)
     {
-        if (this->log_filter->vtable->filtering(this->log_filter, log_level) == false)
+        if (this->log_filter->vtable->isFilteredOut(
+                this->log_filter,
+                log_level))
         {
             // Debug_printf -> Log filter!!!
             return false;
