@@ -1,18 +1,39 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerEmitter.h"
-#include "OS_LoggerDataBuffer.h"
-#include "OS_LoggerSymbols.h"
+#include "Logger/Client/OS_LoggerEmitter.h"
+#include "Logger/Common/OS_LoggerDataBuffer.h"
+#include "Logger/Common/OS_LoggerSymbols.h"
 #include <string.h>
 #include <stdio.h>
 
+typedef void  (*OS_LoggerEmitter_dtor_t)(void);
+typedef void* (*OS_LoggerEmitter_getBuffer_t)(void);
+typedef bool  (*OS_LoggerEmitter_wait_t)(void);
+typedef bool  (*OS_LoggerEmitter_emit_t)(void);
 
+typedef bool
+(*OS_LoggerEmitter_log_t)(uint8_t log_level, const char* format, ...);
+
+typedef struct
+{
+    OS_LoggerEmitter_dtor_t      dtor;
+    OS_LoggerEmitter_getBuffer_t get_buffer;
+    OS_LoggerEmitter_wait_t      wait;
+    OS_LoggerEmitter_emit_t      emit;
+    OS_LoggerEmitter_log_t       log;
+} OS_LoggerEmitter_vtable_t;
+
+struct OS_LoggerEmitter_Handle
+{
+    void*                                buf;
+    OS_LoggerFilter_Handle_t*            log_filter;
+    OS_LoggerEmitterCallback_Handle_t*   callback_vtable;
+    const OS_LoggerEmitter_vtable_t*     vtable;
+};
 
 // forward declaration
 static void* _Log_emitter_get_buffer(void);
 static bool  _Log_emitter_wait(void);
 static bool  _Log_emitter_emit(void);
-
-
 
 static const OS_LoggerEmitter_vtable_t Log_emitter_vtable =
 {

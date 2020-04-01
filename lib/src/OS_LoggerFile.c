@@ -1,7 +1,7 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerFile.h"
-#include "OS_LoggerConsumerChain.h"
-#include "OS_LoggerConsumer.h"
+#include "Logger/Server/OS_LoggerFile.h"
+#include "Logger/Server/OS_LoggerConsumerChain.h"
+#include "Logger/Server/OS_LoggerConsumer.h"
 #include <string.h>
 #include <stdio.h>
 

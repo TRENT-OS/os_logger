@@ -1,5 +1,6 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerFileClientCallback.h"
+#include "Logger/Client/OS_LoggerFileClientCallback.h"
+#include "Logger/Common/OS_LoggerSymbols.h"
 #include <string.h>
 
 

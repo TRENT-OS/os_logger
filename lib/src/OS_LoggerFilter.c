@@ -1,6 +1,6 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerFilter.h"
-#include "OS_LoggerSymbols.h"
+#include "Logger/Common/OS_LoggerFilter.h"
+#include "Logger/Common/OS_LoggerSymbols.h"
 #include <string.h>
 
 

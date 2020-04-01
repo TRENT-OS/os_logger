@@ -1,5 +1,5 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerDataBuffer.h"
+#include "Logger/Common/OS_LoggerDataBuffer.h"
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>

@@ -1,6 +1,6 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerFormat.h"
-#include "OS_LoggerTimestamp.h"
+#include "Logger/Server/OS_LoggerFormat.h"
+#include "Logger/Server/OS_LoggerTimestamp.h"
 #include <stdio.h>
 
 // forward declaration

@@ -1,6 +1,6 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerOutputConsole.h"
-#include "OS_LoggerConsumer.h"
+#include "Logger/Server/OS_LoggerOutputConsole.h"
+#include "Logger/Server/OS_LoggerConsumer.h"
 
 
 

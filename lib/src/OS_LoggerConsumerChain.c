@@ -1,8 +1,7 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
-#include "OS_LoggerConsumerChain.h"
+#include "Logger/Server/OS_LoggerConsumerChain.h"
+#include "Logger/Common/OS_LoggerSymbols.h"
 #include <string.h>
-
-
 
 static const OS_LoggerConsumerChain_vtable_t Consumer_chain_vtable =
 {
@@ -12,7 +11,6 @@ static const OS_LoggerConsumerChain_vtable_t Consumer_chain_vtable =
     .get_sender               = OS_LoggerConsumerChain_getSender,
     .poll                     = OS_LoggerConsumerChain_poll
 };
-
 
 
 // Singleton
