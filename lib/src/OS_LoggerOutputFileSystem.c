@@ -2,7 +2,7 @@
 #include "OS_LoggerOutputFileSystem.h"
 #include "OS_LoggerConsumer.h"
 #include "OS_LoggerFile.h"
-#include "seos_fs.h"
+#include "seos_fs_api.h"
 #include <string.h>
 #include <stdio.h>
 
