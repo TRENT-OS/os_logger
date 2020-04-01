@@ -129,7 +129,7 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
         return -1;
     }
 
-    *log_file_size = file_getSize(((OS_LoggerFile_Handle_t*)
+    *log_file_size = OS_FilesystemApi_getSizeOfFile(((OS_LoggerFile_Handle_t*)
                                    log_consumer_filename->log_file)->log_file_info.phandle, filename);
     if (*log_file_size < 0)
     {
@@ -151,22 +151,22 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
     }
 
     hFile_t fhandle;
-    fhandle = file_open(((OS_LoggerFile_Handle_t*)
+    fhandle = OS_FilesystemApi_openFile(((OS_LoggerFile_Handle_t*)
                          log_consumer_filename->log_file)->log_file_info.phandle, filename, FA_READ);
-    if (!is_valid_file_handle(fhandle))
+    if (!OS_FilesystemApi_validateFileHandle(fhandle))
     {
         printf("Fail to open file: %s!\n", filename);
         return -1;
     }
 
-    if (file_read(fhandle, (long)offset, (long)len,
+    if (OS_FilesystemApi_readFile(fhandle, (long)offset, (long)len,
                   log_consumer->buf) != SEOS_SUCCESS)
     {
         printf("Fail to read file: %s!\n", filename);
         return -1;
     }
 
-    if (file_close(fhandle) != SEOS_SUCCESS)
+    if (OS_FilesystemApi_closeFile(fhandle) != SEOS_SUCCESS)
     {
         printf("Fail to close file: %s!\n", filename);
         return -1;
@@ -210,13 +210,13 @@ OS_LoggerFile_dtor(OS_LoggerFile_Handle_t* self)
 
     if (_is_init_partition())
     {
-        if (partition_fs_unmount(self->log_file_info.phandle) != SEOS_SUCCESS)
+        if (OS_FilesystemApi_unmount(self->log_file_info.phandle) != SEOS_SUCCESS)
         {
             printf("Fail to unmount partition: %d!\n", self->log_file_info.drv_id);
             return;
         }
 
-        if (partition_close(self->log_file_info.phandle) != SEOS_SUCCESS)
+        if (OS_FilesystemApi_close(self->log_file_info.phandle) != SEOS_SUCCESS)
         {
             printf("Fail to close partition: %d!\n", self->log_file_info.drv_id);
             return;
@@ -237,13 +237,13 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
 
     if (!_is_init_partition())
     {
-        self->log_file_info.phandle = partition_open(self->log_file_info.drv_id);
-        if (!is_valid_partition_handle(self->log_file_info.phandle))
+        self->log_file_info.phandle = OS_FilesystemApi_open(self->log_file_info.drv_id);
+        if (!OS_FilesystemApi_validatePartitionHandle(self->log_file_info.phandle))
         {
             return -1;
         }
 
-        if (partition_fs_mount(self->log_file_info.phandle) != SEOS_SUCCESS)
+        if (OS_FilesystemApi_mount(self->log_file_info.phandle) != SEOS_SUCCESS)
         {
             return false;
         }
@@ -253,15 +253,15 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
 
     // create empty file
     hFile_t fhandle;
-    fhandle = file_open(self->log_file_info.phandle, self->log_file_info.filename,
+    fhandle = OS_FilesystemApi_openFile(self->log_file_info.phandle, self->log_file_info.filename,
                         FA_CREATE_ALWAYS);
-    if (!is_valid_file_handle(fhandle))
+    if (!OS_FilesystemApi_validateFileHandle(fhandle))
     {
         printf("Fail to open file: %s!\n", self->log_file_info.filename);
         return false;
     }
 
-    if (file_close(fhandle) != SEOS_SUCCESS)
+    if (OS_FilesystemApi_closeFile(fhandle) != SEOS_SUCCESS)
     {
         printf("Fail to close file: %s!\n", self->log_file_info.filename);
         return false;
