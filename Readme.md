@@ -34,50 +34,6 @@ less data) stored in the file critical_log.txt.
 
 Log clients are now mapped to the proper views based on the requirements.
 
-See the below diagram for a better understanding:
-
-@startuml
-title Logger Component Diagram
-
-actor ClientA1
-actor ClientA2
-actor ClientB
-
-component Server {
-  rectangle View_A {
-    component Subject_A
-
-    component Observer_A_console
-    component Observer_A_file
-
-  }
-
-  rectangle View_B {
-    component Subject_B
-    component Observer_B_file
-  }
-
-  artifact console
-  artifact full_log.txt
-  artifact critical_log.txt
-}
-
-ClientA1 -0)- Subject_A
-ClientA2 -0)- Subject_A
-ClientB  -0)- Subject_B
-
-Observer_A_file    -up0)- Subject_A : update
-Observer_A_console -up0)- Subject_A : update
-
-Observer_A_file    -0)- full_log.txt : "  default_format"
-Observer_A_console -0)- console      : "  default_format"
-
-Observer_B_file -up0)- Subject_B : update
-
-Observer_B_file -0)- critical_log.txt : "  lite_format"
-
-@enduml
-
 ### Emitter - Consumer Pairs
 
 The Client-Server model is implemented by the introduction of log entries
