@@ -2,7 +2,7 @@
 #include "Logger/Server/OS_LoggerOutputFileSystem.h"
 #include "Logger/Server/OS_LoggerConsumer.h"
 #include "Logger/Server/OS_LoggerFile.h"
-#include "OS_FilesystemApi.h"
+#include "OS_Filesystem.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -133,12 +133,12 @@ _Log_output_filesystem_print(
         (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format,
         &log_consumer->log_info);
 
-    fhandle = OS_FilesystemApi_openFile(
+    fhandle = OS_Filesystem_openFile(
                   ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.phandle,
                   ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename,
                   FA_WRITE);
 
-    if (!OS_FilesystemApi_validateFileHandle(fhandle))
+    if (!OS_Filesystem_validateFileHandle(fhandle))
     {
         printf(
             "Fail to open file: %s!\n",
@@ -146,7 +146,7 @@ _Log_output_filesystem_print(
         return false;
     }
 
-    if (SEOS_SUCCESS != OS_FilesystemApi_writeFile(
+    if (SEOS_SUCCESS != OS_Filesystem_writeFile(
             fhandle,
             (long)((OS_LoggerFile_Handle_t*)log_consumer->log_file)
             ->log_file_info.offset,
@@ -159,7 +159,7 @@ _Log_output_filesystem_print(
         return false;
     }
 
-    if (OS_FilesystemApi_closeFile(fhandle) != SEOS_SUCCESS)
+    if (OS_Filesystem_closeFile(fhandle) != SEOS_SUCCESS)
     {
         printf(
             "Fail to close file: %s!\n",
