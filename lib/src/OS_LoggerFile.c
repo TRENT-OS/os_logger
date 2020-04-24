@@ -185,7 +185,8 @@ OS_LoggerFile_ctor(
 {
     OS_Logger_CHECK_SELF(self);
 
-    if (filename == NULL)
+    if(NULL == filename
+        || (strlen(filename) >= sizeof(self->log_file_info.filename)))
     {
         // Debug_printf
         return false;
