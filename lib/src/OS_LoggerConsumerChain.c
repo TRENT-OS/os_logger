@@ -9,7 +9,6 @@ static const OS_LoggerConsumerChain_vtable_t Consumer_chain_vtable =
     .append                   = OS_LoggerConsumerChain_append,
     .remove                   = OS_LoggerConsumerChain_remove,
     .get_sender               = OS_LoggerConsumerChain_getSender,
-    .poll                     = OS_LoggerConsumerChain_poll
 };
 
 
@@ -109,20 +108,6 @@ OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
 }
 
 
-
-void
-OS_LoggerConsumerChain_poll(void)
-{
-    OS_Logger_CHECK_SELF(this);
-
-    OS_LoggerConsumer_Handle_t* log_consumer;
-
-    log_consumer = this->node.first;
-    log_consumer->vtable->emit(log_consumer);
-}
-
-
-
 OS_LoggerConsumer_Handle_t*
 OS_LoggerConsumerChain_getSender(void)
 {
@@ -168,7 +153,4 @@ API_LOG_SERVER_EMIT(void)
     }
 
     log_consumer->vtable->process(log_consumer);
-
-    ((OS_LoggerConsumer_Handle_t*)(this->node.first))->vtable->emit(
-        (OS_LoggerConsumer_Handle_t*)(this->node.first));
 }

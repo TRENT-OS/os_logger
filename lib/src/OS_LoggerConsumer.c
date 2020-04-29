@@ -17,15 +17,10 @@ static bool _create_id_string(
     uint32_t id,
     const char* name);
 
-static void _Log_consumer_emit(OS_LoggerConsumer_Handle_t* self);
-
-
-
 static const OS_LoggerConsumer_vtable_t Log_consumer_vtable =
 {
     .dtor          = OS_LoggerConsumer_dtor,
     .process       = _Log_consumer_process,
-    .emit          = _Log_consumer_emit,
     .get_timestamp = _Log_consumer_get_timestamp,
 };
 
@@ -145,20 +140,6 @@ OS_LoggerConsumer_dtor(OS_LoggerConsumer_Handle_t* self)
 
     memset(self, 0, sizeof (OS_LoggerConsumer_Handle_t));
 }
-
-
-
-static void
-_Log_consumer_emit(OS_LoggerConsumer_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    if (self->callback_vtable->server_emit != NULL)
-    {
-        self->callback_vtable->server_emit();
-    }
-}
-
 
 
 static uint64_t
