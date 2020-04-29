@@ -20,15 +20,13 @@ static const OS_LoggerFilter_vtable_t Log_filter_vtable =
 
 
 
-bool
+void
 OS_LoggerFilter_ctor(OS_LoggerFilter_Handle_t* self, uint8_t log_level)
 {
     OS_Logger_CHECK_SELF(self);
 
     self->log_level = log_level;
     self->vtable = &Log_filter_vtable;
-
-    return true;
 }
 
 
