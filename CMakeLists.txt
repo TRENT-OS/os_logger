@@ -20,7 +20,6 @@ target_sources(${PROJECT_NAME}
     INTERFACE
         lib/src/OS_LoggerDataBuffer.c
         lib/src/OS_LoggerEmitter.c
-        lib/src/OS_LoggerEmitterCallback.c
         lib/src/OS_LoggerFileClient.c
         lib/src/OS_LoggerFileClientCallback.c
         lib/src/OS_LoggerFilter.c
@@ -62,7 +61,6 @@ target_sources(${PROJECT_NAME}
         lib/src/OS_LoggerConsumerCallback.c
         lib/src/OS_LoggerDataBuffer.c
         lib/src/OS_LoggerEmitter.c
-        lib/src/OS_LoggerEmitterCallback.c
         lib/src/OS_LoggerFilter.c
         lib/src/OS_LoggerFormat.c
         lib/src/OS_LoggerSubject.c
