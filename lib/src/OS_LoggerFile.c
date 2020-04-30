@@ -102,10 +102,11 @@ _Log_file_get_consumer_by_filename(const char* filename)
 
 
 int64_t
-API_LOG_SERVER_READ_LOG_FILE(const char* filename,
-                             uint64_t offset,
-                             uint64_t len,
-                             int64_t* log_file_size)
+API_LOG_SERVER_READ_LOG_FILE(
+    const char* filename,
+    uint64_t offset,
+    uint64_t len,
+    int64_t* log_file_size)
 {
     if (filename == NULL)
     {
@@ -129,8 +130,10 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
         return -1;
     }
 
-    *log_file_size = OS_Filesystem_getSizeOfFile(((OS_LoggerFile_Handle_t*)
-                                   log_consumer_filename->log_file)->log_file_info.phandle, filename);
+    *log_file_size = OS_Filesystem_getSizeOfFile(
+                         ((OS_LoggerFile_Handle_t*)
+                          log_consumer_filename->log_file)->log_file_info.phandle,
+                         filename);
     if (*log_file_size < 0)
     {
         return -1;
@@ -151,16 +154,22 @@ API_LOG_SERVER_READ_LOG_FILE(const char* filename,
     }
 
     hFile_t fhandle;
-    fhandle = OS_Filesystem_openFile(((OS_LoggerFile_Handle_t*)
-                         log_consumer_filename->log_file)->log_file_info.phandle, filename, FA_READ);
+    fhandle = OS_Filesystem_openFile(
+                  ((OS_LoggerFile_Handle_t*)
+                   log_consumer_filename->log_file)->log_file_info.phandle,
+                  filename,
+                  FA_READ);
     if (!OS_Filesystem_validateFileHandle(fhandle))
     {
         printf("Fail to open file: %s!\n", filename);
         return -1;
     }
 
-    if (OS_Filesystem_readFile(fhandle, (long)offset, (long)len,
-                  log_consumer->buf) != SEOS_SUCCESS)
+    if (OS_Filesystem_readFile(
+            fhandle,
+            (long)offset,
+            (long)len,
+            log_consumer->buf) != SEOS_SUCCESS)
     {
         printf("Fail to read file: %s!\n", filename);
         return -1;
@@ -185,7 +194,7 @@ OS_LoggerFile_ctor(
 {
     OS_Logger_CHECK_SELF(self);
 
-    if(NULL == filename
+    if (NULL == filename
         || (strlen(filename) >= sizeof(self->log_file_info.filename)))
     {
         // Debug_printf
@@ -254,8 +263,10 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
 
     // create empty file
     hFile_t fhandle;
-    fhandle = OS_Filesystem_openFile(self->log_file_info.phandle, self->log_file_info.filename,
-                        FA_CREATE_ALWAYS);
+    fhandle = OS_Filesystem_openFile(
+                  self->log_file_info.phandle,
+                  self->log_file_info.filename,
+                  FA_CREATE_ALWAYS);
     if (!OS_Filesystem_validateFileHandle(fhandle))
     {
         printf("Fail to open file: %s!\n", self->log_file_info.filename);
@@ -276,11 +287,12 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
 
 
 static int64_t
-_Log_file_read_log_file(OS_LoggerFile_Handle_t* self,
-                        const char* filename,
-                        uint64_t offset,
-                        uint64_t len,
-                        int64_t log_file_size)
+_Log_file_read_log_file(
+    OS_LoggerFile_Handle_t* self,
+    const char* filename,
+    uint64_t offset,
+    uint64_t len,
+    int64_t log_file_size)
 {
     OS_Logger_CHECK_SELF(self);
 
