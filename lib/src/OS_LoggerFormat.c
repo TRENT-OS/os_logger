@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 // forward declaration
-static bool _Log_format_convert(
+static seos_err_t _Log_format_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
     OS_LoggerDataBuffer_info* log_info);
 
@@ -15,14 +15,12 @@ static const OS_LoggerAbstractFormat_vtable_t Log_format_vtable =
     .print   = OS_LoggerFormat_print
 };
 
-bool
+void
 OS_LoggerFormat_ctor(OS_LoggerFormat_Handle_t* self)
 {
     OS_Logger_CHECK_SELF(self);
 
     self->vtable = &Log_format_vtable;
-
-    return true;
 }
 
 void
@@ -33,7 +31,7 @@ OS_LoggerFormat_dtor(OS_LoggerAbstractFormat_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerFormat_Handle_t));
 }
 
-static bool
+static seos_err_t
 _Log_format_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
     OS_LoggerDataBuffer_info* log_info)
@@ -46,8 +44,7 @@ _Log_format_convert(
 
     if (log_info == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     log_format = (OS_LoggerFormat_Handle_t*)self;
@@ -73,7 +70,7 @@ _Log_format_convert(
         log_info->log_databuffer.log_level_client,
         (int)msg_len, log_info->log_databuffer.log_message);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 void

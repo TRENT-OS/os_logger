@@ -11,7 +11,7 @@ OS_LoggerAbstractSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerAbstractSubject_Handle_t));
 }
 
-bool
+seos_err_t
 OS_LoggerAbstractSubject_attach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)
@@ -20,14 +20,13 @@ OS_LoggerAbstractSubject_attach(
 
     if (observer == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     return self->vtable->attach(self, observer);
 }
 
-bool
+seos_err_t
 OS_LoggerAbstractSubject_detach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)
@@ -36,8 +35,7 @@ OS_LoggerAbstractSubject_detach(
 
     if (observer == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     return self->vtable->detach(self, observer);

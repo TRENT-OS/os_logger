@@ -7,11 +7,11 @@
 // forward declaration
 static void _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self);
 
-static bool _Log_output_console_update(
+static seos_err_t _Log_output_console_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data);
 
-static bool _Log_output_console_print(
+static seos_err_t _Log_output_console_print(
     OS_LoggerAbstractOutput_Handle_t* self,
     void* data);
 
@@ -35,22 +35,19 @@ _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self)
 
 
 
-bool
+seos_err_t
 OS_LoggerOutputConsole_ctor(
     OS_LoggerOutput_Handle_t* self,
     OS_LoggerFormat_Handle_t* log_format)
 {
     OS_Logger_CHECK_SELF(self);
 
-    bool retval = false;
-
     if (log_format == NULL)
     {
-        // Debug_printf
-        return retval;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
-    retval = OS_LoggerListT_ctor(&self->listT);
+    OS_LoggerListT_ctor(&self->listT);
 
     self->node.prev = NULL;
     self->node.next = NULL;
@@ -59,7 +56,7 @@ OS_LoggerOutputConsole_ctor(
 
     self->vtable = &Log_output_console_vtable;
 
-    return retval;
+    return SEOS_SUCCESS;
 }
 
 
@@ -75,7 +72,7 @@ OS_LoggerOutputConsole_dtor(OS_LoggerAbstractOutput_Handle_t* self)
 
 
 static
-bool
+seos_err_t
 _Log_output_console_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data)
@@ -84,8 +81,7 @@ _Log_output_console_update(
 
     if (data == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
@@ -93,12 +89,12 @@ _Log_output_console_update(
         (OS_LoggerAbstractOutput_Handle_t*)log_output,
         data);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
-static bool
+static seos_err_t
 _Log_output_console_print(OS_LoggerAbstractOutput_Handle_t* self, void* data)
 {
     OS_Logger_CHECK_SELF(self);
@@ -114,5 +110,5 @@ _Log_output_console_print(OS_LoggerAbstractOutput_Handle_t* self, void* data)
     log_output->log_format->vtable->print(
         (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format);
 
-    return true;
+    return SEOS_SUCCESS;
 }

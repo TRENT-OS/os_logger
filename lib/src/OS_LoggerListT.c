@@ -11,14 +11,16 @@ static bool  _ListT_has_next(OS_LoggerNodeT_Handle_t* current);
 static void* _ListT_get_prev(OS_LoggerNodeT_Handle_t* current);
 static void* _ListT_get_next(OS_LoggerNodeT_Handle_t* current);
 
-static bool  _ListT_insert(
+static
+seos_err_t
+_ListT_insert(
     OS_LoggerNodeT_Handle_t* current,
     OS_LoggerNodeT_Handle_t* new_node);
 
-static bool  _ListT_delete(OS_LoggerNodeT_Handle_t* current);
-static void* _ListT_get_first(OS_LoggerNodeT_Handle_t* current);
-static void* _ListT_get_last(OS_LoggerNodeT_Handle_t* current);
-static bool  _ListT_isInside(OS_LoggerNodeT_Handle_t* current);
+static seos_err_t   _ListT_delete(OS_LoggerNodeT_Handle_t* current);
+static void*        _ListT_get_first(OS_LoggerNodeT_Handle_t* current);
+static void*        _ListT_get_last(OS_LoggerNodeT_Handle_t* current);
+static bool         _ListT_isInside(OS_LoggerNodeT_Handle_t* current);
 
 
 
@@ -38,14 +40,12 @@ static const OS_LoggerListT_vtable_t ListT_vtable =
 
 
 
-bool
+void
 OS_LoggerListT_ctor(OS_LoggerListT_t_Handle_t* self)
 {
     OS_Logger_CHECK_SELF(self);
 
     self->vtable = &ListT_vtable;
-
-    return true;
 }
 
 
@@ -150,30 +150,21 @@ _ListT_get_next(OS_LoggerNodeT_Handle_t* current)
 
 
 static
-bool
+seos_err_t
 _ListT_insert(
     OS_LoggerNodeT_Handle_t* current,
     OS_LoggerNodeT_Handle_t* new_node)
 {
-    bool retval = false;
-
     OS_LoggerNodeT_Handle_t* next = NULL;
 
-    if (current == NULL)
+    if ((current == NULL) || (new_node == NULL))
     {
-        // Debug_printf
-        return retval;
-    }
-
-    if (new_node == NULL)
-    {
-        // Debug_printf
-        return retval;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     if (current == new_node)
     {
-        return true;
+        return SEOS_SUCCESS;
     }
 
     if (_ListT_has_next(current))
@@ -187,15 +178,14 @@ _ListT_insert(
     new_node->prev = current;
     new_node->next = next;
 
-    retval = true;
-
-    return retval;
+    return SEOS_SUCCESS;
 }
 
 
 
 
-static bool
+static
+seos_err_t
 _ListT_delete(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* prev = NULL;
@@ -203,8 +193,7 @@ _ListT_delete(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     if (_ListT_has_prev(current))
@@ -219,7 +208,7 @@ _ListT_delete(OS_LoggerNodeT_Handle_t* current)
 
     if (next == NULL && prev == NULL)
     {
-        return true;
+        return SEOS_SUCCESS;
     }
     else if (next == NULL)
     {
@@ -238,7 +227,7 @@ _ListT_delete(OS_LoggerNodeT_Handle_t* current)
     current->prev = NULL;
     current->next = NULL;
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 

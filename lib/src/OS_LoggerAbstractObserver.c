@@ -11,14 +11,12 @@ OS_LoggerAbstractObserver_dtor(OS_LoggerAbstractObserver_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerAbstractObserver_Handle_t));
 }
 
-bool
+seos_err_t
 OS_LoggerAbstractObserver_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data)
 {
     OS_Logger_CHECK_SELF(self);
 
-    self->vtable->update(self, data);
-
-    return true;
+    return self->vtable->update(self, data);
 }

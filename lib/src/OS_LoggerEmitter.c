@@ -56,19 +56,17 @@ OS_LoggerEmitter_dtor(void)
     this = NULL;
 }
 
-bool
+seos_err_t
 OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 {
     if (NULL == this)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_HANDLE;
     }
 
-    if (format == NULL)
+    if (NULL == format)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     int retval = false;
@@ -80,8 +78,7 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
                 this->log_filter,
                 log_level))
         {
-            // Debug_printf -> Log filter!!!
-            return false;
+            return SEOS_SUCCESS;
         }
     }
 
@@ -90,14 +87,13 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 
     if (strlen(format) > OS_Logger_MESSAGE_LENGTH)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_GENERIC;
     }
 
     retval = vsnprintf(buf, OS_Logger_MESSAGE_LENGTH, format, args);
     if (retval < 0 || retval > OS_Logger_MESSAGE_LENGTH)
     {
-        return false;
+        return SEOS_ERROR_BUFFER_TOO_SMALL;
     }
 
     OS_LoggerDataBuffer_setClientLogLevel(this->buf, log_level);
@@ -107,5 +103,5 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 
     this->emit();
 
-    return true;
+    return SEOS_SUCCESS;
 }

@@ -11,11 +11,11 @@
 // forward declaration
 static void _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self);
 
-static bool _Log_output_filesystem_update(
+static seos_err_t _Log_output_filesystem_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data);
 
-static bool _Log_output_filesystem_print(
+static seos_err_t _Log_output_filesystem_print(
     OS_LoggerAbstractOutput_Handle_t* self,
     void* data);
 
@@ -39,22 +39,19 @@ _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self)
 
 
 
-bool
+seos_err_t
 OS_LoggerOutputFileSystem_ctor(
     OS_LoggerOutput_Handle_t* self,
     OS_LoggerFormat_Handle_t* log_format)
 {
     OS_Logger_CHECK_SELF(self);
 
-    bool retval = false;
-
     if (log_format == NULL)
     {
-        // Debug_printf
-        return retval;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
-    retval = OS_LoggerListT_ctor(&self->listT);
+    OS_LoggerListT_ctor(&self->listT);
 
     self->node.prev = NULL;
     self->node.next = NULL;
@@ -63,7 +60,7 @@ OS_LoggerOutputFileSystem_ctor(
 
     self->vtable = &Log_output_filesystem_vtable;
 
-    return retval;
+    return SEOS_SUCCESS;
 }
 
 
@@ -79,7 +76,7 @@ OS_LoggerOutputFileSystem_dtor(OS_LoggerAbstractOutput_Handle_t* self)
 
 
 static
-bool
+seos_err_t
 _Log_output_filesystem_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data)
@@ -88,8 +85,7 @@ _Log_output_filesystem_update(
 
     if (data == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
@@ -97,13 +93,13 @@ _Log_output_filesystem_update(
         (OS_LoggerAbstractOutput_Handle_t*)log_output,
         data);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
 static
-bool
+seos_err_t
 _Log_output_filesystem_print(
     OS_LoggerAbstractOutput_Handle_t* self,
     void* data)
@@ -112,8 +108,7 @@ _Log_output_filesystem_print(
 
     if (data == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     hFile_t fhandle;
@@ -125,7 +120,7 @@ _Log_output_filesystem_print(
     if (log_consumer->log_file == NULL)
     {
         // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     // log format layer
@@ -143,32 +138,38 @@ _Log_output_filesystem_print(
         printf(
             "Fail to open file: %s!\n",
             ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename);
-        return false;
+
+        return SEOS_ERROR_INVALID_HANDLE;
     }
 
-    if (SEOS_SUCCESS != OS_Filesystem_writeFile(
-            fhandle,
-            (long)((OS_LoggerFile_Handle_t*)log_consumer->log_file)
-            ->log_file_info.offset,
-            (long)strlen(log_output->log_format->buffer),
-            log_output->log_format->buffer))
+    seos_err_t result = OS_Filesystem_writeFile(
+                            fhandle,
+                            (long)((OS_LoggerFile_Handle_t*)log_consumer->log_file)
+                            ->log_file_info.offset,
+                            (long)strlen(log_output->log_format->buffer),
+                            log_output->log_format->buffer);
+
+    if (SEOS_SUCCESS != result)
     {
         printf(
             "Fail to write file: %s!\n",
             ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename);
-        return false;
+
+        return result;
     }
 
-    if (OS_Filesystem_closeFile(fhandle) != SEOS_SUCCESS)
+    result = OS_Filesystem_closeFile(fhandle);
+    if (SEOS_SUCCESS != result)
     {
         printf(
             "Fail to close file: %s!\n",
             ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename);
-        return false;
+
+        return result;
     }
 
     ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.offset
     += strlen(log_output->log_format->buffer);
 
-    return true;
+    return SEOS_SUCCESS;
 }

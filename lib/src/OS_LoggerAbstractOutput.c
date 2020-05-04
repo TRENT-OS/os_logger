@@ -11,7 +11,7 @@ OS_LoggerAbstractOutput_dtor(OS_LoggerAbstractOutput_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerAbstractOutput_Handle_t));
 }
 
-bool
+seos_err_t
 OS_LoggerAbstractOutput_print(
     OS_LoggerAbstractOutput_Handle_t* self,
     void* data)

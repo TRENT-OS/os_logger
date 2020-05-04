@@ -91,14 +91,14 @@ OS_LoggerDataBuffer_setLogMessage(void* buf, const char* msg)
 /**********/
 /* Getter */
 /**********/
-bool
+seos_err_t
 OS_LoggerDataBuffer_getServerLogLevel(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
 {
     if (buf == NULL || log_databuffer == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     char tmp_log_level_srv[OS_Logger_LOG_LEVEL_LENGTH + 1] = "0"; // + '\0'
@@ -108,19 +108,19 @@ OS_LoggerDataBuffer_getServerLogLevel(
 
     log_databuffer->log_level_srv = (uint8_t)atoi(tmp_log_level_srv);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerDataBuffer_getClientLogLevel(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
 {
     if (buf == NULL || log_databuffer == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     char tmp_log_level_client[OS_Logger_LOG_LEVEL_LENGTH] = "0"; // + '\0'
@@ -130,74 +130,75 @@ OS_LoggerDataBuffer_getClientLogLevel(
 
     log_databuffer->log_level_client = (uint8_t)atoi(tmp_log_level_client);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerDataBuffer_getLogMessage(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
 {
     if (buf == NULL || log_databuffer == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     memcpy(log_databuffer->log_message, (char*)buf + OS_Logger_MESSAGE_OFFSET,
            OS_Logger_MESSAGE_LENGTH);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerDataBuffer_getInfo(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
 {
     if (buf == NULL || log_databuffer == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
-    bool retval = false;
+    seos_err_t retval = OS_LoggerDataBuffer_getServerLogLevel(
+                            buf,
+                            log_databuffer);
 
-    retval = OS_LoggerDataBuffer_getServerLogLevel(buf, log_databuffer);
-    if (retval == false)
+    if (retval != SEOS_SUCCESS)
     {
-        return false;
+        return retval;
     }
 
     retval = OS_LoggerDataBuffer_getClientLogLevel(buf, log_databuffer);
-    if (retval == false)
+    if (retval != SEOS_SUCCESS)
     {
-        return false;
+        return retval;
     }
 
     retval = OS_LoggerDataBuffer_getLogMessage(buf, log_databuffer);
-    if (retval == false)
+    if (retval != SEOS_SUCCESS)
     {
-        return false;
+        return retval;
     }
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerDataBuffer_clear(void* buf)
 {
     if (buf == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     memset((char*)buf + OS_Logger_LOG_LEVEL_CLIENT_OFFSET, 0,
            DATABUFFER_SIZE - OS_Logger_LOG_LEVEL_LENGTH);
 
-    return true;
+    return SEOS_SUCCESS;
 }

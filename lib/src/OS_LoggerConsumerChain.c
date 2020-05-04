@@ -23,16 +23,10 @@ OS_LoggerConsumerChain_getInstance(void)
 {
     if (this == NULL)
     {
-        bool retval = false;
-
         this = &_consumer_chain;
         this->vtable = &Consumer_chain_vtable;
 
-        retval = OS_LoggerListT_ctor(&this->listT);
-        if (retval == false)
-        {
-            return NULL;
-        }
+        OS_LoggerListT_ctor(&this->listT);
     }
 
     return this;
@@ -49,17 +43,14 @@ OS_LoggerConsumerChain_dtor(void)
 
 
 
-bool
+seos_err_t
 OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
 {
     OS_Logger_CHECK_SELF(this);
 
-    bool retval = false;
-
     if (consumer == NULL)
     {
-        // Debug_printf
-        return retval;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     if (this->node.first == NULL)
@@ -68,28 +59,24 @@ OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
         return true;
     }
 
-    retval = this->listT.vtable->insert(
-                 this->listT.vtable->get_last(
-                     (OS_LoggerNodeT_Handle_t*)
-                     & (((OS_LoggerConsumer_Handle_t*)(this->node.first))->node)),
-                 &consumer->node);
-
-    return retval;
+    return this->listT.vtable->insert(
+               this->listT.vtable->get_last(
+                   (OS_LoggerNodeT_Handle_t*)
+                   & (((OS_LoggerConsumer_Handle_t*)(this->node.first))->node)),
+               &consumer->node);
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
 {
     OS_Logger_CHECK_SELF(this);
 
-    bool retval = false;
-
     if (consumer == NULL)
     {
         // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     if (this->node.first == consumer)
@@ -102,9 +89,7 @@ OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
         }
     }
 
-    retval = this->listT.vtable->delete (&consumer->node);
-
-    return retval;
+    return this->listT.vtable->delete (&consumer->node);
 }
 
 

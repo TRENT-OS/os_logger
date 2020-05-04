@@ -186,7 +186,7 @@ API_LOG_SERVER_READ_LOG_FILE(
 
 
 
-bool
+seos_err_t
 OS_LoggerFile_ctor(
     OS_LoggerFile_Handle_t* self,
     uint8_t drv_id,
@@ -197,8 +197,7 @@ OS_LoggerFile_ctor(
     if (NULL == filename
         || (strlen(filename) >= sizeof(self->log_file_info.filename)))
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     self->vtable = &Log_file_vtable;
@@ -208,7 +207,7 @@ OS_LoggerFile_ctor(
 
     _init_partition(false);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
@@ -240,7 +239,7 @@ OS_LoggerFile_dtor(OS_LoggerFile_Handle_t* self)
 
 
 
-bool
+seos_err_t
 OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
 {
     OS_Logger_CHECK_SELF(self);
@@ -250,38 +249,42 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
         self->log_file_info.phandle = OS_Filesystem_open(self->log_file_info.drv_id);
         if (!OS_Filesystem_validatePartitionHandle(self->log_file_info.phandle))
         {
-            return -1;
+            return SEOS_ERROR_INVALID_HANDLE;
         }
 
-        if (OS_Filesystem_mount(self->log_file_info.phandle) != SEOS_SUCCESS)
+        const seos_err_t result =
+            OS_Filesystem_mount(self->log_file_info.phandle);
+
+        if (SEOS_SUCCESS != result)
         {
-            return false;
+            return result;
         }
 
         _init_partition(true);
     }
 
     // create empty file
-    hFile_t fhandle;
-    fhandle = OS_Filesystem_openFile(
-                  self->log_file_info.phandle,
-                  self->log_file_info.filename,
-                  FA_CREATE_ALWAYS);
+    hFile_t fhandle = OS_Filesystem_openFile(
+                          self->log_file_info.phandle,
+                          self->log_file_info.filename,
+                          FA_CREATE_ALWAYS);
+
     if (!OS_Filesystem_validateFileHandle(fhandle))
     {
-        printf("Fail to open file: %s!\n", self->log_file_info.filename);
-        return false;
+        printf("Fail to open file: %s!", self->log_file_info.filename);
+        return SEOS_ERROR_INVALID_HANDLE;
     }
 
-    if (OS_Filesystem_closeFile(fhandle) != SEOS_SUCCESS)
+    const seos_err_t result = OS_Filesystem_closeFile(fhandle);
+    if (SEOS_SUCCESS != result)
     {
         printf("Fail to close file: %s!\n", self->log_file_info.filename);
-        return false;
+        return result;
     }
 
     self->log_file_info.offset = 0;
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 

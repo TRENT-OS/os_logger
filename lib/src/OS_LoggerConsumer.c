@@ -4,15 +4,16 @@
 #include <stdio.h>
 
 // forward declaration
-static bool _Log_consumer_process(OS_LoggerConsumer_Handle_t* self);
+static void _Log_consumer_process(OS_LoggerConsumer_Handle_t* self);
 static uint64_t _Log_consumer_get_timestamp(OS_LoggerConsumer_Handle_t* self);
 
 static
-bool _Log_consumer_init(
+void
+_Log_consumer_init(
     void* buffer,
     OS_LoggerFilter_Handle_t* log_filter);
 
-static bool _create_id_string(
+static void _create_id_string(
     OS_LoggerConsumer_Handle_t* self,
     uint32_t id,
     const char* name);
@@ -26,14 +27,10 @@ static const OS_LoggerConsumer_vtable_t Log_consumer_vtable =
 
 
 
-static bool
+static
+void
 _Log_consumer_init(void* buffer, OS_LoggerFilter_Handle_t* log_filter)
 {
-    if (buffer == NULL)
-    {
-        return false;
-    }
-
     OS_LoggerDataBuffer_clear(buffer);
 
     if (log_filter != NULL)
@@ -41,24 +38,17 @@ _Log_consumer_init(void* buffer, OS_LoggerFilter_Handle_t* log_filter)
         // Debug_printf -> no log filter installed
         OS_LoggerDataBuffer_setServerLogLevel(buffer, log_filter->log_level);
     }
-
-    return true;
 }
 
 
 
 static
-bool
+void
 _create_id_string(
     OS_LoggerConsumer_Handle_t* self,
     uint32_t id,
     const char* name)
 {
-    if (self == NULL)
-    {
-        return false;
-    }
-
     sprintf(self->log_info.log_id_and_name, "%.*u", OS_Logger_ID_LENGTH, id);
 
     if (name != NULL)
@@ -73,14 +63,11 @@ _create_id_string(
                 OS_Logger_NAME_LENGTH - 1, // Leaving space for the NULL terminator
                 "");
     }
-
-
-    return true;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerConsumer_ctor(
     OS_LoggerConsumer_Handle_t* self,
     void* buffer,
@@ -93,21 +80,12 @@ OS_LoggerConsumer_ctor(
 {
     OS_Logger_CHECK_SELF(self);
 
-    bool retval = false;
-
     // "log_file" can be NULL, if no log file is needed
     // "log_filter" can be NULL, if no log filter is installed
     if (buffer == NULL || callback_vtable == NULL
         || log_subject == NULL /*|| log_file == NULL || log_filter == NULL*/)
     {
-        // Debug_printf
-        return retval;
-    }
-
-    if (sizeof (buffer) > DATABUFFER_SIZE)
-    {
-        // Debug_printf
-        return retval;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     self->buf = buffer;
@@ -119,16 +97,10 @@ OS_LoggerConsumer_ctor(
     self->vtable = &Log_consumer_vtable;
     self->callback_vtable = callback_vtable;
 
-    retval = _create_id_string(self, id, name);
-    if (retval == false)
-    {
-        // Debug_printf
-        return false;
-    }
+    _create_id_string(self, id, name);
+    _Log_consumer_init(self->buf, self->log_filter);
 
-    retval = _Log_consumer_init(self->buf, self->log_filter);
-
-    return retval;
+    return SEOS_SUCCESS;
 }
 
 
@@ -157,7 +129,8 @@ _Log_consumer_get_timestamp(OS_LoggerConsumer_Handle_t* self)
 
 
 
-static bool
+static
+void
 _Log_consumer_process(OS_LoggerConsumer_Handle_t* self)
 {
     OS_Logger_CHECK_SELF(self);
@@ -174,7 +147,7 @@ _Log_consumer_process(OS_LoggerConsumer_Handle_t* self)
         {
             // Debug_printf -> Log filter!!!
             OS_LoggerDataBuffer_clear(self->buf);
-            return false;
+            return;
         }
     }
 
@@ -189,5 +162,5 @@ _Log_consumer_process(OS_LoggerConsumer_Handle_t* self)
         (OS_LoggerAbstractSubject_Handle_t*) self->log_subject,
         (void*)self);
 
-    return true;
+    return;
 }

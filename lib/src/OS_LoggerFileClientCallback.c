@@ -5,7 +5,7 @@
 
 
 
-bool
+seos_err_t
 OS_LoggerFileClientCallback_ctor(
     OS_LoggerFileClientCallback_Handle_t* self,
     OS_LoggerFileClientCallback_read_t read_log_file)
@@ -14,13 +14,12 @@ OS_LoggerFileClientCallback_ctor(
 
     if (read_log_file == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     self->read_log_file = read_log_file;
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 

@@ -13,7 +13,7 @@ FormatT_dtor(OS_LoggerAbstractFormat_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerAbstractFormat_Handle_t));
 }
 
-bool
+seos_err_t
 FormatT_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
     OS_LoggerDataBuffer_info* log_info)
@@ -22,8 +22,7 @@ FormatT_convert(
 
     if (log_info == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     return self->vtable->convert(self, log_info);

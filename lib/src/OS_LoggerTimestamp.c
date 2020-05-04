@@ -1,16 +1,10 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "Logger/Server/OS_LoggerTimestamp.h"
+#include "Logger/Common/OS_LoggerSymbols.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-
-
-#define ASSERT_SELF(self)               \
-    if(self == NULL)                    \
-        nullptr = true
-
-
 
 #define SEC_PER_MIN             60
 #define SEC_PER_HOUR            (SEC_PER_MIN * SEC_PER_MIN)
@@ -111,7 +105,7 @@ OS_LoggerTimestamp_dtor(void)
 
 
 
-bool
+seos_err_t
 OS_LoggerTimestamp_getTime(
     OS_LoggerTimestamp_Handle_t* t_stamp,
     uint8_t hours,
@@ -119,7 +113,7 @@ OS_LoggerTimestamp_getTime(
 {
     if (t_stamp == NULL || hours > 24 || tm == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     int64_t day = 0, tmp = 0;
@@ -189,29 +183,21 @@ OS_LoggerTimestamp_getTime(
     tm->month = (uint8_t)month + 1;
     tm->day = (uint8_t)(day + 1);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerTimestamp_getTimestamp(
     OS_LoggerTime_Handle_t* tm,
     OS_LoggerTimestamp_Handle_t* t_stamp)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF(this);
-
-    if (nullptr)
-    {
-        // Debug_printf
-        return false;
-    }
+    OS_Logger_CHECK_SELF(this);
 
     if (tm == NULL || t_stamp == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     uint64_t tmp_timestamp = 0;
@@ -227,27 +213,19 @@ OS_LoggerTimestamp_getTimestamp(
 
     t_stamp->timestamp = tmp_timestamp;
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerTimestamp_create(const char* date, const char* time)
 {
-    bool nullptr = false;
-
-    ASSERT_SELF(this);
-
-    if (nullptr)
-    {
-        // Debug_printf
-        return false;
-    }
+    OS_Logger_CHECK_SELF(this);
 
     if (date == NULL || time == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerTime_Handle_t t;
@@ -257,7 +235,7 @@ OS_LoggerTimestamp_create(const char* date, const char* time)
 
     this->vtable->get_timestamp(&t, this);
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 

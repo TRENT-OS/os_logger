@@ -18,20 +18,17 @@ static const OS_LoggerAbstractSubject_vtable_t Log_subject_vtable =
 
 
 
-bool
+void
 OS_LoggerSubject_ctor(OS_LoggerSubject_Handle_t* self)
 {
     OS_Logger_CHECK_SELF(self);
 
-    bool retval = false;
     OS_LoggerSubjectNode_t* node = NULL;
 
     self->vtable = &Log_subject_vtable;
 
     node = &self->node;
     node->first = NULL;
-
-    return retval;
 }
 
 
@@ -46,21 +43,19 @@ OS_LoggerSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self)
 
 
 
-bool
+seos_err_t
 OS_LoggerSubject_attach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)
 {
     OS_Logger_CHECK_SELF(self);
 
-    bool isInsert = false;
     OS_LoggerSubject_Handle_t* log_subject;
     OS_LoggerOutput_Handle_t* last = NULL;
 
     if (observer == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     log_subject = (OS_LoggerSubject_Handle_t*)self;
@@ -76,34 +71,34 @@ OS_LoggerSubject_attach(
         last = last->listT.vtable->get_last(log_subject->node.first);
     }
 
-    isInsert = ((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->insert(
-                   &last->node,
-                   &((OS_LoggerOutput_Handle_t*)observer)->node);
+    const bool isInserted =
+        ((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->insert(
+            &last->node,
+            &((OS_LoggerOutput_Handle_t*)observer)->node);
 
     log_subject->node.first =
         (void*)((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->get_first(
             &last->node);
 
-    return isInsert;
+    return isInserted ? SEOS_SUCCESS : SEOS_ERROR_OPERATION_DENIED;
 }
 
 
 
-bool
+seos_err_t
 OS_LoggerSubject_detach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)
 {
     OS_Logger_CHECK_SELF(self);
 
-    bool isDelete = false;
     OS_LoggerSubject_Handle_t* log_subject;
     OS_LoggerSubjectNode_t* node = NULL;
 
     if (observer == NULL)
     {
         // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     log_subject = (OS_LoggerSubject_Handle_t*)self;
@@ -117,10 +112,11 @@ OS_LoggerSubject_detach(
                 &((OS_LoggerOutput_Handle_t*)observer)->node );
     }
 
-    isDelete = ((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->delete ( &((
-                   OS_LoggerOutput_Handle_t*)observer)->node );
+    const bool isDeleted =
+        ((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->delete ( &((
+                    OS_LoggerOutput_Handle_t*)observer)->node );
 
-    return isDelete;
+    return isDeleted ? SEOS_SUCCESS : SEOS_ERROR_OPERATION_DENIED;
 }
 
 

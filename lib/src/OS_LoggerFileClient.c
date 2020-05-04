@@ -13,7 +13,7 @@ static OS_LoggerFileClient_vtable_t Log_file_client_vtable =
 
 
 
-bool
+seos_err_t
 OS_LoggerFileClient_ctor(
     OS_LoggerFileClient_Handle_t* self,
     void* src_buf,
@@ -24,8 +24,7 @@ OS_LoggerFileClient_ctor(
 
     if (src_buf == NULL || dest_buf == NULL || log_file_client_callback == NULL)
     {
-        // Debug_printf
-        return false;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     self->src_buf = src_buf;
@@ -33,7 +32,7 @@ OS_LoggerFileClient_ctor(
     self->vtable = &Log_file_client_vtable;
     self->callback_vtable = log_file_client_callback;
 
-    return true;
+    return SEOS_SUCCESS;
 }
 
 
@@ -48,7 +47,7 @@ OS_LoggerFileClient_dtor(OS_LoggerFileClient_Handle_t* self)
 
 
 
-bool
+seos_err_t
 OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,
                          const char* filename,
                          uint64_t offset,
@@ -58,13 +57,12 @@ OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,
 
     if (filename == NULL)
     {
-        // Debug_printf
-        return -1;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
     if (self->callback_vtable->read_log_file == NULL)
     {
-        return false;
+        return SEOS_ERROR_INVALID_HANDLE;
     }
 
     int64_t log_file_size;
@@ -90,5 +88,5 @@ OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,
     }
     while (1);
 
-    return true;
+    return SEOS_SUCCESS;
 }
