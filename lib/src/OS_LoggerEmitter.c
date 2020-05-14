@@ -96,10 +96,18 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
         return SEOS_ERROR_BUFFER_TOO_SMALL;
     }
 
-    OS_LoggerDataBuffer_setClientLogLevel(this->buf, log_level);
-    OS_LoggerDataBuffer_setLogMessage(this->buf, buf);
-
     va_end (args);
+
+    OS_LoggerDataBuffer_setClientLogLevel(this->buf, log_level);
+
+    const seos_err_t seosResult = OS_LoggerDataBuffer_setLogMessage(
+                                      this->buf,
+                                      buf);
+
+    if (SEOS_SUCCESS != seosResult)
+    {
+        return seosResult;
+    }
 
     this->emit();
 
