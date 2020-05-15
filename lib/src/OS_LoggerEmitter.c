@@ -69,7 +69,6 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
         return SEOS_ERROR_INVALID_PARAMETER;
     }
 
-    int retval = false;
     char buf[OS_Logger_MESSAGE_LENGTH];
 
     if (this->log_filter != NULL)
@@ -82,21 +81,27 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
         }
     }
 
-    va_list args;
-    va_start (args, format);
-
     if (strlen(format) > OS_Logger_MESSAGE_LENGTH)
     {
         return SEOS_ERROR_GENERIC;
     }
 
-    retval = vsnprintf(buf, OS_Logger_MESSAGE_LENGTH, format, args);
-    if (retval < 0 || retval > OS_Logger_MESSAGE_LENGTH)
+    va_list args;
+    va_start (args, format);
+
+    const int retval = vsnprintf(buf, OS_Logger_MESSAGE_LENGTH, format, args);
+
+    va_end (args);
+
+    if (retval < 0)
+    {
+        return SEOS_ERROR_GENERIC;
+    }
+
+    if (retval > OS_Logger_MESSAGE_LENGTH)
     {
         return SEOS_ERROR_BUFFER_TOO_SMALL;
     }
-
-    va_end (args);
 
     OS_LoggerDataBuffer_setClientLogLevel(this->buf, log_level);
 
