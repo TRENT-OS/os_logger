@@ -169,7 +169,7 @@ API_LOG_SERVER_READ_LOG_FILE(
             fhandle,
             (long)offset,
             (long)len,
-            log_consumer->buf) != OS_SUCCESS)
+            log_consumer->entry) != OS_SUCCESS)
     {
         printf("Fail to read file: %s!\n", filename);
         return -1;

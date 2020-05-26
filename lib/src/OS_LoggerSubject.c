@@ -2,7 +2,7 @@
 #include "Logger/Server/OS_LoggerSubject.h"
 #include "Logger/Server/OS_LoggerOutput.h"
 #include "Logger/Common/OS_LoggerSymbols.h"
-#include "Logger/Common/OS_LoggerDataBuffer.h"
+#include "Logger/Common/OS_LoggerEntry.h"
 #include <string.h>
 #include <stddef.h>
 

@@ -126,7 +126,7 @@ _Log_output_filesystem_print(
     // log format layer
     log_output->log_format->vtable->convert(
         (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format,
-        &log_consumer->log_info);
+        ((OS_LoggerConsumer_Handle_t*)data)->entry);
 
     fhandle = OS_Filesystem_openFile(
                   ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.phandle,

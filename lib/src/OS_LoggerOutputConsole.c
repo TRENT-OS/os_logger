@@ -104,8 +104,7 @@ _Log_output_console_print(OS_LoggerAbstractOutput_Handle_t* self, void* data)
     // log format layer
     log_output->log_format->vtable->convert(
         (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format,
-        (OS_LoggerDataBuffer_info*)
-        & (((OS_LoggerConsumer_Handle_t*)data)->log_info));
+        ((OS_LoggerConsumer_Handle_t*)data)->entry);
 
     log_output->log_format->vtable->print(
         (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format);

@@ -1,6 +1,6 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "Logger/Client/OS_LoggerEmitter.h"
-#include "Logger/Common/OS_LoggerDataBuffer.h"
+#include "Logger/Common/OS_LoggerEntry.h"
 #include "Logger/Common/OS_LoggerSymbols.h"
 #include <string.h>
 #include <stdio.h>
@@ -10,7 +10,7 @@ typedef void* (*OS_LoggerEmitter_getBuffer_t)(void);
 
 struct OS_LoggerEmitter_Handle
 {
-    void*                        buf;
+    OS_LoggerEntry_t*            entry;
     OS_LoggerFilter_Handle_t*    log_filter;
     event_notify_func_t          emit;
 };
@@ -40,7 +40,7 @@ OS_LoggerEmitter_getInstance(
     if (this == NULL)
     {
         this = &_log_emitter;
-        this->buf = buffer;
+        this->entry = (OS_LoggerEntry_t*)buffer;
         this->emit = emit;
     }
 
@@ -57,7 +57,7 @@ OS_LoggerEmitter_dtor(void)
 }
 
 OS_Error_t
-OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
+OS_LoggerEmitter_log(uint8_t logLevel, const char* format, ...)
 {
     if (NULL == this)
     {
@@ -69,17 +69,25 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
         return OS_ERROR_INVALID_PARAMETER;
     }
 
-    char buf[OS_Logger_MESSAGE_LENGTH];
-
     if (this->log_filter != NULL)
     {
+        this->entry->emitterMetadata.filteringLevel
+            = this->log_filter->log_level;
+
         if (this->log_filter->vtable->isFilteredOut(
                 this->log_filter,
-                log_level))
+                logLevel))
         {
             return OS_SUCCESS;
         }
     }
+    else
+    {
+        this->entry->emitterMetadata.filteringLevel = 0U;
+    }
+
+
+    this->entry->emitterMetadata.level = logLevel;
 
     if (strlen(format) > OS_Logger_MESSAGE_LENGTH)
     {
@@ -89,7 +97,11 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
     va_list args;
     va_start (args, format);
 
-    const int retval = vsnprintf(buf, OS_Logger_MESSAGE_LENGTH, format, args);
+    const int retval = vsnprintf(
+                           this->entry->msg,
+                           OS_Logger_MESSAGE_LENGTH,
+                           format,
+                           args);
 
     va_end (args);
 
@@ -101,17 +113,6 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
     if (retval > OS_Logger_MESSAGE_LENGTH)
     {
         return OS_ERROR_BUFFER_TOO_SMALL;
-    }
-
-    OS_LoggerDataBuffer_setClientLogLevel(this->buf, log_level);
-
-    const OS_Error_t seosResult = OS_LoggerDataBuffer_setLogMessage(
-                                      this->buf,
-                                      buf);
-
-    if (OS_SUCCESS != seosResult)
-    {
-        return seosResult;
     }
 
     this->emit();

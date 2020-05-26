@@ -6,7 +6,7 @@
 // forward declaration
 static OS_Error_t _Log_format_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
-    OS_LoggerDataBuffer_info* log_info);
+    OS_LoggerEntry_t const* const entry);
 
 static const OS_LoggerAbstractFormat_vtable_t Log_format_vtable =
 {
@@ -34,41 +34,46 @@ OS_LoggerFormat_dtor(OS_LoggerAbstractFormat_Handle_t* self)
 static OS_Error_t
 _Log_format_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
-    OS_LoggerDataBuffer_info* log_info)
+    OS_LoggerEntry_t const* const entry)
 {
     OS_Logger_CHECK_SELF(self);
 
-    OS_LoggerFormat_Handle_t* log_format;
-    char* buf;
-    OS_LoggerTime_Handle_t tm;
-
-    if (log_info == NULL)
+    if (NULL == entry)
     {
         return OS_ERROR_INVALID_PARAMETER;
     }
 
-    log_format = (OS_LoggerFormat_Handle_t*)self;
-    buf = log_format->buffer;
+    OS_LoggerTimestamp_Handle_t* const timestamp =
+        OS_LoggerTimestamp_getInstance();
 
-    OS_LoggerTimestamp_getTime(&log_info->timestamp, 0, &tm);
+    timestamp->timestamp = entry->consumerMetadata.timestamp;
 
-    unsigned long msg_len = strlen(log_info->log_databuffer.log_message);
+    OS_LoggerTime_Handle_t tm;
+    OS_LoggerTimestamp_getTime(timestamp, 0, &tm);
+
+    size_t msg_len = strlen(entry->msg);
 
     if (msg_len > OS_Logger_MESSAGE_LENGTH)
     {
         msg_len = OS_Logger_MESSAGE_LENGTH;
     }
 
+    OS_LoggerFormat_Handle_t* const log_format =
+        (OS_LoggerFormat_Handle_t*)self;
+
     sprintf(
-        buf,
-        "%-*s %02d.%02d.%04d-%02d:%02d:%02d %*u %*u %.*s\n",
-        OS_Logger_ID_AND_NAME_LENGTH, log_info->log_id_and_name,
+        log_format->buffer,
+        "%.*u %-*s %02d.%02d.%04d-%02d:%02d:%02d %*u %*u %.*s\n",
+
+        OS_Logger_ID_LENGTH, entry->consumerMetadata.id,
+        OS_Logger_NAME_LENGTH, entry->consumerMetadata.name,
+
         tm.day, tm.month, tm.year, tm.hour, tm.min, tm.sec,
-        OS_Logger_LOG_LEVEL_LENGTH,
-        log_info->log_databuffer.log_level_srv,
-        OS_Logger_LOG_LEVEL_LENGTH,
-        log_info->log_databuffer.log_level_client,
-        (int)msg_len, log_info->log_databuffer.log_message);
+
+        OS_Logger_LOG_LEVEL_LENGTH, entry->emitterMetadata.filteringLevel,
+        OS_Logger_LOG_LEVEL_LENGTH, entry->consumerMetadata.filteringLevel,
+
+        (int)msg_len, entry->msg);
 
     return OS_SUCCESS;
 }

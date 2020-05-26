@@ -18,7 +18,6 @@ target_include_directories(${PROJECT_NAME}
 
 target_sources(${PROJECT_NAME}
     INTERFACE
-        lib/src/OS_LoggerDataBuffer.c
         lib/src/OS_LoggerEmitter.c
         lib/src/OS_LoggerFileClient.c
         lib/src/OS_LoggerFileClientCallback.c
@@ -59,7 +58,6 @@ target_sources(${PROJECT_NAME}
         lib/src/OS_LoggerListT.c
         lib/src/OS_LoggerConsumer.c
         lib/src/OS_LoggerConsumerCallback.c
-        lib/src/OS_LoggerDataBuffer.c
         lib/src/OS_LoggerEmitter.c
         lib/src/OS_LoggerFilter.c
         lib/src/OS_LoggerFormat.c

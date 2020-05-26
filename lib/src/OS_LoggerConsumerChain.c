@@ -109,7 +109,8 @@ OS_LoggerConsumerChain_getSender(void)
 
     do
     {
-        if (log_consumer->id == log_consumer->callback_vtable->get_sender_id())
+        if (log_consumer->entry->consumerMetadata.id
+            == log_consumer->callback_vtable->get_sender_id())
         {
             return log_consumer;
             break;

@@ -16,7 +16,7 @@ FormatT_dtor(OS_LoggerAbstractFormat_Handle_t* self)
 OS_Error_t
 FormatT_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
-    OS_LoggerDataBuffer_info* log_info)
+    OS_LoggerEntry_t const* const entry);
 {
     OS_Logger_CHECK_SELF(self);
 
@@ -25,7 +25,7 @@ FormatT_convert(
         return OS_ERROR_INVALID_PARAMETER;
     }
 
-    return self->vtable->convert(self, log_info);
+    return self->vtable->convert(self, entry);
 }
 
 void
