@@ -50,7 +50,7 @@ OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
 
     if (consumer == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     if (this->node.first == NULL)
@@ -76,7 +76,7 @@ OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
     if (consumer == NULL)
     {
         // Debug_printf
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     if (this->node.first == consumer)

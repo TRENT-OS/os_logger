@@ -44,7 +44,7 @@ OS_LoggerOutputConsole_ctor(
 
     if (log_format == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerListT_ctor(&self->listT);
@@ -56,7 +56,7 @@ OS_LoggerOutputConsole_ctor(
 
     self->vtable = &Log_output_console_vtable;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -81,7 +81,7 @@ _Log_output_console_update(
 
     if (data == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
@@ -89,7 +89,7 @@ _Log_output_console_update(
         (OS_LoggerAbstractOutput_Handle_t*)log_output,
         data);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -110,5 +110,5 @@ _Log_output_console_print(OS_LoggerAbstractOutput_Handle_t* self, void* data)
     log_output->log_format->vtable->print(
         (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }

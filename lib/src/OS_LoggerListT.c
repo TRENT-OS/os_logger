@@ -159,12 +159,12 @@ _ListT_insert(
 
     if ((current == NULL) || (new_node == NULL))
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     if (current == new_node)
     {
-        return SEOS_SUCCESS;
+        return OS_SUCCESS;
     }
 
     if (_ListT_has_next(current))
@@ -178,7 +178,7 @@ _ListT_insert(
     new_node->prev = current;
     new_node->next = next;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -193,7 +193,7 @@ _ListT_delete(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     if (_ListT_has_prev(current))
@@ -208,7 +208,7 @@ _ListT_delete(OS_LoggerNodeT_Handle_t* current)
 
     if (next == NULL && prev == NULL)
     {
-        return SEOS_SUCCESS;
+        return OS_SUCCESS;
     }
     else if (next == NULL)
     {
@@ -227,7 +227,7 @@ _ListT_delete(OS_LoggerNodeT_Handle_t* current)
     current->prev = NULL;
     current->next = NULL;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 

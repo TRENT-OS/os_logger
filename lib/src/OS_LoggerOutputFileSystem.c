@@ -48,7 +48,7 @@ OS_LoggerOutputFileSystem_ctor(
 
     if (log_format == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerListT_ctor(&self->listT);
@@ -60,7 +60,7 @@ OS_LoggerOutputFileSystem_ctor(
 
     self->vtable = &Log_output_filesystem_vtable;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -85,7 +85,7 @@ _Log_output_filesystem_update(
 
     if (data == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
@@ -93,7 +93,7 @@ _Log_output_filesystem_update(
         (OS_LoggerAbstractOutput_Handle_t*)log_output,
         data);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -108,7 +108,7 @@ _Log_output_filesystem_print(
 
     if (data == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     hFile_t fhandle;
@@ -120,7 +120,7 @@ _Log_output_filesystem_print(
     if (log_consumer->log_file == NULL)
     {
         // Debug_printf
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     // log format layer
@@ -139,7 +139,7 @@ _Log_output_filesystem_print(
             "Fail to open file: %s!\n",
             ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename);
 
-        return SEOS_ERROR_INVALID_HANDLE;
+        return OS_ERROR_INVALID_HANDLE;
     }
 
     OS_Error_t result = OS_Filesystem_writeFile(
@@ -149,7 +149,7 @@ _Log_output_filesystem_print(
                             (long)strlen(log_output->log_format->buffer),
                             log_output->log_format->buffer);
 
-    if (SEOS_SUCCESS != result)
+    if (OS_SUCCESS != result)
     {
         printf(
             "Fail to write file: %s!\n",
@@ -159,7 +159,7 @@ _Log_output_filesystem_print(
     }
 
     result = OS_Filesystem_closeFile(fhandle);
-    if (SEOS_SUCCESS != result)
+    if (OS_SUCCESS != result)
     {
         printf(
             "Fail to close file: %s!\n",
@@ -171,5 +171,5 @@ _Log_output_filesystem_print(
     ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.offset
     += strlen(log_output->log_format->buffer);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }

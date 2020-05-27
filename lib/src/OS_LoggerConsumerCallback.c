@@ -14,13 +14,13 @@ OS_LoggerConsumerCallback_ctor(
     // "get_timestamp" can be NULL, if timestamp is not necessary
     if (get_sender_id == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     self->get_sender_id = get_sender_id;
     self->get_timestamp = get_timestamp;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 

@@ -85,7 +85,7 @@ OS_LoggerConsumer_ctor(
     if (buffer == NULL || callback_vtable == NULL
         || log_subject == NULL /*|| log_file == NULL || log_filter == NULL*/)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     self->buf = buffer;
@@ -100,7 +100,7 @@ OS_LoggerConsumer_ctor(
     _create_id_string(self, id, name);
     _Log_consumer_init(self->buf, self->log_filter);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 

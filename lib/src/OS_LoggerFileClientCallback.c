@@ -14,12 +14,12 @@ OS_LoggerFileClientCallback_ctor(
 
     if (read_log_file == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     self->read_log_file = read_log_file;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 

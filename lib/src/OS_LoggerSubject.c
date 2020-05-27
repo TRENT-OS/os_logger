@@ -55,7 +55,7 @@ OS_LoggerSubject_attach(
 
     if (observer == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     log_subject = (OS_LoggerSubject_Handle_t*)self;
@@ -80,7 +80,7 @@ OS_LoggerSubject_attach(
         (void*)((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->get_first(
             &last->node);
 
-    return isInserted ? SEOS_SUCCESS : SEOS_ERROR_OPERATION_DENIED;
+    return isInserted ? OS_SUCCESS : OS_ERROR_OPERATION_DENIED;
 }
 
 
@@ -98,7 +98,7 @@ OS_LoggerSubject_detach(
     if (observer == NULL)
     {
         // Debug_printf
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     log_subject = (OS_LoggerSubject_Handle_t*)self;
@@ -116,7 +116,7 @@ OS_LoggerSubject_detach(
         ((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->delete ( &((
                     OS_LoggerOutput_Handle_t*)observer)->node );
 
-    return isDeleted ? SEOS_SUCCESS : SEOS_ERROR_OPERATION_DENIED;
+    return isDeleted ? OS_SUCCESS : OS_ERROR_OPERATION_DENIED;
 }
 
 

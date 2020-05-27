@@ -20,7 +20,7 @@ OS_LoggerAbstractSubject_attach(
 
     if (observer == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     return self->vtable->attach(self, observer);
@@ -35,7 +35,7 @@ OS_LoggerAbstractSubject_detach(
 
     if (observer == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     return self->vtable->detach(self, observer);

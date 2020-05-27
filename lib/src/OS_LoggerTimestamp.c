@@ -113,7 +113,7 @@ OS_LoggerTimestamp_getTime(
 {
     if (t_stamp == NULL || hours > 24 || tm == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     int64_t day = 0, tmp = 0;
@@ -183,7 +183,7 @@ OS_LoggerTimestamp_getTime(
     tm->month = (uint8_t)month + 1;
     tm->day = (uint8_t)(day + 1);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -197,7 +197,7 @@ OS_LoggerTimestamp_getTimestamp(
 
     if (tm == NULL || t_stamp == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     uint64_t tmp_timestamp = 0;
@@ -213,7 +213,7 @@ OS_LoggerTimestamp_getTimestamp(
 
     t_stamp->timestamp = tmp_timestamp;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -225,7 +225,7 @@ OS_LoggerTimestamp_create(const char* date, const char* time)
 
     if (date == NULL || time == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     OS_LoggerTime_Handle_t t;
@@ -235,7 +235,7 @@ OS_LoggerTimestamp_create(const char* date, const char* time)
 
     this->vtable->get_timestamp(&t, this);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 

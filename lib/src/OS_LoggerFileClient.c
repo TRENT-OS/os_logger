@@ -24,7 +24,7 @@ OS_LoggerFileClient_ctor(
 
     if (src_buf == NULL || dest_buf == NULL || log_file_client_callback == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     self->src_buf = src_buf;
@@ -32,7 +32,7 @@ OS_LoggerFileClient_ctor(
     self->vtable = &Log_file_client_vtable;
     self->callback_vtable = log_file_client_callback;
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 
@@ -57,12 +57,12 @@ OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,
 
     if (filename == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     if (self->callback_vtable->read_log_file == NULL)
     {
-        return SEOS_ERROR_INVALID_HANDLE;
+        return OS_ERROR_INVALID_HANDLE;
     }
 
     int64_t log_file_size;
@@ -88,5 +88,5 @@ OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,
     }
     while (1);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }

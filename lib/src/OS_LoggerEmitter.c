@@ -61,12 +61,12 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 {
     if (NULL == this)
     {
-        return SEOS_ERROR_INVALID_HANDLE;
+        return OS_ERROR_INVALID_HANDLE;
     }
 
     if (NULL == format)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     char buf[OS_Logger_MESSAGE_LENGTH];
@@ -77,13 +77,13 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
                 this->log_filter,
                 log_level))
         {
-            return SEOS_SUCCESS;
+            return OS_SUCCESS;
         }
     }
 
     if (strlen(format) > OS_Logger_MESSAGE_LENGTH)
     {
-        return SEOS_ERROR_GENERIC;
+        return OS_ERROR_GENERIC;
     }
 
     va_list args;
@@ -95,12 +95,12 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 
     if (retval < 0)
     {
-        return SEOS_ERROR_GENERIC;
+        return OS_ERROR_GENERIC;
     }
 
     if (retval > OS_Logger_MESSAGE_LENGTH)
     {
-        return SEOS_ERROR_BUFFER_TOO_SMALL;
+        return OS_ERROR_BUFFER_TOO_SMALL;
     }
 
     OS_LoggerDataBuffer_setClientLogLevel(this->buf, log_level);
@@ -109,12 +109,12 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
                                       this->buf,
                                       buf);
 
-    if (SEOS_SUCCESS != seosResult)
+    if (OS_SUCCESS != seosResult)
     {
         return seosResult;
     }
 
     this->emit();
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }

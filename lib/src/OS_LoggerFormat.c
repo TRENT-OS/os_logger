@@ -44,7 +44,7 @@ _Log_format_convert(
 
     if (log_info == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     log_format = (OS_LoggerFormat_Handle_t*)self;
@@ -70,7 +70,7 @@ _Log_format_convert(
         log_info->log_databuffer.log_level_client,
         (int)msg_len, log_info->log_databuffer.log_message);
 
-    return SEOS_SUCCESS;
+    return OS_SUCCESS;
 }
 
 void

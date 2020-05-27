@@ -22,7 +22,7 @@ FormatT_convert(
 
     if (log_info == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return OS_ERROR_INVALID_PARAMETER;
     }
 
     return self->vtable->convert(self, log_info);
