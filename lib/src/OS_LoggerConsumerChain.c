@@ -24,8 +24,6 @@ OS_LoggerConsumerChain_getInstance(void)
     {
         this = &_consumer_chain;
         this->vtable = &Consumer_chain_vtable;
-
-        OS_LoggerListT_ctor(&this->listT);
     }
 
     return this;
@@ -47,10 +45,9 @@ OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
         return true;
     }
 
-    return this->listT.vtable->insert(
-               this->listT.vtable->get_last(
-                   (OS_LoggerNodeT_Handle_t*)
-                   & (((OS_LoggerConsumer_Handle_t*)(this->node.first))->node)),
+    return OS_LoggerListT_insert(
+               OS_LoggerListT_getLast(
+                   &(((OS_LoggerConsumer_Handle_t*)(this->node.first))->node)),
                &consumer->node);
 }
 
@@ -69,7 +66,7 @@ OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
 
     if (this->node.first == consumer)
     {
-        this->node.first = this->listT.vtable->get_next(&consumer->node);
+        this->node.first = OS_LoggerListT_getNext(&consumer->node);
 
         if (this->node.first == consumer)
         {
@@ -77,7 +74,7 @@ OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
         }
     }
 
-    return this->listT.vtable->delete (&consumer->node);
+    return OS_LoggerListT_erase(&consumer->node);
 }
 
 
@@ -104,8 +101,8 @@ OS_LoggerConsumerChain_getSender(void)
             break;
         }
     }
-    while ( (log_consumer = this->listT.vtable->get_next(&log_consumer->node)) !=
-            NULL );
+    while ((log_consumer = OS_LoggerListT_getNext(
+                               &log_consumer->node)) != NULL);
 
     return NULL;
 }

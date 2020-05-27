@@ -55,22 +55,17 @@ OS_LoggerSubject_attach(
     }
     else
     {
-        last = last->listT.vtable->get_last(log_subject->node.first);
+        last = OS_LoggerListT_getLast((OS_LoggerNodeT_Handle_t*)last);
     }
 
-    const bool isInserted =
-        ((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->insert(
+    const bool isInserted = OS_LoggerListT_insert(
             &last->node,
             &((OS_LoggerOutput_Handle_t*)observer)->node);
 
-    log_subject->node.first =
-        (void*)((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->get_first(
-            &last->node);
+    log_subject->node.first = OS_LoggerListT_getFirst(&last->node);
 
     return isInserted ? OS_SUCCESS : OS_ERROR_OPERATION_DENIED;
 }
-
-
 
 OS_Error_t
 OS_LoggerSubject_detach(
@@ -91,17 +86,17 @@ OS_LoggerSubject_detach(
     log_subject = (OS_LoggerSubject_Handle_t*)self;
     node = &log_subject->node;
 
-    if (!((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->has_prev( &((
-                OS_LoggerOutput_Handle_t*)observer)->node) )
+    if (!OS_LoggerListT_hasPrevious(
+            &((OS_LoggerOutput_Handle_t*)observer)->node))
     {
         node->first =
-            (void*)((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->get_next(
+            (void*)OS_LoggerListT_getNext(
                 &((OS_LoggerOutput_Handle_t*)observer)->node );
     }
 
     const bool isDeleted =
-        ((OS_LoggerOutput_Handle_t*)observer)->listT.vtable->delete ( &((
-                    OS_LoggerOutput_Handle_t*)observer)->node );
+        OS_LoggerListT_erase(
+            &((OS_LoggerOutput_Handle_t*)observer)->node );
 
     return isDeleted ? OS_SUCCESS : OS_ERROR_OPERATION_DENIED;
 }
@@ -135,6 +130,6 @@ OS_LoggerSubject_notify(OS_LoggerAbstractSubject_Handle_t* self, void* data)
             (OS_LoggerAbstractObserver_Handle_t*)log_output,
             data);
     }
-    while ( (log_output = log_output->listT.vtable->get_next(
+    while ( (log_output = OS_LoggerListT_getNext(
                               &log_output->node)) != NULL );
 }

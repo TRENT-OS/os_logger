@@ -4,51 +4,8 @@
 #include <string.h>
 #include <stddef.h>
 
-
-
-static bool  _ListT_has_prev(OS_LoggerNodeT_Handle_t* current);
-static bool  _ListT_has_next(OS_LoggerNodeT_Handle_t* current);
-static void* _ListT_get_prev(OS_LoggerNodeT_Handle_t* current);
-static void* _ListT_get_next(OS_LoggerNodeT_Handle_t* current);
-
-static
-OS_Error_t
-_ListT_insert(
-    OS_LoggerNodeT_Handle_t* current,
-    OS_LoggerNodeT_Handle_t* new_node);
-
-static OS_Error_t   _ListT_delete(OS_LoggerNodeT_Handle_t* current);
-static void*        _ListT_get_first(OS_LoggerNodeT_Handle_t* current);
-static void*        _ListT_get_last(OS_LoggerNodeT_Handle_t* current);
-static bool         _ListT_isInside(OS_LoggerNodeT_Handle_t* current);
-
-
-
-static const OS_LoggerListT_vtable_t ListT_vtable =
-{
-    .has_prev  = _ListT_has_prev,
-    .has_next  = _ListT_has_next,
-    .get_prev  = _ListT_get_prev,
-    .get_next  = _ListT_get_next,
-    .insert    = _ListT_insert,
-    .delete    = _ListT_delete,
-    .get_first = _ListT_get_first,
-    .get_last  = _ListT_get_last,
-    .isInside  = _ListT_isInside
-};
-
-
-
-void
-OS_LoggerListT_ctor(OS_LoggerListT_t_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    self->vtable = &ListT_vtable;
-}
-
-static bool
-_ListT_has_prev(OS_LoggerNodeT_Handle_t* current)
+bool
+OS_LoggerListT_hasPrevious(OS_LoggerNodeT_Handle_t* current)
 {
     bool retval = false;
 
@@ -66,10 +23,8 @@ _ListT_has_prev(OS_LoggerNodeT_Handle_t* current)
     return retval;
 }
 
-
-
-static bool
-_ListT_has_next(OS_LoggerNodeT_Handle_t* current)
+bool
+OS_LoggerListT_hasNext(OS_LoggerNodeT_Handle_t* current)
 {
     bool retval = false;
 
@@ -87,11 +42,8 @@ _ListT_has_next(OS_LoggerNodeT_Handle_t* current)
     return retval;
 }
 
-
-
-
-static void*
-_ListT_get_prev(OS_LoggerNodeT_Handle_t* current)
+void*
+OS_LoggerListT_getPrevious(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* prev = NULL;
 
@@ -101,7 +53,7 @@ _ListT_get_prev(OS_LoggerNodeT_Handle_t* current)
         return prev;
     }
 
-    if (_ListT_has_prev(current))
+    if (OS_LoggerListT_hasPrevious(current))
     {
         prev = current->prev;
         return prev;
@@ -110,11 +62,8 @@ _ListT_get_prev(OS_LoggerNodeT_Handle_t* current)
     return prev;
 }
 
-
-
-
-static void*
-_ListT_get_next(OS_LoggerNodeT_Handle_t* current)
+void*
+OS_LoggerListT_getNext(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* next = NULL;
 
@@ -124,7 +73,7 @@ _ListT_get_next(OS_LoggerNodeT_Handle_t* current)
         return next;
     }
 
-    if (_ListT_has_next(current))
+    if (OS_LoggerListT_hasNext(current))
     {
         next = current->next;
         return next;
@@ -133,64 +82,56 @@ _ListT_get_next(OS_LoggerNodeT_Handle_t* current)
     return next;
 }
 
-
-
-
-static
 OS_Error_t
-_ListT_insert(
+OS_LoggerListT_insert(
     OS_LoggerNodeT_Handle_t* current,
-    OS_LoggerNodeT_Handle_t* new_node)
+    OS_LoggerNodeT_Handle_t* newNode)
 {
     OS_LoggerNodeT_Handle_t* next = NULL;
 
-    if ((current == NULL) || (new_node == NULL))
+    if ((current == NULL) || (newNode == NULL))
     {
         return OS_ERROR_INVALID_PARAMETER;
     }
 
-    if (current == new_node)
+    if (current == newNode)
     {
         return OS_SUCCESS;
     }
 
-    if (_ListT_has_next(current))
+    if (OS_LoggerListT_hasNext(current))
     {
-        next = _ListT_get_next(current);
-        next->prev = new_node;
+        next = OS_LoggerListT_getNext(current);
+        next->prev = newNode;
     }
 
-    current->next = new_node;
+    current->next = newNode;
 
-    new_node->prev = current;
-    new_node->next = next;
+    newNode->prev = current;
+    newNode->next = next;
 
     return OS_SUCCESS;
 }
 
-
-
-
-static
-OS_Error_t
-_ListT_delete(OS_LoggerNodeT_Handle_t* current)
+seos_err_t
+OS_LoggerListT_erase(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* prev = NULL;
     OS_LoggerNodeT_Handle_t* next = NULL;
 
     if (current == NULL)
     {
-        return OS_ERROR_INVALID_PARAMETER;
+        return SEOS_ERROR_INVALID_PARAMETER;
     }
 
-    if (_ListT_has_prev(current))
+    if (OS_LoggerListT_hasPrevious(current))
     {
-        prev = _ListT_get_prev(current);
+        prev = OS_LoggerListT_getPrevious(current);
     }
 
-    if (_ListT_has_next(current))
+    if (OS_LoggerListT_hasNext(current))
     {
-        next = _ListT_get_next(current);
+        next = OS_LoggerListT_getNext(current);
     }
 
     if (next == NULL && prev == NULL)
@@ -217,10 +158,8 @@ _ListT_delete(OS_LoggerNodeT_Handle_t* current)
     return OS_SUCCESS;
 }
 
-
-
-static void*
-_ListT_get_first(OS_LoggerNodeT_Handle_t* current)
+void*
+OS_LoggerListT_getFirst(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* first = NULL;
 
@@ -230,9 +169,9 @@ _ListT_get_first(OS_LoggerNodeT_Handle_t* current)
         return first;
     }
 
-    while (_ListT_has_prev(current))
+    while (OS_LoggerListT_hasPrevious(current))
     {
-        first = _ListT_get_prev(current);
+        first = OS_LoggerListT_getPrevious(current);
         current = first;
     }
 
@@ -244,10 +183,8 @@ _ListT_get_first(OS_LoggerNodeT_Handle_t* current)
     return first;
 }
 
-
-
-static void*
-_ListT_get_last(OS_LoggerNodeT_Handle_t* current)
+void*
+OS_LoggerListT_getLast(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* last = NULL;
 
@@ -257,9 +194,9 @@ _ListT_get_last(OS_LoggerNodeT_Handle_t* current)
         return last;
     }
 
-    while (_ListT_has_next(current))
+    while (OS_LoggerListT_hasNext(current))
     {
-        last = _ListT_get_next(current);
+        last = OS_LoggerListT_getNext(current);
         current = last;
     }
 
@@ -271,10 +208,8 @@ _ListT_get_last(OS_LoggerNodeT_Handle_t* current)
     return last;
 }
 
-
-
-static bool
-_ListT_isInside(OS_LoggerNodeT_Handle_t* current)
+bool
+OS_LoggerListT_isInside(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* first = NULL;
     bool retval = false;
@@ -285,7 +220,7 @@ _ListT_isInside(OS_LoggerNodeT_Handle_t* current)
         return retval;
     }
 
-    while (_ListT_has_next(first))
+    while (OS_LoggerListT_hasNext(first))
     {
         if (first == current)
         {
@@ -293,7 +228,7 @@ _ListT_isInside(OS_LoggerNodeT_Handle_t* current)
             break;
         }
 
-        first = _ListT_get_next(first);
+        first = OS_LoggerListT_getNext(first);
     }
 
     if (first == current)

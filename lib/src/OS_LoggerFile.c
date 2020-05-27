@@ -93,7 +93,7 @@ _Log_file_get_consumer_by_filename(const char* filename)
             break;
         }
     }
-    while ( (log_consumer = consumer_chain->listT.vtable->get_next(
+    while ( (log_consumer = OS_LoggerListT_getNext(
                                 &log_consumer->node)) != NULL );
 
     return NULL;

@@ -28,8 +28,6 @@ OS_LoggerOutputConsole_ctor(
         return OS_ERROR_INVALID_PARAMETER;
     }
 
-    OS_LoggerListT_ctor(&self->listT);
-
     self->node.prev = NULL;
     self->node.next = NULL;
 
