@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdio.h>
 
-typedef void  (*OS_LoggerEmitter_dtor_t)(void);
 typedef void* (*OS_LoggerEmitter_getBuffer_t)(void);
 
 struct OS_LoggerEmitter_Handle
@@ -47,13 +46,6 @@ OS_LoggerEmitter_getInstance(
     this->log_filter = log_filter;
 
     return this;
-}
-
-void
-OS_LoggerEmitter_dtor(void)
-{
-    memset(this, 0, sizeof (OS_LoggerEmitter_Handle_t));
-    this = NULL;
 }
 
 OS_Error_t

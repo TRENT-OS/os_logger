@@ -10,7 +10,6 @@ static OS_Error_t _Log_format_convert(
 
 static const OS_LoggerAbstractFormat_vtable_t Log_format_vtable =
 {
-    .dtor    = OS_LoggerFormat_dtor,
     .convert = _Log_format_convert,
     .print   = OS_LoggerFormat_print
 };
@@ -21,14 +20,6 @@ OS_LoggerFormat_ctor(OS_LoggerFormat_Handle_t* self)
     OS_Logger_CHECK_SELF(self);
 
     self->vtable = &Log_format_vtable;
-}
-
-void
-OS_LoggerFormat_dtor(OS_LoggerAbstractFormat_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerFormat_Handle_t));
 }
 
 static OS_Error_t

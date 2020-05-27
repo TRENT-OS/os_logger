@@ -10,7 +10,6 @@
 
 static const OS_LoggerAbstractSubject_vtable_t Log_subject_vtable =
 {
-    .dtor   = OS_LoggerSubject_dtor,
     .attach = OS_LoggerSubject_attach,
     .detach = OS_LoggerSubject_detach,
     .notify = OS_LoggerSubject_notify
@@ -30,18 +29,6 @@ OS_LoggerSubject_ctor(OS_LoggerSubject_Handle_t* self)
     node = &self->node;
     node->first = NULL;
 }
-
-
-
-void
-OS_LoggerSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerSubject_Handle_t));
-}
-
-
 
 OS_Error_t
 OS_LoggerSubject_attach(

@@ -5,14 +5,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-void
-FormatT_dtor(OS_LoggerAbstractFormat_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerAbstractFormat_Handle_t));
-}
-
 OS_Error_t
 FormatT_convert(
     OS_LoggerAbstractFormat_Handle_t* self,

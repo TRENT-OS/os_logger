@@ -2,11 +2,6 @@
 #include "Logger/Server/OS_LoggerOutputConsole.h"
 #include "Logger/Server/OS_LoggerConsumer.h"
 
-
-
-// forward declaration
-static void _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self);
-
 static OS_Error_t _Log_output_console_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data);
@@ -17,23 +12,9 @@ static OS_Error_t _Log_output_console_print(
 
 static const OS_LoggerAbstractOutput_vtable_t Log_output_console_vtable =
 {
-    .parent.dtor   = _Log_observer_dtor,
     .parent.update = _Log_output_console_update,
-    .dtor          = OS_LoggerOutputConsole_dtor,
     .print         = _Log_output_console_print
 };
-
-
-
-static void
-_Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerAbstractObserver_Handle_t));
-}
-
-
 
 OS_Error_t
 OS_LoggerOutputConsole_ctor(
@@ -58,18 +39,6 @@ OS_LoggerOutputConsole_ctor(
 
     return OS_SUCCESS;
 }
-
-
-
-void
-OS_LoggerOutputConsole_dtor(OS_LoggerAbstractOutput_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerOutput_Handle_t));
-}
-
-
 
 static
 OS_Error_t

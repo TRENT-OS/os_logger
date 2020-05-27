@@ -9,7 +9,6 @@ static uint64_t _Log_consumer_get_timestamp(OS_LoggerConsumer_Handle_t* self);
 
 static const OS_LoggerConsumer_vtable_t Log_consumer_vtable =
 {
-    .dtor          = OS_LoggerConsumer_dtor,
     .process       = _Log_consumer_process,
     .get_timestamp = _Log_consumer_get_timestamp,
 };
@@ -58,14 +57,6 @@ OS_LoggerConsumer_ctor(
     }
 
     return OS_SUCCESS;
-}
-
-void
-OS_LoggerConsumer_dtor(OS_LoggerConsumer_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerConsumer_Handle_t));
 }
 
 static uint64_t

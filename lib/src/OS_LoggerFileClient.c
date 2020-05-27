@@ -7,7 +7,6 @@
 
 static OS_LoggerFileClient_vtable_t Log_file_client_vtable =
 {
-    .dtor          = OS_LoggerFileClient_dtor,
     .read_log_file = OS_LoggerFileClient_read
 };
 
@@ -34,18 +33,6 @@ OS_LoggerFileClient_ctor(
 
     return OS_SUCCESS;
 }
-
-
-
-void
-OS_LoggerFileClient_dtor(OS_LoggerFileClient_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerFileClient_Handle_t));
-}
-
-
 
 OS_Error_t
 OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,

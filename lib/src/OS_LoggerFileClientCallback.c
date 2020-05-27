@@ -21,13 +21,3 @@ OS_LoggerFileClientCallback_ctor(
 
     return OS_SUCCESS;
 }
-
-
-
-void
-OS_LoggerFileClientCallback_dtor(OS_LoggerFileClientCallback_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerFileClientCallback_Handle_t));
-}

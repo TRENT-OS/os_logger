@@ -26,7 +26,6 @@ static bool         _ListT_isInside(OS_LoggerNodeT_Handle_t* current);
 
 static const OS_LoggerListT_vtable_t ListT_vtable =
 {
-    .dtor      = OS_LoggerListT_dtor,
     .has_prev  = _ListT_has_prev,
     .has_next  = _ListT_has_next,
     .get_prev  = _ListT_get_prev,
@@ -47,18 +46,6 @@ OS_LoggerListT_ctor(OS_LoggerListT_t_Handle_t* self)
 
     self->vtable = &ListT_vtable;
 }
-
-
-
-void
-OS_LoggerListT_dtor(OS_LoggerListT_t_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerListT_t_Handle_t));
-}
-
-
 
 static bool
 _ListT_has_prev(OS_LoggerNodeT_Handle_t* current)

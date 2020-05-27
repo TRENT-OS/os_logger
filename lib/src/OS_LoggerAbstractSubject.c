@@ -3,14 +3,6 @@
 #include "Logger/Common/OS_LoggerSymbols.h"
 #include <string.h>
 
-void
-OS_LoggerAbstractSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerAbstractSubject_Handle_t));
-}
-
 OS_Error_t
 OS_LoggerAbstractSubject_attach(
     OS_LoggerAbstractSubject_Handle_t* self,

@@ -5,7 +5,6 @@
 
 static const OS_LoggerConsumerChain_vtable_t Consumer_chain_vtable =
 {
-    .dtor                     = OS_LoggerConsumerChain_dtor,
     .append                   = OS_LoggerConsumerChain_append,
     .remove                   = OS_LoggerConsumerChain_remove,
     .get_sender               = OS_LoggerConsumerChain_getSender,
@@ -31,17 +30,6 @@ OS_LoggerConsumerChain_getInstance(void)
 
     return this;
 }
-
-
-
-void
-OS_LoggerConsumerChain_dtor(void)
-{
-    memset(this, 0, sizeof (OS_LoggerConsumerChain_Handle_t));
-    this = NULL;
-}
-
-
 
 OS_Error_t
 OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)

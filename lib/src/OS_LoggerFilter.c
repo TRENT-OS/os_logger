@@ -14,7 +14,6 @@ static bool _isFilteredOut_t(
 
 static const OS_LoggerFilter_vtable_t Log_filter_vtable =
 {
-    .dtor      = OS_LoggerFilter_dtor,
     .isFilteredOut = _isFilteredOut_t
 };
 
@@ -28,18 +27,6 @@ OS_LoggerFilter_ctor(OS_LoggerFilter_Handle_t* self, uint8_t log_level)
     self->log_level = log_level;
     self->vtable = &Log_filter_vtable;
 }
-
-
-
-void
-OS_LoggerFilter_dtor(OS_LoggerFilter_Handle_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerFilter_Handle_t));
-}
-
-
 
 static bool
 _isFilteredOut_t(OS_LoggerFilter_Handle_t* self, uint8_t log_level)

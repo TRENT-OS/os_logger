@@ -22,13 +22,3 @@ OS_LoggerConsumerCallback_ctor(
 
     return OS_SUCCESS;
 }
-
-
-
-void
-OS_LoggerConsumerCallback_dtor(OS_LoggerConsumerCallback_t* self)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    memset(self, 0, sizeof (OS_LoggerConsumerCallback_t));
-}

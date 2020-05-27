@@ -56,7 +56,6 @@ static bool _fill_time(
 
 static const OS_LoggerTimestamp_vtable_t Timestamp_vtable =
 {
-    .dtor             = OS_LoggerTimestamp_dtor,
     .create_timestamp = OS_LoggerTimestamp_create,
     .get_time         = OS_LoggerTimestamp_getTime,
     .get_timestamp    = OS_LoggerTimestamp_getTimestamp
@@ -93,17 +92,6 @@ OS_LoggerTimestamp_getInstance(void)
 
     return this;
 }
-
-
-
-void
-OS_LoggerTimestamp_dtor(void)
-{
-    memset(this, 0, sizeof (OS_LoggerTimestamp_Handle_t));
-    this = NULL;
-}
-
-
 
 OS_Error_t
 OS_LoggerTimestamp_getTime(
