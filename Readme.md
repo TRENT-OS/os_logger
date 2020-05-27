@@ -1,4 +1,4 @@
-# SEOS Logger library
+# OS Logger library
 
 This module is an abstraction of the logging functionality, allowing setting up
 a logger server to which clients can send logging entries.
