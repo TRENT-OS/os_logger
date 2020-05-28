@@ -120,9 +120,9 @@ target_link_libraries(${PROJECT_NAME}
 
 
 # if invoked from the SOES sandbox, provide a documentation build target
-if (COMMAND seos_create_doxygen_target)
+if (COMMAND os_create_doxygen_target)
 
     # there are no pre or post steps
-    seos_create_doxygen_target(seos_logger_doc ":" ":")
+    os_create_doxygen_target(os_logger_doc ":" ":")
 
 endif()
