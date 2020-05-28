@@ -63,6 +63,7 @@ target_sources(${PROJECT_NAME}
         lib/src/OS_LoggerFormat.c
         lib/src/OS_LoggerSubject.c
         lib/src/OS_LoggerTimestamp
+        lib/src/OS_LoggerOutput.c
         lib/src/OS_LoggerOutputConsole.c
 )
 

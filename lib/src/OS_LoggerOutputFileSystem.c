@@ -6,69 +6,10 @@
 #include <string.h>
 #include <stdio.h>
 
-static OS_Error_t _Log_output_filesystem_update(
-    OS_LoggerAbstractObserver_Handle_t* self,
-    void* data);
-
-static OS_Error_t _Log_output_filesystem_print(
-    OS_LoggerAbstractOutput_Handle_t* self,
-    void* data);
-
-static const OS_LoggerAbstractOutput_vtable_t Log_output_filesystem_vtable =
-{
-    .parent.update = _Log_output_filesystem_update,
-    .print         = _Log_output_filesystem_print
-};
-
+static
 OS_Error_t
-OS_LoggerOutputFileSystem_ctor(
+update(
     OS_LoggerOutput_Handle_t* self,
-    OS_LoggerFormat_Handle_t* log_format)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    if (log_format == NULL)
-    {
-        return OS_ERROR_INVALID_PARAMETER;
-    }
-
-    self->node.prev = NULL;
-    self->node.next = NULL;
-
-    self->log_format = log_format;
-
-    self->vtable = &Log_output_filesystem_vtable;
-
-    return OS_SUCCESS;
-}
-
-static
-OS_Error_t
-_Log_output_filesystem_update(
-    OS_LoggerAbstractObserver_Handle_t* self,
-    void* data)
-{
-    OS_Logger_CHECK_SELF(self);
-
-    if (data == NULL)
-    {
-        return OS_ERROR_INVALID_PARAMETER;
-    }
-
-    OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
-    log_output->vtable->print(
-        (OS_LoggerAbstractOutput_Handle_t*)log_output,
-        data);
-
-    return OS_SUCCESS;
-}
-
-
-
-static
-OS_Error_t
-_Log_output_filesystem_print(
-    OS_LoggerAbstractOutput_Handle_t* self,
     void* data)
 {
     OS_Logger_CHECK_SELF(self);
@@ -79,7 +20,6 @@ _Log_output_filesystem_print(
     }
 
     hFile_t fhandle;
-    OS_LoggerOutput_Handle_t* log_output = (OS_LoggerOutput_Handle_t*)self;
     OS_LoggerConsumer_Handle_t* log_consumer =
         (OS_LoggerConsumer_Handle_t*)data;
 
@@ -91,8 +31,8 @@ _Log_output_filesystem_print(
     }
 
     // log format layer
-    log_output->log_format->vtable->convert(
-        (OS_LoggerAbstractFormat_Handle_t*)log_output->log_format,
+    self->logFormat->vtable->convert(
+        (OS_LoggerAbstractFormat_Handle_t*)self->logFormat,
         ((OS_LoggerConsumer_Handle_t*)data)->entry);
 
     fhandle = OS_Filesystem_openFile(
@@ -113,8 +53,8 @@ _Log_output_filesystem_print(
                             fhandle,
                             (long)((OS_LoggerFile_Handle_t*)log_consumer->log_file)
                             ->log_file_info.offset,
-                            (long)strlen(log_output->log_format->buffer),
-                            log_output->log_format->buffer);
+                            (long)strlen(self->logFormat->buffer),
+                            self->logFormat->buffer);
 
     if (OS_SUCCESS != result)
     {
@@ -136,7 +76,15 @@ _Log_output_filesystem_print(
     }
 
     ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.offset
-    += strlen(log_output->log_format->buffer);
+    += strlen(self->logFormat->buffer);
 
     return OS_SUCCESS;
+}
+
+OS_Error_t
+OS_LoggerOutputFileSystem_ctor(
+    OS_LoggerOutput_Handle_t* self,
+    OS_LoggerFormat_Handle_t* logFormat)
+{
+    return OS_LoggerOutput_ctor(self, logFormat, update);
 }

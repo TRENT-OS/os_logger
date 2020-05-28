@@ -33,7 +33,7 @@ OS_LoggerSubject_ctor(OS_LoggerSubject_Handle_t* self)
 OS_Error_t
 OS_LoggerSubject_attach(
     OS_LoggerAbstractSubject_Handle_t* self,
-    OS_LoggerAbstractObserver_Handle_t* observer)
+    OS_LoggerOutput_Handle_t* observer)
 {
     OS_Logger_CHECK_SELF(self);
 
@@ -51,7 +51,7 @@ OS_LoggerSubject_attach(
     // first entry
     if (last == NULL)
     {
-        last = (OS_LoggerOutput_Handle_t*)observer;
+        last = observer;
     }
     else
     {
@@ -59,8 +59,8 @@ OS_LoggerSubject_attach(
     }
 
     const bool isInserted = (observer == OS_LoggerListT_insert(
-                                &last->node,
-                                &((OS_LoggerOutput_Handle_t*)observer)->node));
+                                 &last->node,
+                                 &observer->node));
 
     log_subject->node.first = OS_LoggerListT_getFirst(&last->node);
 
@@ -70,7 +70,7 @@ OS_LoggerSubject_attach(
 OS_Error_t
 OS_LoggerSubject_detach(
     OS_LoggerAbstractSubject_Handle_t* self,
-    OS_LoggerAbstractObserver_Handle_t* observer)
+    OS_LoggerOutput_Handle_t* observer)
 {
     OS_Logger_CHECK_SELF(self);
 
@@ -86,16 +86,13 @@ OS_LoggerSubject_detach(
     log_subject = (OS_LoggerSubject_Handle_t*)self;
     node = &log_subject->node;
 
-    if (!OS_LoggerListT_hasPrevious(
-            &((OS_LoggerOutput_Handle_t*)observer)->node))
+    if (!OS_LoggerListT_hasPrevious(&observer->node))
     {
-        node->first =
-            (void*)OS_LoggerListT_getNext(
-                &((OS_LoggerOutput_Handle_t*)observer)->node);
+        node->first = OS_LoggerListT_getNext(&observer->node);
     }
 
     const bool isDeleted = (observer->node.prev == OS_LoggerListT_erase(
-                                &((OS_LoggerOutput_Handle_t*)observer)->node));
+                                &observer->node));
 
     return isDeleted ? OS_SUCCESS : OS_ERROR_OPERATION_DENIED;
 }
@@ -107,28 +104,20 @@ OS_LoggerSubject_notify(OS_LoggerAbstractSubject_Handle_t* self, void* data)
 {
     OS_Logger_CHECK_SELF(self);
 
-    OS_LoggerSubject_Handle_t* log_subject;
-    OS_LoggerOutput_Handle_t* log_output;
-
     if (data == NULL)
     {
         // Debug_printf
         return;
     }
 
-    log_subject = (OS_LoggerSubject_Handle_t*)self;
+    OS_LoggerSubject_Handle_t* log_subject = (OS_LoggerSubject_Handle_t*)self;
 
-    // traverse list
-    log_output = log_subject->node.first;
-
-    OS_Logger_CHECK_SELF(log_output);
-
-    do
+    for (
+        OS_LoggerOutput_Handle_t* observer = log_subject->node.first;
+        NULL != observer;
+        observer = OS_LoggerListT_getNext(&observer->node)
+    )
     {
-        log_output->vtable->parent.update(
-            (OS_LoggerAbstractObserver_Handle_t*)log_output,
-            data);
+        OS_LoggerOutput_update(observer, data);
     }
-    while ( (log_output = OS_LoggerListT_getNext(
-                              &log_output->node)) != NULL );
 }

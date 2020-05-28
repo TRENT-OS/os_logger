@@ -6,7 +6,7 @@
 OS_Error_t
 OS_LoggerAbstractSubject_attach(
     OS_LoggerAbstractSubject_Handle_t* self,
-    OS_LoggerAbstractObserver_Handle_t* observer)
+    OS_LoggerOutput_Handle_t* observer)
 {
     OS_Logger_CHECK_SELF(self);
 
@@ -21,7 +21,7 @@ OS_LoggerAbstractSubject_attach(
 OS_Error_t
 OS_LoggerAbstractSubject_detach(
     OS_LoggerAbstractSubject_Handle_t* self,
-    OS_LoggerAbstractObserver_Handle_t* observer)
+    OS_LoggerOutput_Handle_t* observer)
 {
     OS_Logger_CHECK_SELF(self);
 
