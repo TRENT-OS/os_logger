@@ -1,7 +1,6 @@
 /* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 #include "Logger/Server/OS_LoggerListT.h"
-#include "Logger/Common/OS_LoggerSymbols.h"
-#include <string.h>
+
 #include <stddef.h>
 
 bool
