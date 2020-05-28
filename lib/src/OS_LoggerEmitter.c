@@ -56,7 +56,7 @@ OS_LoggerEmitter_dtor(void)
     this = NULL;
 }
 
-seos_err_t
+OS_Error_t
 OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 {
     if (NULL == this)
@@ -105,7 +105,7 @@ OS_LoggerEmitter_log(uint8_t log_level, const char* format, ...)
 
     OS_LoggerDataBuffer_setClientLogLevel(this->buf, log_level);
 
-    const seos_err_t seosResult = OS_LoggerDataBuffer_setLogMessage(
+    const OS_Error_t seosResult = OS_LoggerDataBuffer_setLogMessage(
                                       this->buf,
                                       buf);
 

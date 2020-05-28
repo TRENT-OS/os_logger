@@ -33,7 +33,7 @@ OS_LoggerDataBuffer_setServerLogLevel(void* buf, uint8_t log_level_server)
     _setLogLevel(buf, log_level_server, OS_Logger_LOG_LEVEL_SERVER_OFFSET);
 }
 
-seos_err_t
+OS_Error_t
 OS_LoggerDataBuffer_setLogMessage(void* buf, const char* msg)
 {
     assert(buf);
@@ -61,7 +61,7 @@ OS_LoggerDataBuffer_setLogMessage(void* buf, const char* msg)
 /**********/
 /* Getter */
 /**********/
-seos_err_t
+OS_Error_t
 OS_LoggerDataBuffer_getServerLogLevel(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
@@ -83,7 +83,7 @@ OS_LoggerDataBuffer_getServerLogLevel(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerDataBuffer_getClientLogLevel(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
@@ -105,7 +105,7 @@ OS_LoggerDataBuffer_getClientLogLevel(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerDataBuffer_getLogMessage(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
@@ -123,7 +123,7 @@ OS_LoggerDataBuffer_getLogMessage(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerDataBuffer_getInfo(
     void* buf,
     OS_LoggerDataBuffer_Handle_t* log_databuffer)
@@ -133,7 +133,7 @@ OS_LoggerDataBuffer_getInfo(
         return SEOS_ERROR_INVALID_PARAMETER;
     }
 
-    seos_err_t retval = OS_LoggerDataBuffer_getServerLogLevel(
+    OS_Error_t retval = OS_LoggerDataBuffer_getServerLogLevel(
                             buf,
                             log_databuffer);
 
@@ -159,7 +159,7 @@ OS_LoggerDataBuffer_getInfo(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerDataBuffer_clear(void* buf)
 {
     if (buf == NULL)

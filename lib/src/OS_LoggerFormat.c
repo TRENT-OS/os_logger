@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 // forward declaration
-static seos_err_t _Log_format_convert(
+static OS_Error_t _Log_format_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
     OS_LoggerDataBuffer_info* log_info);
 
@@ -31,7 +31,7 @@ OS_LoggerFormat_dtor(OS_LoggerAbstractFormat_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerFormat_Handle_t));
 }
 
-static seos_err_t
+static OS_Error_t
 _Log_format_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
     OS_LoggerDataBuffer_info* log_info)

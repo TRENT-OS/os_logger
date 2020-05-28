@@ -67,7 +67,7 @@ _create_id_string(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerConsumer_ctor(
     OS_LoggerConsumer_Handle_t* self,
     void* buffer,

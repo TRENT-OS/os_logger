@@ -11,7 +11,7 @@ OS_LoggerAbstractSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerAbstractSubject_Handle_t));
 }
 
-seos_err_t
+OS_Error_t
 OS_LoggerAbstractSubject_attach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)
@@ -26,7 +26,7 @@ OS_LoggerAbstractSubject_attach(
     return self->vtable->attach(self, observer);
 }
 
-seos_err_t
+OS_Error_t
 OS_LoggerAbstractSubject_detach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)

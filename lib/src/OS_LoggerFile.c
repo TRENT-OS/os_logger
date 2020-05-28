@@ -186,7 +186,7 @@ API_LOG_SERVER_READ_LOG_FILE(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerFile_ctor(
     OS_LoggerFile_Handle_t* self,
     uint8_t drv_id,
@@ -239,7 +239,7 @@ OS_LoggerFile_dtor(OS_LoggerFile_Handle_t* self)
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
 {
     OS_Logger_CHECK_SELF(self);
@@ -252,7 +252,7 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
             return SEOS_ERROR_INVALID_HANDLE;
         }
 
-        const seos_err_t result =
+        const OS_Error_t result =
             OS_Filesystem_mount(self->log_file_info.phandle);
 
         if (SEOS_SUCCESS != result)
@@ -275,7 +275,7 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
         return SEOS_ERROR_INVALID_HANDLE;
     }
 
-    const seos_err_t result = OS_Filesystem_closeFile(fhandle);
+    const OS_Error_t result = OS_Filesystem_closeFile(fhandle);
     if (SEOS_SUCCESS != result)
     {
         printf("Fail to close file: %s!\n", self->log_file_info.filename);

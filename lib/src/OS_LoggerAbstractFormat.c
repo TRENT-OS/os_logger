@@ -13,7 +13,7 @@ FormatT_dtor(OS_LoggerAbstractFormat_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerAbstractFormat_Handle_t));
 }
 
-seos_err_t
+OS_Error_t
 FormatT_convert(
     OS_LoggerAbstractFormat_Handle_t* self,
     OS_LoggerDataBuffer_info* log_info)

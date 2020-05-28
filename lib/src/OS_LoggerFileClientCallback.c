@@ -5,7 +5,7 @@
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerFileClientCallback_ctor(
     OS_LoggerFileClientCallback_Handle_t* self,
     OS_LoggerFileClientCallback_read_t read_log_file)

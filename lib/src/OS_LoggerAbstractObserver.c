@@ -11,7 +11,7 @@ OS_LoggerAbstractObserver_dtor(OS_LoggerAbstractObserver_Handle_t* self)
     memset(self, 0, sizeof (OS_LoggerAbstractObserver_Handle_t));
 }
 
-seos_err_t
+OS_Error_t
 OS_LoggerAbstractObserver_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data)

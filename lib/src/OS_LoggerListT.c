@@ -12,12 +12,12 @@ static void* _ListT_get_prev(OS_LoggerNodeT_Handle_t* current);
 static void* _ListT_get_next(OS_LoggerNodeT_Handle_t* current);
 
 static
-seos_err_t
+OS_Error_t
 _ListT_insert(
     OS_LoggerNodeT_Handle_t* current,
     OS_LoggerNodeT_Handle_t* new_node);
 
-static seos_err_t   _ListT_delete(OS_LoggerNodeT_Handle_t* current);
+static OS_Error_t   _ListT_delete(OS_LoggerNodeT_Handle_t* current);
 static void*        _ListT_get_first(OS_LoggerNodeT_Handle_t* current);
 static void*        _ListT_get_last(OS_LoggerNodeT_Handle_t* current);
 static bool         _ListT_isInside(OS_LoggerNodeT_Handle_t* current);
@@ -150,7 +150,7 @@ _ListT_get_next(OS_LoggerNodeT_Handle_t* current)
 
 
 static
-seos_err_t
+OS_Error_t
 _ListT_insert(
     OS_LoggerNodeT_Handle_t* current,
     OS_LoggerNodeT_Handle_t* new_node)
@@ -185,7 +185,7 @@ _ListT_insert(
 
 
 static
-seos_err_t
+OS_Error_t
 _ListT_delete(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* prev = NULL;

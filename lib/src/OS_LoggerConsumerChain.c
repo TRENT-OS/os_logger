@@ -43,7 +43,7 @@ OS_LoggerConsumerChain_dtor(void)
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
 {
     OS_Logger_CHECK_SELF(this);
@@ -68,7 +68,7 @@ OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
 {
     OS_Logger_CHECK_SELF(this);

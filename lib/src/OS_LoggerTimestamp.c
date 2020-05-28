@@ -105,7 +105,7 @@ OS_LoggerTimestamp_dtor(void)
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerTimestamp_getTime(
     OS_LoggerTimestamp_Handle_t* t_stamp,
     uint8_t hours,
@@ -188,7 +188,7 @@ OS_LoggerTimestamp_getTime(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerTimestamp_getTimestamp(
     OS_LoggerTime_Handle_t* tm,
     OS_LoggerTimestamp_Handle_t* t_stamp)
@@ -218,7 +218,7 @@ OS_LoggerTimestamp_getTimestamp(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerTimestamp_create(const char* date, const char* time)
 {
     OS_Logger_CHECK_SELF(this);

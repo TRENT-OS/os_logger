@@ -13,7 +13,7 @@ static OS_LoggerFileClient_vtable_t Log_file_client_vtable =
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerFileClient_ctor(
     OS_LoggerFileClient_Handle_t* self,
     void* src_buf,
@@ -47,7 +47,7 @@ OS_LoggerFileClient_dtor(OS_LoggerFileClient_Handle_t* self)
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerFileClient_read(OS_LoggerFileClient_Handle_t* self,
                          const char* filename,
                          uint64_t offset,

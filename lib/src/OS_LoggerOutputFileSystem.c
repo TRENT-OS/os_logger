@@ -11,11 +11,11 @@
 // forward declaration
 static void _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self);
 
-static seos_err_t _Log_output_filesystem_update(
+static OS_Error_t _Log_output_filesystem_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data);
 
-static seos_err_t _Log_output_filesystem_print(
+static OS_Error_t _Log_output_filesystem_print(
     OS_LoggerAbstractOutput_Handle_t* self,
     void* data);
 
@@ -39,7 +39,7 @@ _Log_observer_dtor(OS_LoggerAbstractObserver_Handle_t* self)
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerOutputFileSystem_ctor(
     OS_LoggerOutput_Handle_t* self,
     OS_LoggerFormat_Handle_t* log_format)
@@ -76,7 +76,7 @@ OS_LoggerOutputFileSystem_dtor(OS_LoggerAbstractOutput_Handle_t* self)
 
 
 static
-seos_err_t
+OS_Error_t
 _Log_output_filesystem_update(
     OS_LoggerAbstractObserver_Handle_t* self,
     void* data)
@@ -99,7 +99,7 @@ _Log_output_filesystem_update(
 
 
 static
-seos_err_t
+OS_Error_t
 _Log_output_filesystem_print(
     OS_LoggerAbstractOutput_Handle_t* self,
     void* data)
@@ -142,7 +142,7 @@ _Log_output_filesystem_print(
         return SEOS_ERROR_INVALID_HANDLE;
     }
 
-    seos_err_t result = OS_Filesystem_writeFile(
+    OS_Error_t result = OS_Filesystem_writeFile(
                             fhandle,
                             (long)((OS_LoggerFile_Handle_t*)log_consumer->log_file)
                             ->log_file_info.offset,

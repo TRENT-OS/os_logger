@@ -3,7 +3,7 @@
 #include "Logger/Common/OS_LoggerSymbols.h"
 #include <string.h>
 
-seos_err_t
+OS_Error_t
 OS_LoggerConsumerCallback_ctor(
     OS_LoggerConsumerCallback_t* self,
     OS_LoggerConsumerCallback_getSenderId_t get_sender_id,

@@ -43,7 +43,7 @@ OS_LoggerSubject_dtor(OS_LoggerAbstractSubject_Handle_t* self)
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerSubject_attach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)
@@ -85,7 +85,7 @@ OS_LoggerSubject_attach(
 
 
 
-seos_err_t
+OS_Error_t
 OS_LoggerSubject_detach(
     OS_LoggerAbstractSubject_Handle_t* self,
     OS_LoggerAbstractObserver_Handle_t* observer)
