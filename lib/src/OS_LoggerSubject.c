@@ -58,9 +58,9 @@ OS_LoggerSubject_attach(
         last = OS_LoggerListT_getLast((OS_LoggerNodeT_Handle_t*)last);
     }
 
-    const bool isInserted = OS_LoggerListT_insert(
-            &last->node,
-            &((OS_LoggerOutput_Handle_t*)observer)->node);
+    const bool isInserted = (observer == OS_LoggerListT_insert(
+                                &last->node,
+                                &((OS_LoggerOutput_Handle_t*)observer)->node));
 
     log_subject->node.first = OS_LoggerListT_getFirst(&last->node);
 
@@ -91,12 +91,11 @@ OS_LoggerSubject_detach(
     {
         node->first =
             (void*)OS_LoggerListT_getNext(
-                &((OS_LoggerOutput_Handle_t*)observer)->node );
+                &((OS_LoggerOutput_Handle_t*)observer)->node);
     }
 
-    const bool isDeleted =
-        OS_LoggerListT_erase(
-            &((OS_LoggerOutput_Handle_t*)observer)->node );
+    const bool isDeleted = (observer->node.prev == OS_LoggerListT_erase(
+                                &((OS_LoggerOutput_Handle_t*)observer)->node));
 
     return isDeleted ? OS_SUCCESS : OS_ERROR_OPERATION_DENIED;
 }

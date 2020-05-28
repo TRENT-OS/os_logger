@@ -42,13 +42,15 @@ OS_LoggerConsumerChain_append(OS_LoggerConsumer_Handle_t* consumer)
     if (this->node.first == NULL)
     {
         this->node.first = consumer;
-        return true;
+        return OS_SUCCESS;
     }
 
-    return OS_LoggerListT_insert(
-               OS_LoggerListT_getLast(
-                   &(((OS_LoggerConsumer_Handle_t*)(this->node.first))->node)),
-               &consumer->node);
+    OS_LoggerListT_insert(
+        OS_LoggerListT_getLast(
+            &(((OS_LoggerConsumer_Handle_t*)(this->node.first))->node)),
+        &consumer->node);
+
+    return OS_SUCCESS;
 }
 
 
@@ -74,7 +76,9 @@ OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
         }
     }
 
-    return OS_LoggerListT_erase(&consumer->node);
+    OS_LoggerListT_erase(&consumer->node);
+
+    return OS_SUCCESS;
 }
 
 

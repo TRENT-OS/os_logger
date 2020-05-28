@@ -81,21 +81,18 @@ OS_LoggerListT_getNext(OS_LoggerNodeT_Handle_t* current)
     return next;
 }
 
-OS_Error_t
+void*
 OS_LoggerListT_insert(
     OS_LoggerNodeT_Handle_t* current,
     OS_LoggerNodeT_Handle_t* newNode)
 {
     OS_LoggerNodeT_Handle_t* next = NULL;
 
-    if ((current == NULL) || (newNode == NULL))
+    if ((      NULL == current)
+        ||    (NULL == newNode)
+        || (current == newNode))
     {
-        return OS_ERROR_INVALID_PARAMETER;
-    }
-
-    if (current == newNode)
-    {
-        return OS_SUCCESS;
+        return newNode;
     }
 
     if (OS_LoggerListT_hasNext(current))
@@ -109,10 +106,10 @@ OS_LoggerListT_insert(
     newNode->prev = current;
     newNode->next = next;
 
-    return OS_SUCCESS;
+    return newNode;
 }
 
-seos_err_t
+void*
 OS_LoggerListT_erase(OS_LoggerNodeT_Handle_t* current)
 {
     OS_LoggerNodeT_Handle_t* prev = NULL;
@@ -120,7 +117,7 @@ OS_LoggerListT_erase(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        return SEOS_ERROR_INVALID_PARAMETER;
+        return NULL;
     }
 
     if (OS_LoggerListT_hasPrevious(current))
@@ -135,7 +132,7 @@ OS_LoggerListT_erase(OS_LoggerNodeT_Handle_t* current)
 
     if (next == NULL && prev == NULL)
     {
-        return OS_SUCCESS;
+        return NULL;
     }
     else if (next == NULL)
     {
@@ -154,7 +151,7 @@ OS_LoggerListT_erase(OS_LoggerNodeT_Handle_t* current)
     current->prev = NULL;
     current->next = NULL;
 
-    return OS_SUCCESS;
+    return next;
 }
 
 void*
