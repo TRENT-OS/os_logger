@@ -26,7 +26,6 @@ update(
     // check if log_file is installed
     if (log_consumer->log_file == NULL)
     {
-        // Debug_printf
         return OS_ERROR_INVALID_PARAMETER;
     }
 

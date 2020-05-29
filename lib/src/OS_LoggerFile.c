@@ -56,7 +56,6 @@ _Log_file_get_consumer_by_filename(const char* filename)
 {
     if (filename == NULL)
     {
-        // Debug_printf
         return NULL;
     }
 

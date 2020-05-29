@@ -10,7 +10,6 @@ OS_LoggerListT_hasPrevious(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
         return retval;
     }
 
@@ -29,7 +28,6 @@ OS_LoggerListT_hasNext(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
         return retval;
     }
 
@@ -48,7 +46,6 @@ OS_LoggerListT_getPrevious(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
         return prev;
     }
 
@@ -68,7 +65,6 @@ OS_LoggerListT_getNext(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
         return next;
     }
 
@@ -161,7 +157,6 @@ OS_LoggerListT_getFirst(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
         return first;
     }
 
@@ -186,7 +181,6 @@ OS_LoggerListT_getLast(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
         return last;
     }
 
@@ -212,7 +206,6 @@ OS_LoggerListT_isInside(OS_LoggerNodeT_Handle_t* current)
 
     if (current == NULL)
     {
-        // Debug_printf
         return retval;
     }
 

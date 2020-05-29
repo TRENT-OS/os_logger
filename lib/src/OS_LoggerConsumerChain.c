@@ -62,7 +62,6 @@ OS_LoggerConsumerChain_remove(OS_LoggerConsumer_Handle_t* consumer)
 
     if (consumer == NULL)
     {
-        // Debug_printf
         return OS_ERROR_INVALID_PARAMETER;
     }
 
@@ -123,7 +122,6 @@ API_LOG_SERVER_EMIT(void)
     log_consumer = this->vtable->get_sender();
     if (log_consumer == NULL)
     {
-        // Debug_printf
         return;
     }
 

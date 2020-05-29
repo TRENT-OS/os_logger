@@ -79,7 +79,6 @@ OS_LoggerSubject_detach(
 
     if (observer == NULL)
     {
-        // Debug_printf
         return OS_ERROR_INVALID_PARAMETER;
     }
 
@@ -106,7 +105,6 @@ OS_LoggerSubject_notify(OS_LoggerAbstractSubject_Handle_t* self, void* data)
 
     if (data == NULL)
     {
-        // Debug_printf
         return;
     }
 

@@ -26,13 +26,11 @@ OS_LoggerEmitter_getInstance(
 {
     if (sizeof (buffer) > DATABUFFER_SIZE)
     {
-        // Debug_printf
         return NULL;
     }
 
     if (emit == NULL)
     {
-        // Debug_printf
         return NULL;
     }
 
