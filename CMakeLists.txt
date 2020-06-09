@@ -6,7 +6,7 @@ cmake_policy(SET CMP0076 NEW)
 
 
 # client lib
-project(seos_logger C)
+project(os_logger C)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
@@ -34,7 +34,7 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
-        seos_core_api
+        os_core_api
 )
 
 
@@ -42,7 +42,7 @@ target_link_libraries(${PROJECT_NAME}
 
 
 # server lib to log to console
-project(seos_log_server_backend_console C)
+project(os_log_server_backend_console C)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
@@ -76,7 +76,7 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
-        seos_core_api
+        os_core_api
 )
 
 
@@ -84,7 +84,7 @@ target_link_libraries(${PROJECT_NAME}
 
 
 # server lib to log to filesystem
-project(seos_log_server_backend_filesystem C)
+project(os_log_server_backend_filesystem C)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
@@ -109,9 +109,9 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
-        seos_core_api
-        seos_log_server_backend_console
-        seos_filesystem_core_api
+        os_core_api
+        os_log_server_backend_console
+        os_filesystem_core_api
 )
 
 
