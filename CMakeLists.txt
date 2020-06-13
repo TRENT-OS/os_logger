@@ -32,6 +32,14 @@ target_sources(${PROJECT_NAME}
         lib/src/OS_LoggerTimestamp
 )
 
+target_compile_definitions(${PROJECT_NAME}
+    INTERFACE
+        # affects these header files:
+        #    libs/os_core_api/include/Logger/Client/OS_Logger.h
+        #    libs/os_libs/include/LibDebug/Debug.h
+        Debug_Config_PRINT_TO_LOG_SERVER
+)
+
 if (OS_Logger_CONFIG_H_FILE)
     target_compile_definitions(${PROJECT_NAME}
         INTERFACE
