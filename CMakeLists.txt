@@ -11,6 +11,7 @@ cmake_minimum_required(VERSION 3.13.0)
 cmake_policy(SET CMP0076 NEW)
 
 
+#-------------------------------------------------------------------------------
 # client lib
 project(os_logger C)
 
@@ -45,8 +46,6 @@ target_link_libraries(${PROJECT_NAME}
 
 
 #------------------------------------------------------------------------------
-
-
 # server lib to log to console
 project(os_log_server_backend_console C)
 
@@ -87,8 +86,6 @@ target_link_libraries(${PROJECT_NAME}
 
 
 #------------------------------------------------------------------------------
-
-
 # server lib to log to filesystem
 project(os_log_server_backend_filesystem C)
 
@@ -122,8 +119,6 @@ target_link_libraries(${PROJECT_NAME}
 
 
 #------------------------------------------------------------------------------
-
-
 # if invoked from the OS sandbox, provide a documentation build target
 if (COMMAND os_create_doxygen_target)
 
