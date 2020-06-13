@@ -124,7 +124,7 @@ target_link_libraries(${PROJECT_NAME}
 #------------------------------------------------------------------------------
 
 
-# if invoked from the SOES sandbox, provide a documentation build target
+# if invoked from the OS sandbox, provide a documentation build target
 if (COMMAND os_create_doxygen_target)
 
     # there are no pre or post steps
