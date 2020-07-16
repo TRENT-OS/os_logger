@@ -121,8 +121,8 @@ endif()
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
         os_core_api
+        os_filesystem
         os_log_server_backend_console
-        os_filesystem_core_api
 )
 
 

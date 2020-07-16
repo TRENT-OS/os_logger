@@ -2,7 +2,6 @@
 #include "Logger/Server/OS_LoggerOutputFileSystem.h"
 #include "Logger/Server/OS_LoggerConsumer.h"
 #include "Logger/Server/OS_LoggerFile.h"
-#include "OS_Filesystem.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -19,7 +18,7 @@ update(
         return OS_ERROR_INVALID_PARAMETER;
     }
 
-    hFile_t fhandle;
+    OS_FileSystemFile_Handle_t hFile;
     OS_LoggerConsumer_Handle_t* log_consumer =
         (OS_LoggerConsumer_Handle_t*)data;
 
@@ -34,48 +33,40 @@ update(
         (OS_LoggerAbstractFormat_Handle_t*)self->logFormat,
         ((OS_LoggerConsumer_Handle_t*)data)->entry);
 
-    fhandle = OS_Filesystem_openFile(
-                  ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.phandle,
-                  ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename,
-                  FA_WRITE);
 
-    if (!OS_Filesystem_validateFileHandle(fhandle))
+    OS_LoggerFile_Handle_t* logFile = (OS_LoggerFile_Handle_t*)
+                                      log_consumer->log_file;
+
+    OS_Error_t err = OS_FileSystemFile_open(logFile->log_file_info.hFs,
+                                            &hFile,
+                                            logFile->log_file_info.filename,
+                                            OS_FileSystem_OpenMode_WRONLY,
+                                            OS_FileSystem_OpenFlags_NONE);
+    if (OS_SUCCESS != err)
     {
-        printf(
-            "Fail to open file: %s!\n",
-            ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename);
-
+        printf("Fail to open file: %s!\n", logFile->log_file_info.filename);
         return OS_ERROR_INVALID_HANDLE;
     }
 
-    OS_Error_t result = OS_Filesystem_writeFile(
-                            fhandle,
-                            (long)((OS_LoggerFile_Handle_t*)log_consumer->log_file)
-                            ->log_file_info.offset,
-                            (long)strlen(self->logFormat->buffer),
-                            self->logFormat->buffer);
-
-    if (OS_SUCCESS != result)
+    err = OS_FileSystemFile_write(logFile->log_file_info.hFs,
+                                  hFile,
+                                  logFile->log_file_info.offset,
+                                  (size_t)strlen(self->logFormat->buffer),
+                                  self->logFormat->buffer);
+    if (OS_SUCCESS != err)
     {
-        printf(
-            "Fail to write file: %s!\n",
-            ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename);
-
-        return result;
+        printf("Fail to write file: %s!\n", logFile->log_file_info.filename);
+        return err;
     }
 
-    result = OS_Filesystem_closeFile(fhandle);
-    if (OS_SUCCESS != result)
+    err = OS_FileSystemFile_close(logFile->log_file_info.hFs, hFile);
+    if (OS_SUCCESS != err)
     {
-        printf(
-            "Fail to close file: %s!\n",
-            ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.filename);
-
-        return result;
+        printf("Fail to close file: %s!\n", logFile->log_file_info.filename);
+        return err;
     }
 
-    ((OS_LoggerFile_Handle_t*)log_consumer->log_file)->log_file_info.offset
-    += strlen(self->logFormat->buffer);
+    logFile->log_file_info.offset += strlen(self->logFormat->buffer);
 
     return OS_SUCCESS;
 }
