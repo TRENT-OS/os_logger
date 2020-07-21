@@ -4,6 +4,7 @@
 #include "Logger/Server/OS_LoggerConsumer.h"
 #include <string.h>
 #include <stdio.h>
+#include <inttypes.h>
 
 // forward declaration
 static int64_t _Log_file_read_log_file(
@@ -103,7 +104,7 @@ API_LOG_SERVER_READ_LOG_FILE(
         return -1;
     }
 
-    size_t sz;
+    off_t sz;
     OS_LoggerFile_Handle_t* logFile = (OS_LoggerFile_Handle_t*)
                                       log_consumer_filename->log_file;
     OS_Error_t err = OS_FileSystemFile_getSize(logFile->log_file_info.hFs,
@@ -119,8 +120,13 @@ API_LOG_SERVER_READ_LOG_FILE(
     logFile->log_file_info.lenght = (uint64_t) (*log_file_size);
     if (offset > sz)
     {
-        printf("Offset (%llu bytes) too big for file size (%zu bytes): %s\n",
-               offset, sz, filename);
+        printf(
+            "Offset (%llu bytes) too big for file size (%" PRIiMAX " bytes): "
+            "%s\n",
+            offset,
+            sz,
+            filename);
+
         return -1;
     }
 
