@@ -93,26 +93,50 @@ OS_LoggerTimestamp_getInstance(void)
     return this;
 }
 
-OS_Error_t
-OS_LoggerTimestamp_getTime(
+static inline void
+getTime(
     OS_LoggerTimestamp_Handle_t* t_stamp,
     uint8_t hours,
     OS_LoggerTime_Handle_t* tm)
 {
-    if (t_stamp == NULL || hours > 24 || tm == NULL)
+    int64_t tmp         = t_stamp->timestamp % SEC_PER_DAY;
+    uint32_t hours_off  = hours * SEC_PER_HOUR;
+
+    tmp += hours_off;
+
+    while (tmp < 0)
     {
-        return OS_ERROR_INVALID_PARAMETER;
+        tmp += SEC_PER_DAY;
     }
 
-    int64_t day = 0, tmp = 0;
-    uint16_t* ip = NULL, year = 0;
-    uint32_t hours_off = hours * SEC_PER_HOUR;
-    uint8_t month = 0;
-    int64_t yy = 0;
+    while (tmp >= SEC_PER_DAY)
+    {
+        tmp -= SEC_PER_DAY;
+    }
 
-    day = t_stamp->timestamp / SEC_PER_DAY;
+    tm->hour = (uint8_t)(tmp / SEC_PER_HOUR);
 
-    tmp = t_stamp->timestamp % SEC_PER_DAY;
+    tmp %= SEC_PER_HOUR;
+
+    tm->min = (uint8_t)(tmp / 60);
+    tm->sec = tmp % 60;
+
+}
+
+static inline void
+getDate(
+    OS_LoggerTimestamp_Handle_t* t_stamp,
+    uint8_t hours,
+    OS_LoggerTime_Handle_t* tm)
+{
+    int64_t     day         = t_stamp->timestamp / SEC_PER_DAY;
+    int64_t     tmp         = t_stamp->timestamp % SEC_PER_DAY;
+    uint32_t    hours_off   = hours * SEC_PER_HOUR;
+    uint16_t*   ip          = NULL;
+    uint16_t    year        = 0;
+    uint8_t     month       = 0;
+    int64_t     yy          = 0;
+
     tmp += hours_off;
 
     while (tmp < 0)
@@ -126,13 +150,6 @@ OS_LoggerTimestamp_getTime(
         tmp -= SEC_PER_DAY;
         ++day;
     }
-
-    tm->hour = (uint8_t)(tmp / SEC_PER_HOUR);
-
-    tmp %= SEC_PER_HOUR;
-
-    tm->min = (uint8_t)(tmp / 60);
-    tm->sec = tmp % 60;
 
     // first year was 1970
     year = (uint16_t)(START_YEAR + day / 365 - (day % 365 <= 0));
@@ -170,6 +187,21 @@ OS_LoggerTimestamp_getTime(
 
     tm->month = (uint8_t)month + 1;
     tm->day = (uint8_t)(day + 1);
+}
+
+OS_Error_t
+OS_LoggerTimestamp_getTime(
+    OS_LoggerTimestamp_Handle_t* t_stamp,
+    uint8_t hours,
+    OS_LoggerTime_Handle_t* tm)
+{
+    if (t_stamp == NULL || hours > 24 || tm == NULL)
+    {
+        return OS_ERROR_INVALID_PARAMETER;
+    }
+
+    getTime(t_stamp, hours, tm);
+    getDate(t_stamp, hours, tm);
 
     return OS_SUCCESS;
 }
