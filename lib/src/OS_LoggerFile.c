@@ -130,6 +130,18 @@ API_LOG_SERVER_READ_LOG_FILE(
         return -1;
     }
 
+    // Handling signed offset overflow
+    if ((INT64_MAX < (offset + len)) || ((offset + len) < offset))
+    {
+        printf(
+            "%s(): Offset overflow detected. offset = %llu, len = %llu\n",
+            __func__,
+            offset,
+            len);
+
+        return -1;
+    }
+
     if (*log_file_size <= (int64_t)(offset + len))
     {
         len = (uint64_t)((uint64_t)(*log_file_size) - offset);
