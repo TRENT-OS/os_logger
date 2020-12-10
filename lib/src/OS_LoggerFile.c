@@ -117,7 +117,7 @@ API_LOG_SERVER_READ_LOG_FILE(
 
     *log_file_size = sz;
 
-    logFile->log_file_info.lenght = (uint64_t) (*log_file_size);
+    logFile->log_file_info.length = (uint64_t) (*log_file_size);
     if (offset > sz)
     {
         printf(
