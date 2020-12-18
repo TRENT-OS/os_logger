@@ -35,7 +35,7 @@ target_sources(${PROJECT_NAME}
 target_compile_definitions(${PROJECT_NAME}
     INTERFACE
         # affects these header files:
-        #    libs/os_core_api/include/Logger/Client/OS_Logger.h
+        #    os_core_api/include/Logger/Client/OS_Logger.h
         #    libs/os_libs/include/LibDebug/Debug.h
         Debug_Config_PRINT_TO_LOG_SERVER
 )
