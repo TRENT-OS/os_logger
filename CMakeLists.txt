@@ -36,7 +36,7 @@ target_compile_definitions(${PROJECT_NAME}
     INTERFACE
         # affects these header files:
         #    os_core_api/include/Logger/Client/OS_Logger.h
-        #    libs/os_libs/include/LibDebug/Debug.h
+        #    libs/lib_debug/include/lib_debug/Debug.h
         Debug_Config_PRINT_TO_LOG_SERVER
 )
 
