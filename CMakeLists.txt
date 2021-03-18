@@ -38,6 +38,7 @@ target_compile_definitions(${PROJECT_NAME}
         #    os_core_api/include/Logger/Client/OS_Logger.h
         #    libs/lib_debug/include/lib_debug/Debug.h
         Debug_Config_PRINT_TO_LOG_SERVER
+        Debug_Config_LOG_SERVER_H="Logger/Client/OS_Logger.h"
 )
 
 if (OS_Logger_CONFIG_H_FILE)
