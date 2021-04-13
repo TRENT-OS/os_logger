@@ -121,7 +121,7 @@ API_LOG_SERVER_READ_LOG_FILE(
     if (offset > sz)
     {
         printf(
-            "Offset (%llu bytes) too big for file size (%" PRIiMAX " bytes): "
+            "Offset (%"PRIu64" bytes) too big for file size (%" PRIiMAX " bytes): "
             "%s\n",
             offset,
             sz,
@@ -134,7 +134,7 @@ API_LOG_SERVER_READ_LOG_FILE(
     if ((INT64_MAX < (offset + len)) || ((offset + len) < offset))
     {
         printf(
-            "%s(): Offset overflow detected. offset = %llu, len = %llu\n",
+            "%s(): Offset overflow detected. offset = %"PRIu64", len = %"PRIu64"\n",
             __func__,
             offset,
             len);
