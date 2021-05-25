@@ -48,7 +48,7 @@ OS_LoggerConsumer_ctor(
     {
         snprintf(
             self->entry->consumerMetadata.name,
-            OS_Logger_NAME_LENGTH,
+            OS_Logger_NAME_LENGTH + 1,
             name);
     }
     else
