@@ -24,7 +24,7 @@ OS_LoggerEmitter_getInstance(
     OS_LoggerFilter_Handle_t* log_filter,
     event_notify_func_t       emit)
 {
-    if (sizeof (buffer) > DATABUFFER_SIZE)
+    if (sizeof(buffer) > DATABUFFER_SIZE)
     {
         return NULL;
     }
@@ -75,7 +75,6 @@ OS_LoggerEmitter_log(uint8_t logLevel, const char* format, ...)
     {
         this->entry->emitterMetadata.filteringLevel = 0U;
     }
-
 
     this->entry->emitterMetadata.level = logLevel;
 

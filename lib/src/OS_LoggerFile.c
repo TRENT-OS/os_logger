@@ -214,7 +214,7 @@ OS_LoggerFile_dtor(OS_LoggerFile_Handle_t* self)
 {
     OS_Logger_CHECK_SELF(self);
 
-    memset(self, 0, sizeof (OS_LoggerFile_Handle_t));
+    memset(self, 0, sizeof(OS_LoggerFile_Handle_t));
 }
 
 

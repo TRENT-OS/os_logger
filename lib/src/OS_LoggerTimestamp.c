@@ -84,7 +84,7 @@ OS_LoggerTimestamp_getInstance(void)
 {
     if (this == NULL)
     {
-        memset(&_timestamp, 0, sizeof (OS_LoggerTimestamp_Handle_t));
+        memset(&_timestamp, 0, sizeof(OS_LoggerTimestamp_Handle_t));
         this = &_timestamp;
 
         this->vtable = &Timestamp_vtable;
