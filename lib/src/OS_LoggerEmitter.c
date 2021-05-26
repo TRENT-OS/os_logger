@@ -89,7 +89,7 @@ OS_LoggerEmitter_log(uint8_t logLevel, const char* format, ...)
 
     const int retval = vsnprintf(
                            this->entry->msg,
-                           OS_Logger_MESSAGE_LENGTH,
+                           sizeof(this->entry->msg),
                            format,
                            args);
 
