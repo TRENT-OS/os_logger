@@ -111,7 +111,9 @@ API_LOG_SERVER_READ_LOG_FILE(
                                                filename, &sz);
     if (OS_SUCCESS != err)
     {
-        printf("Fail to get size of file: %s!\n", filename);
+        printf("%s(): ERROR: failed to get size of file: %s\n",
+               __func__,
+               filename);
         return -1;
     }
 
@@ -121,8 +123,8 @@ API_LOG_SERVER_READ_LOG_FILE(
     if (offset > sz)
     {
         printf(
-            "Offset (%"PRIu64" bytes) too big for file size (%" PRIiMAX " bytes): "
-            "%s\n",
+            "%s(): ERROR offset %"PRIu64" greater file size %" PRIiMAX " for: %s\n",
+            __func__,
             offset,
             sz,
             filename);
@@ -155,7 +157,7 @@ API_LOG_SERVER_READ_LOG_FILE(
                                  OS_FileSystem_OpenFlags_NONE);
     if (OS_SUCCESS != err)
     {
-        printf("Fail to open file: %s!\n", filename);
+        printf("%s(): ERROR: failed to open file: %s\n", __func__, filename);
         return -1;
     }
 
@@ -166,7 +168,7 @@ API_LOG_SERVER_READ_LOG_FILE(
                                  log_consumer->entry);
     if (OS_SUCCESS != err)
     {
-        printf("Fail to read file: %s!\n", filename);
+        printf("%s(): ERROR: failed to read file: %s\n", __func__, filename);
         return -1;
     }
 
@@ -174,7 +176,7 @@ API_LOG_SERVER_READ_LOG_FILE(
                                   hFile);
     if (OS_SUCCESS != err)
     {
-        printf("Fail to close file: %s!\n", filename);
+        printf("%s(): ERROR: failed to close file: %s\n", __func__, filename);
         return -1;
     }
 
@@ -232,7 +234,9 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
                                             OS_FileSystem_OpenFlags_CREATE);
     if (OS_SUCCESS != err)
     {
-        printf("Fail to open file: %s!", self->log_file_info.filename);
+        printf("%s(): ERROR: failed to open file: %s\n",
+               __func__,
+               self->log_file_info.filename);
         return OS_ERROR_INVALID_HANDLE;
     }
 
@@ -240,7 +244,9 @@ OS_LoggerFile_create(OS_LoggerFile_Handle_t* self)
                                   hFile);
     if (OS_SUCCESS != err)
     {
-        printf("Fail to close file: %s!\n", self->log_file_info.filename);
+        printf("%s(): ERROR: failed to close file: %s\n",
+               __func__,
+               self->log_file_info.filename);
         return err;
     }
 
