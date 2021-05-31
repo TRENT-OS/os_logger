@@ -78,7 +78,7 @@ OS_LoggerEmitter_log(uint8_t logLevel, const char* format, ...)
 
     this->entry->emitterMetadata.level = logLevel;
 
-    if (strlen(format) > OS_Logger_MESSAGE_LENGTH)
+    if (strlen(format) > OS_Logger_ENTRY_MESSAGE_LENGTH)
     {
         return OS_ERROR_GENERIC;
     }
