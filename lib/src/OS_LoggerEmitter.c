@@ -86,6 +86,9 @@ OS_LoggerEmitter_log(uint8_t logLevel, const char* format, ...)
     va_list args;
     va_start (args, format);
 
+    // Log message entries that exceed the maximum allowed length will be
+    // truncated. It is ensured that the resulting string in the buffer will be
+    // null-terminated.
     const int retval = vsnprintf(
                            this->entry->msg,
                            sizeof(this->entry->msg),
@@ -97,11 +100,6 @@ OS_LoggerEmitter_log(uint8_t logLevel, const char* format, ...)
     if (retval < 0)
     {
         return OS_ERROR_GENERIC;
-    }
-
-    if (retval > OS_Logger_MESSAGE_LENGTH)
-    {
-        return OS_ERROR_BUFFER_TOO_SMALL;
     }
 
     this->emit();
