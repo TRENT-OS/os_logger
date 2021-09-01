@@ -1,19 +1,19 @@
-# OS Logger library
+# OS Logger
 
 This module is an abstraction of the logging functionality, allowing setting up
 a logger server to which clients can send logging entries.
 
 Logger library supports the following features:
 
-* Different clients can add new entries to the log asynchronously without
+- Different clients can add new entries to the log asynchronously without
   corrupting the output.
-* Logs can be printed on the console (stdout).
-* Logs can be printed to the file.
-* Log level filter can be configured both on the client and server-side.
-* Log entry can be of a max of the page size.
-* Each client has a unique ID which is appended to the log entry, and optionally
+- Logs can be printed on the console (stdout).
+- Logs can be printed to the file.
+- Log level filter can be configured both on the client and server-side.
+- Log entry can be of a max of the page size.
+- Each client has a unique ID which is appended to the log entry, and optionally
   a name.
-* Custom logging format can be added.
+- Custom logging format can be added.
 
 ## Design
 
